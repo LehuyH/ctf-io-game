@@ -1,0 +1,10 @@
+{
+  "name": "civ-royale",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
