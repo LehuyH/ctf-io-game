@@ -37,12 +37,13 @@
     import { Icon } from '@iconify/vue';
     import { computed, ref } from 'vue';
     import { onClickOutside } from '@vueuse/core';
-    import { uiState } from '~/state';
+    import { uiState, useScene } from '~/state';
     import buildingsData from "~/assets/data/buildings.json";
         
     const showBuildBar = ref(false);
     const buildBar = ref(null);
     const selectedBuilding = ref<any>(null);
+    const scene = useScene();
 
     const sideBarClasses = computed(() => {
         return {
@@ -54,6 +55,7 @@
     onClickOutside(buildBar, () => {
         showBuildBar.value = false;
         selectedBuilding.value = null;
+        scene.value?.sys.canvas.focus()
     });
 
     function setBuilding(building: any) {
