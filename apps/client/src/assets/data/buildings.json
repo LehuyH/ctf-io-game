@@ -4,6 +4,7 @@
         "type": "craftbench",
         "description": "Allows you to upgrade your tools and weapons",
         "icon": "/maps/overworld/buildings/craftbench.png",
+        "maxHealth": 20,
         "cost":{
             "wood": 20
         }

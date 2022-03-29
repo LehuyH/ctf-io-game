@@ -25,7 +25,6 @@ const scene = useScene()
 
 //Number shortcuts to change items
 onKeyStroke(["1","2","3","4","5","6","7","8","9"], (event) => {
-    console.log(event.key)
     event.preventDefault();
     const index = parseInt(event.key.replace(/[^0-9]/g, '')) - 1;
     if (index >= 0 && index < items.value.length) {

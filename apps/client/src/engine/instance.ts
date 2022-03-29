@@ -16,6 +16,7 @@ export const game = new Phaser.Game({
                 y: 0
             },
             autoUpdate: false,
+            debug:true,
             enableSleeping: true
         }
     },

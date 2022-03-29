@@ -4,6 +4,7 @@ import Runner from 'shared/physics/runner'
 import buildingBodies from 'shared/bodies'
 import uniqid from 'uniqid'
 import { calcHarvestDamage, canPay, processPay } from 'shared/helpers'
+import TileStorage, { TileType } from 'shared/helpers/tiles'
 import buildingsData from '~/assets/data/buildings.json'
 
 export interface EventPayload {
@@ -14,6 +15,7 @@ export default class ServerEmulator {
     collisions: Record<string,Array<string>> = {};
     scene: ClientRoom
     runner: Runner
+    tiles: TileStorage = null as any
     constructor(scene: ClientRoom){
         this.scene = scene;
         this.runner = new Runner(this.scene.matter.world,this.scene.state.state)
@@ -78,6 +80,7 @@ export default class ServerEmulator {
     actions = {
         harvest: (playerID:string)=>{
             const collidedHarvestables = this.getCollisions(`player-${playerID}`).filter(id=>id.startsWith("harvestable-"))
+            const collidedBuildings = this.getCollisions(`player-${playerID}`).filter(id=>id.startsWith("building-"))
             const player = this.scene.state.getState<IPlayer>("players",playerID)
             this.scene.connection.mockBroadcast(`${playerID}-anim`,PlayerAnimState.BASIC_ATTACK)
 
@@ -92,6 +95,14 @@ export default class ServerEmulator {
                     //Give item to player
                     player.inventory[h.resource] = player.inventory[h.resource] || 0
                     player.inventory[h.resource] += h.value
+                }
+            })
+
+            collidedBuildings.forEach(id=>{
+                const b = this.scene.state.getState<any>("buildings",id)
+                b.health -= heldItem.damage
+                if(b.health <= 0){
+                    this.scene.state.removeState("buildings",id)
                 }
             })
         },
@@ -118,13 +129,14 @@ export default class ServerEmulator {
             if(!buildingData || !player || !buildingBodies[type]) return
 
             const cost = buildingData.cost
-            const inventory = player.inventory
+            const inventory = player.inventory  
 
             if(!canPay(cost,inventory)) return
 
-            const body = buildingBodies[type]
+            const body = buildingBodies[type]({x,y})
             const width = body[2]
             const height = body[3]
+            const maxHealth = buildingData.maxHealth
 
             //Check if there is a collision
             const collision = this.checks.collidesWithAny({
@@ -134,7 +146,15 @@ export default class ServerEmulator {
                 height
             })
 
-            if(collision) return;
+            //Check if touches water
+            const touchesWater = this.checks.touchesWater({
+                x,
+                y,
+                width,
+                height
+            })
+
+            if(collision || touchesWater) return;
 
             processPay(cost,inventory)
             const id = uniqid()
@@ -142,7 +162,8 @@ export default class ServerEmulator {
                 type,
                 x,
                 y,
-                health: 100,
+                health: maxHealth,
+                maxHealth,
                 id,
                 ownerID:playerID
             }
@@ -152,6 +173,9 @@ export default class ServerEmulator {
     checks = {
         collidesWithAny: (body:{x:number,y:number,width:number,height:number})=>{
            return this.scene.matter.intersectRect(body.x,body.y,body.width,body.height).length > 0
+        },
+        touchesWater: (body:{x:number,y:number,width:number,height:number})=>{
+            return this.tiles.getTilesInRect(body).includes(TileType.WATER)
         }
     }
 

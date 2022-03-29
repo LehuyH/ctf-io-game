@@ -25,7 +25,6 @@ export default class ObjectManager{
     }
 
     createPlayer(config:IPlayer){
-        console.log(this)
        const p = new Player(this.scene, config)
        this.players[p.name] = p
     }

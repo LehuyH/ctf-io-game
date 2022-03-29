@@ -59,7 +59,9 @@ export default class StateSyncerOffline {
             anim: PlayerAnimState.IDLE,
             velocityX: 0,
             velocityY: 0,
-            inventory: {},
+            inventory: {
+                wood:100
+            },
             equippedItemIndex: 0,
             items:[{
                 name: "Wooden Axe",

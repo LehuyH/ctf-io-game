@@ -10,11 +10,13 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.scene.matter.add.gameObject(this, body)
         this.setData({
             health: 100,
+            maxHealth: 100,
         })
         scene.add.existing(this)
         
         //HP Bar
         this.hpBar = this.scene.add.graphics()
+        this.hpBar.setDepth(2)
     }
 
     create(){

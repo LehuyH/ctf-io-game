@@ -6,6 +6,7 @@ import StateSyncerOffline from '../logic/StateSync'
 import ServerEmulator from '../logic/ServerEmulator'
 import { setScene } from '~/state'
 import BuildingPreview from '../objects/BuildingPreview'
+import TileStorage from 'shared/helpers/tiles'
 
 export default class OverworldScene extends Phaser.Scene implements ClientRoom{
     objects: ObjectManager = null as any
@@ -66,6 +67,10 @@ export default class OverworldScene extends Phaser.Scene implements ClientRoom{
         
         collisions.setCollisionByExclusion([-1])
         this.matter.world.convertTilemapLayer(collisions)
+
+        //Sync to TileStorage
+        this.serverEmulator.tiles = new TileStorage(map.layers[0].width,map.layers[0].height,32)
+        this.serverEmulator.tiles.importMapPhaser(map)
 
         //Add harvestables
         const harvestables = map.getObjectLayer("HARVESTABLES")
