@@ -1,6 +1,12 @@
+export interface IState {
+    players: Record<string, IPlayer>|any
+    harvestables: Record<string, IHarvestable>|any
+    buildings: Record<string, IBuilding>|any
+}
+
 export interface IPlayer {
+    name:string;
     id: string;
-    state: PlayerState;
     anim: PlayerAnimState;
     x: number;
     y: number;
@@ -9,7 +15,7 @@ export interface IPlayer {
     maxHealth: number;
     velocityX: number;
     velocityY: number;
-    inventory: Record<string, number>;
+    inventory: Record<string, number>|any;
     equippedItemIndex: number;
     items: Item[];
 }
@@ -44,18 +50,6 @@ export interface Item{
 
 export type Cost = Record<string, number>;
 
-export enum PlayerState {
-    IDLE = 'idle',
-    MOVING = 'moving',
-    BASIC_ATTACK = 'basic-attack',
-    SPECIAL_ATTACK_A = 'special-attack-a',
-    SPECIAL_ATTACK_B = 'special-attack-b',
-    SPECIAL_ATTACK_C = 'special-attack-c',
-    SPECIAL_ATTACK_D = 'special-attack-d',
-    INVUNERABLE = 'invunerable',
-    DEAD = 'dead',
-}
-
 export enum PlayerAnimState{
     IDLE = 'idle',
     MOVING = 'moving',
@@ -63,7 +57,8 @@ export enum PlayerAnimState{
 }
 
 export enum EventType{
-    HARVESTING = 'harvesting',
+    PlayerStartMove = 'PlayerStartMove',
+    PlayerStopMove = 'PlayerStopMove',
 }
 
 export enum ItemType{

@@ -1,13 +1,13 @@
 import { IPlayer } from "shared";
 import ClientRoom from "../types/ClientRoom"
-import { PlayerAnimState, PlayerState } from "shared"
+import { PlayerAnimState } from "shared"
 import { useLocalPlayerID } from "~/state"
 
 export default class Player extends Phaser.GameObjects.Rectangle{
     hpBar: Phaser.GameObjects.Graphics
-    currentState: PlayerState = PlayerState.IDLE
     item: Phaser.GameObjects.Sprite
     anims: Record<string, Phaser.Animations.Animation|Phaser.Tweens.Timeline> = {}
+    moveTween: Phaser.Tweens.Tween|null = null
 
     constructor(scene: ClientRoom, config:IPlayer){
         super(scene,config.x, config.y, 20, 20, 0xffffff)
@@ -80,16 +80,18 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     update(time: number, delta: number): void {
         const player = this as any
         
-        player.setVelocityX(player.data.get('velocityX'))
-        player.setVelocityY(player.data.get('velocityY'))
+        this.moveTween = this.scene.tweens.add({
+            targets: this,
+            x: player.data.get('x'),
+            y: player.data.get('y'),
+            duration: 100
+        })
 
         //Change where player faces based on mouse position
         player.flipX = this.scene.sys.game.scale.gameSize.width/2 > this.scene.input.activePointer.x
         this.item.flipX = !player.flipX
         
-        //Update item appearance
-        const currentItem = player.data.get('items')[player.data.get('equippedItemIndex')]
-        this.item.setTexture(currentItem.texture)
+        this.updateItem()
 
 
         //Update item position
@@ -111,6 +113,18 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         this.hpBar.fillRect(this.x-18,this.y-20,(35*(this.data.get('health')/this.data.get('maxHealth'))),5)
         //Border
         this.hpBar.strokeRect(this.x-18,this.y-20,35,6)
+    }
+
+    updateItem(){
+        const player = this as any
+        //Update item appearance
+        const currentItem = player.data.get('items')[player.data.get('equippedItemIndex')]
+
+        if(!currentItem){
+            this.item.setAlpha(0)
+            return
+        }
+        this.item.setTexture(currentItem.texture)
     }
 
     cleanup(){

@@ -1,12 +1,7 @@
 import { reactive, ref, computed } from "vue";
-import { IPlayer, IHarvestable, IBuilding } from "shared";
+import { IState } from "shared";
 import ClientRoom from "./engine/types/ClientRoom";
 
-export interface IState {
-    players: Record<string, IPlayer>
-    harvestables: Record<string, IHarvestable>
-    buildings: Record<string, IBuilding>
-}
 
 export const localPlayerID = ref("");
 let scene = ref<ClientRoom>();

@@ -10,6 +10,7 @@ export default class TileStorage{
     width:number
     height:number
     size:number
+    /** Provide tiles, only size in in PX */
     constructor(width:number,height:number,size:number){
         this.width = width
         this.height = height
@@ -56,6 +57,28 @@ export default class TileStorage{
                 for(let col = 0; col < this.width; col++){
                     const tile = layer.data[row][col]
                     if(tile.index > 1){
+                        this.map[col][row] = TileType.LAND
+                    }
+                }
+            }
+        })
+    }
+
+    /** Tiled JSON parser */
+    importMapRaw(mapRaw:string){
+        const map = JSON.parse(mapRaw)
+        const landLayers = map.layers.filter((layer:any)=>layer.name !== 'Ocean' && layer.type === 'tilelayer')
+        //Overwrite ocean tiles where land is present
+        landLayers.forEach((layer:any)=>{
+            //Convert layer data to 2d array
+            const layerData = []
+            while(layer.data.length){
+                layerData.push(layer.data.splice(0,this.width))
+            }
+            //Overwrite ocean tiles where land is present
+            for(let row = 0; row < this.height; row++){
+                for(let col = 0; col < this.width; col++){
+                    if(layerData[row][col] > 1){
                         this.map[col][row] = TileType.LAND
                     }
                 }

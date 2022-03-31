@@ -1,13 +1,50 @@
 <template>
-    <main>
-        <ResourceBar class="fixed bottom-0 right-0 rounded-tl"/>
-        <ItemsBar class="fixed w-screen bottom-[5%] right-0"/>
-        <BuildBar class="fixed top-0 left-0"/>
+    <main class="flex justify-center items-center min-h-screen">
+        <form v-if="!showRooms" @submit.prevent="showRooms = true" class="bg-slate-100 p-8">
+            <h1 class="font-bold text-3xl">Civ Testing</h1>
+            <br>
+            <input required maxlength="10" minlength="3" type="text" class="bg-slate-300 p-4 w-full" v-model="nickname"
+                placeholder="Nickname" />
+            <button
+                class="px-4 py-2 bg-blue-500 font-bold rounded hover:bg-blue-400 text-white text-center my-4">Next</button>
+        </form>
+        <section v-else class="bg-slate-100 p-8">
+            <h1 class="font-bold text-3xl">Join A Room</h1>
+            <ul>
+                <li v-for="room in rooms" :key="room.roomId">
+                    <b>{{room.metadata.name}}:</b><span>{{room.clients}}/{{room.maxClients}}</span>
+                    <button @click="joinRoom(room.roomId)" class="bg-green-700 text-white p-2">Join</button>
+                </li>
+            </ul>
+        </section>
     </main>
 </template>
 
 <script setup lang="ts">
-import ResourceBar from '~/components/ResourceBar.vue';
-import ItemsBar from '~/components/ItemsBar.vue';
-import BuildBar from '~/components/BuildBar.vue';
+import { RoomAvailable } from 'colyseus.js';
+import { ref, watchEffect } from 'vue';
+import { connection } from '~/connection';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const nickname = ref("");
+const showRooms = ref(false);
+const rooms = ref<RoomAvailable[]>([]);
+
+watchEffect(()=>{
+    if(showRooms.value){
+        connection.getRooms()
+        .then(res=>rooms.value = res)
+        .catch(err=>{
+            console.error(err);
+            alert(err.message);
+            showRooms.value = false;
+        });
+    }
+})
+
+async function joinRoom(id:string) {
+    await connection.joinRoom(id, {name:nickname.value})
+    router.push("/game")
+}
 </script>

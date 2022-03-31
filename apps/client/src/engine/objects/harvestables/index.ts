@@ -4,7 +4,7 @@ export default class Harvestable extends Phaser.GameObjects.Sprite{
     hpBar: Phaser.GameObjects.Graphics
     playingDamagedAnim: boolean = false
 
-    constructor(scene: Phaser.Scene, config:IHarvestable,body:MatterJS.BodyType,texture:string){
+    constructor(scene: Phaser.Scene, config:IHarvestable,body:MatterJS.Body,texture:string){
         super(scene,config.x,config.y,texture)
         this.setName(config.id)
         this.scene.matter.add.gameObject(this, body)

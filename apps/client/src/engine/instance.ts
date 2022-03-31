@@ -2,6 +2,7 @@ import Phaser from "phaser"
 
 import BootScene from "./scenes/boot"
 import OverworldScene from "./scenes/overworld"
+import OverworldSceneOnline from "./scenes/overworldOnline"
 
 export const game = new Phaser.Game({
     type: Phaser.WEBGL,
@@ -16,7 +17,6 @@ export const game = new Phaser.Game({
                 y: 0
             },
             autoUpdate: false,
-            debug:true,
             enableSleeping: true
         }
     },
@@ -29,10 +29,7 @@ export const game = new Phaser.Game({
 
 
 game.scene.add('Boot', BootScene)
-game.scene.add('Overworld', OverworldScene)
+game.scene.add('Overworld', OverworldSceneOnline)
 
 
-game.scene.start('Overworld')
-
-//@ts-ignore
-window.game = game
+game.scene.start('Boot')

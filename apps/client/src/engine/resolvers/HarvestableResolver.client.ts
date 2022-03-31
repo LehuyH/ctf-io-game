@@ -1,3 +1,5 @@
+//Name to Gameobject mapping
+
 import Bush from "../objects/harvestables/Bush";
 import TreeBright from "../objects/harvestables/TreeBright";
 import TreeDesert from "../objects/harvestables/TreeDesert";

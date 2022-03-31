@@ -1,8 +1,8 @@
 <template>
-    <div v-if="inventory" class="bg-slate-800 p-4 bg-opacity-50 backdrop-blur-sm text-white">
+    <div v-if="player" class="bg-slate-800 p-4 bg-opacity-50 backdrop-blur-sm text-white">
     <h1 class="text-xl font-bold">Resources</h1>
         <ul>
-            <li v-for="[key,value] in Object.entries(inventory)" class="py-2">
+            <li v-for="[key,value] in Object.entries(player.inventory)" class="py-2">
                 <span class="font-bold capitalize">{{key}}:</span>
                 <Icon :icon="resourceToIcon[key]" class="inline-block" />
                 <span>{{value}}</span>
@@ -17,7 +17,6 @@ import { useLocalPlayer } from '~/state';
 import { Icon } from '@iconify/vue';
 
 const player = useLocalPlayer();
-const inventory = computed(()=>player.value.inventory);
 
 const resourceToIcon = {
     wood: 'noto:wood'

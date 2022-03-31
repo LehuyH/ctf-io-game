@@ -1,8 +1,9 @@
-import { IPlayer, IHarvestable, PlayerState, PlayerAnimState, ItemType } from 'shared'
+import { IPlayer, IHarvestable, PlayerAnimState, ItemType } from 'shared'
 import { reactive, watch } from 'vue'
 import ClientRoom from '../types/ClientRoom'
 import uniqid from 'uniqid'
-import { IState, state, resetState, setLocalPlayerID } from '~/state'
+import { state, resetState, setLocalPlayerID } from '~/state'
+import { IState } from 'shared'
 
 export default class StateSyncerOffline {
     state: IState
@@ -55,7 +56,6 @@ export default class StateSyncerOffline {
             speed:5,
             health: 100,
             maxHealth: 100,
-            state: PlayerState.IDLE,
             anim: PlayerAnimState.IDLE,
             velocityX: 0,
             velocityY: 0,
@@ -63,12 +63,12 @@ export default class StateSyncerOffline {
                 wood:100
             },
             equippedItemIndex: 0,
-            items:[{
-                name: "Wooden Axe",
-                type: ItemType.AXE,
-                texture: "wooden_axe",
-                damage:10
-            },{
+        items:[{
+            name: "Wooden Axe",
+            type: ItemType.AXE,
+            texture: "wooden_axe",
+            damage:10
+        },{
                 name: "Wooden Sword",
                 type: ItemType.SWORD,
                 texture: "wooden_sword",

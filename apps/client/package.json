@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^8.1.2",
+    "colyseus.js": "^0.14.13",
     "phaser": "^3.55.2",
     "uniqid": "^5.4.0",
     "vue": "^3.2.25"

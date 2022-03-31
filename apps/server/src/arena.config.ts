@@ -1,10 +1,11 @@
 import Arena from "@colyseus/arena";
 import { monitor } from "@colyseus/monitor";
+import { matchMaker } from "colyseus";
 
 /**
  * Import your Room files
  */
-import { MyRoom } from "./rooms/MyRoom";
+import { BaseRoom } from "./rooms/BaseRoom";
 
 export default Arena({
     getId: () => "Your Colyseus App",
@@ -13,8 +14,7 @@ export default Arena({
         /**
          * Define your room handlers:
          */
-        gameServer.define('my_room', MyRoom);
-
+        gameServer.define('base_game', BaseRoom);
     },
 
     initializeExpress: (app) => {
@@ -38,5 +38,13 @@ export default Arena({
         /**
          * Before before gameServer.listen() is called.
          */
+        
+        //Start a public room
+        matchMaker.createRoom("base_game", {
+            key: process.env.CREATION_KEY,
+            meta:{
+                "name": "Public Room 1",
+            }
+        });
     }
 });

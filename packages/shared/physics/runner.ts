@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import uniqid from 'uniqid';
-import { IState } from '~/state';
+import { IState } from 'shared'
 
 const FIXED_TIMESTEP = 1000 /60
 

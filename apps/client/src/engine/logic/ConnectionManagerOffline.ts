@@ -1,6 +1,5 @@
 import ClientRoom from "../types/ClientRoom";
 import ConnectionManager from "../types/ConnectionManager";
-import { PlayerState } from "shared"
 import { useLocalPlayerID, uiState } from "~/state";
 
 export default class ConnectionManagerOffline{

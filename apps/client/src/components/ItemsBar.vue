@@ -1,5 +1,5 @@
 <template>
-    <div v-if="items" class="p-4 w-full">
+    <div v-if="player && items" class="p-4 w-full">
         <ul class="flex text-white justify-center items-center gap-4">
             <li v-for="(item,index) in items">
                 <button class="outline-none text-left" @click="scene?.connection.inputs.items.set(index)">
