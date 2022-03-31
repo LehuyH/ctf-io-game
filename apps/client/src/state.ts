@@ -18,6 +18,7 @@ export const state = reactive<IState>({
 
 export const uiState = reactive({
     isBuilding: null as null | string,
+    loaded: false
 })
 
 export const resetState = () => {

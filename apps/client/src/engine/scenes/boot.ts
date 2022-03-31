@@ -1,4 +1,5 @@
 import mapData from 'shared/maps/overworld.json'
+import { uiState } from '~/state'
 export default class BootScene extends Phaser.Scene{
     preload(){
       this.load.image('grasslandTiles', "/maps/overworld/Grassland_extruded.png")
@@ -12,7 +13,8 @@ export default class BootScene extends Phaser.Scene{
       this.load.image('craftbench',"/maps/overworld/buildings/craftbench.png")
     }
     create(){
-       //Add square
-       this.add.rectangle(400, 300, 64, 64, 0xffffff)
+       this.load.once('complete',()=>{
+         uiState.loaded = true
+       })
     }
 }
