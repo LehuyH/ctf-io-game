@@ -57,7 +57,7 @@ export default class ServerPhysics{
             this.storeCollision(playerBody.label,otherBody.label)
 
         })
-        Events.on(this.engine,"collisionend",(event)=>{
+        Events.on(this.engine,"collisionEnd",(event)=>{
             const bodyA =  event.pairs[0].bodyA
             const bodyB =  event.pairs[0].bodyB
 
@@ -106,7 +106,7 @@ export default class ServerPhysics{
             for(let col = 0; col < map.width; col++){
                 const tile = collisionMap[row][col]
                 if(tile > 0){
-                    const body = Bodies.rectangle(col*map.tileheight,row*map.tileheight,map.tileheight,map.tileheight,{
+                    const body = Bodies.rectangle(col*map.tileheight+(map.tileheight/2),row*map.tileheight+(map.tileheight/2),map.tileheight,map.tileheight,{
                         isStatic: true
                     })
                     Composite.add(this.world,body)
@@ -120,7 +120,7 @@ export default class ServerPhysics{
            const health = o.properties.find((p:any)=>p.name==='health').value as number
            const value = o.properties.find((p:any)=>p.name==='value').value as number
            const resource = o.properties.find((p:any)=>p.name==='resource').value as string
-           
+
            this.objects.addHarvestable({
                 id,
                 x: o.x as number,
