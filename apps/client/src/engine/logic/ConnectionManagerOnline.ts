@@ -18,6 +18,9 @@ export default class ConnectionManagerOnline{
         this.room.onStateChange((newState)=>{
            this.patchState(newState);
         })
+        this.room.onMessage("*", (event,data)=>{
+            this.scene.events.emit(event as string, data);
+        })
     }
 
     patchState(state:IState){
@@ -31,8 +34,9 @@ export default class ConnectionManagerOnline{
 
         //Register input handlers
         this.scene.input.on('pointerdown',()=>{
-            this.scene.serverEmulator?.actions.harvest(useLocalPlayerID())
+            this.inputs.useTool();
         })
+        
 
         this.keys.W.on('down',()=>{
            this.inputs.start.up();
@@ -109,6 +113,9 @@ export default class ConnectionManagerOnline{
                 this.scene.serverEmulator?.actions.build(uiState.isBuilding,useLocalPlayerID(),x,y)
                 uiState.isBuilding = null;
             }
+        },
+        useTool: ()=>{
+            this.room.send(EventType.UseActiveTool)
         }
     }
 

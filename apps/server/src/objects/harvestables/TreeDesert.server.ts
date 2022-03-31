@@ -4,10 +4,10 @@ import TreeDesertBody from 'shared/bodies/harvestables/TreeDesertBody'
 import { Bodies } from "matter-js";
 
 export default class TreeBright extends ServerBody {
-    constructor(config:IHarvestable) {
+    constructor(config:IHarvestable,world:Matter.World) {
         //@ts-ignore
         const body = Bodies.rectangle(...TreeDesertBody(config));
         const id = config.id;
-        super(id,body);
+        super(id,body,world);
     }
 }

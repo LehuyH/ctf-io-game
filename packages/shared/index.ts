@@ -59,6 +59,7 @@ export enum PlayerAnimState{
 export enum EventType{
     PlayerStartMove = 'PlayerStartMove',
     PlayerStopMove = 'PlayerStopMove',
+    UseActiveTool = 'UseActiveTool',
 }
 
 export enum ItemType{

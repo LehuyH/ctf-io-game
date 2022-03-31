@@ -8,6 +8,7 @@ import { PlayerJoin } from "../commands/PlayerJoin";
 import { PlayerLeave } from "../commands/PlayerLeave";
 import { PlayerStartMove } from "../commands/PlayerStartMove";
 import { PlayerStopMove } from "../commands/PlayerStopMove";
+import { UseActiveTool } from "../commands/UseActiveTool";
 
 import { EventType } from "shared";
 
@@ -39,6 +40,12 @@ export class BaseRoom extends Room<ServerState> {
     this.onMessage(EventType.PlayerStopMove, (client, message) => {
       this.dispatcher.dispatch(new PlayerStopMove(), {
         dir: message.dir,
+        client: client
+      })
+    });
+
+    this.onMessage(EventType.UseActiveTool, (client, message) => {
+      this.dispatcher.dispatch(new UseActiveTool(), {
         client: client
       })
     });

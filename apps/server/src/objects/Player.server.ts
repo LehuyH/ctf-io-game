@@ -4,7 +4,8 @@ import { IPlayer, IState } from "shared";
 import { ServerState } from "../schema/state"
 
 export default class PlayerBody extends ServerBody {
-    constructor(config:IPlayer) {
+    interactBody: Body;
+    constructor(config:IPlayer,world:Matter.World) {
         //@ts-ignore
         const body = Bodies.rectangle(config.x,config.y,20,20,{
             inertia: Infinity,
@@ -12,7 +13,12 @@ export default class PlayerBody extends ServerBody {
             label: `player-${config.id}-collider`
         });
         const id = config.id;
-        super(id,body);
+        super(id,body,world);
+
+        this.interactBody = Bodies.circle(config.x,config.y,30,{
+            isSensor: true,
+            label: `player-${config.id}`
+        });
     }
 
     sync(state:ServerState){
