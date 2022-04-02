@@ -1,6 +1,9 @@
 <template>
-    <main class="flex justify-center items-center min-h-screen">
-        <form v-if="!showRooms" @submit.prevent="showRooms = true" class="bg-slate-100 p-8">
+    <main class="flex justify-center items-center min-h-screen bg-blue-400">
+        <section v-if="!uiState.loaded">
+            <Icon icon="eos-icons:loading" />
+        </section>
+        <form v-else-if="!showRooms" @submit.prevent="showRooms = true" class="bg-slate-100 p-8">
             <h1 class="font-bold text-3xl">Civ Testing</h1>
             <br>
             <input required maxlength="10" minlength="3" type="text" class="bg-slate-300 p-4 w-full" v-model="nickname"
@@ -25,7 +28,8 @@ import { RoomAvailable } from 'colyseus.js';
 import { ref, watchEffect } from 'vue';
 import { connection } from '~/connection';
 import { useRouter } from 'vue-router';
-
+import { uiState } from '~/state';
+import { Icon } from '@iconify/vue';
 const router = useRouter();
 const nickname = ref("");
 const showRooms = ref(false);
