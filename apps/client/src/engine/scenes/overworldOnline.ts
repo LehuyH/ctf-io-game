@@ -51,10 +51,6 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
         
         collisions.setCollisionByExclusion([-1])
         this.matter.world.convertTilemapLayer(collisions)
-
-        //Add harvestables
-        const harvestables = map.getObjectLayer("HARVESTABLES")
-        this.state.insertMapHarvestables(harvestables.objects as any)
     }
 
     buildAnimations(){
