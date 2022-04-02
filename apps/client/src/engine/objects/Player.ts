@@ -8,6 +8,8 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     item: Phaser.GameObjects.Sprite
     anims: Record<string, Phaser.Animations.Animation|Phaser.Tweens.Timeline> = {}
     moveTween: Phaser.Tweens.Tween|null = null
+    nameTag: Phaser.GameObjects.Text
+    isStopped: boolean = false
 
     constructor(scene: ClientRoom, config:IPlayer){
         super(scene,config.x, config.y, 20, 20, 0xffffff)
@@ -48,6 +50,21 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         this.hpBar = scene.add.graphics()
         this.hpBar.fillStyle(0xffffff,1)
         this.hpBar.setDepth(10)
+
+        //Create Nametag
+        const nameTag = scene.add.text(config.x,config.y,config.name,{
+            fontFamily: 'Arial',
+            fontSize: '10px',
+            color: '#ffffff',
+            align: 'center',
+            wordWrap: {
+                width: 100
+            }
+        })
+        nameTag.setDepth(10)
+        nameTag.setOrigin(0.5,0.5)
+        this.nameTag = nameTag
+        this.nameTag.setPipeline('BitmapFont')
         
 
 
@@ -78,13 +95,16 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     }
 
     update(time: number, delta: number): void {
+        if(this.isStopped) return;
+
         const player = this as any
-        
+        if(!this.body) return
+
         this.moveTween = this.scene.tweens.add({
             targets: this,
-            x: player.data.get('x'),
-            y: player.data.get('y'),
-            duration: 100
+            x: this.getData('x'),
+            y: this.getData('y'),
+            duration: 100,
         })
 
         //Change where player faces based on mouse position
@@ -113,6 +133,10 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         this.hpBar.fillRect(this.x-18,this.y-20,(35*(this.data.get('health')/this.data.get('maxHealth'))),5)
         //Border
         this.hpBar.strokeRect(this.x-18,this.y-20,35,6)
+
+        //Update nametag location
+        this.nameTag.x = this.x
+        this.nameTag.y = this.y - 30
     }
 
     updateItem(){
@@ -128,8 +152,17 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     }
 
     cleanup(){
-        this.scene.matter.world.remove(this.body)
-        super.destroy()
+        this.isStopped = true
+        const allTweens = this.scene.tweens.getTweensOf(this,true)
+
+        this.moveTween?.remove()
+        allTweens.forEach(t=>{
+            t.remove()
+        })
+        
+        this.item.destroy()
+        this.hpBar.destroy()
+        this.destroy()
     }
 
     /** Only plays animation */
