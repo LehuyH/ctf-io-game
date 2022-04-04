@@ -60,6 +60,7 @@ export enum EventType{
     PlayerStartMove = 'PlayerStartMove',
     PlayerStopMove = 'PlayerStopMove',
     UseActiveTool = 'UseActiveTool',
+    Build = 'Build'
 }
 
 export enum ItemType{

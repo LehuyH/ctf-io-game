@@ -1,8 +1,8 @@
-import { Engine, Bodies, Composite, Events } from 'matter-js';
+import Matter, { Engine, Bodies, Composite, Events, Query } from 'matter-js';
 import { IState } from 'shared';
 import Runner from 'shared/physics/runner';
 import { ServerBody } from './ServerBody';
-import TileStorage from 'shared/helpers/tiles';
+import TileStorage, { TileType } from 'shared/helpers/tiles';
 import uniqid from 'uniqid';
 import ServerObjects from './ServerObjects';
 
@@ -151,5 +151,28 @@ export default class ServerPhysics{
 
     getCollisions(target:string){
         return this.collisions[target] || []
+    }
+
+    checks = {
+        collidesWithAny: (body:{x:number,y:number,width:number,height:number})=>{
+            const bodies = this.world.bodies
+            const bounds = {
+                min: {x: body.x, y: body.y},
+                max: {x: body.x + body.width, y: body.y + body.height}
+            }
+            const output:Matter.Body[] = [] 
+            const result = Query.region(bodies, bounds)
+
+            result.forEach((body) => {
+                if(!output.includes(body)){
+                    output.push(body)
+                }
+            })
+
+            return output.length > 0
+         },
+         touchesWater: (body:{x:number,y:number,width:number,height:number})=>{
+             return this.tileStorage.getTilesInRect(body).includes(TileType.WATER)
+         }
     }
 }

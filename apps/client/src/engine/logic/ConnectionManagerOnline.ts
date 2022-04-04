@@ -109,9 +109,7 @@ export default class ConnectionManagerOnline{
         },
         buildings: {
             build: (type:string,x:number,y:number)=>{
-                if(!uiState.isBuilding) return;
-                this.scene.serverEmulator?.actions.build(uiState.isBuilding,useLocalPlayerID(),x,y)
-                uiState.isBuilding = null;
+                this.room.send(EventType.Build,{type,x,y})
             }
         },
         useTool: ()=>{

@@ -5,7 +5,7 @@ import buildingBodies from 'shared/bodies'
 import uniqid from 'uniqid'
 import { calcHarvestDamage, canPay, processPay } from 'shared/helpers'
 import TileStorage, { TileType } from 'shared/helpers/tiles'
-import buildingsData from '~/assets/data/buildings.json'
+import buildingsData from 'shared/data/buildings.json'
 
 export interface EventPayload {
     type: EventType;

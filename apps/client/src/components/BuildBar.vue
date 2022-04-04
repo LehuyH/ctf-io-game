@@ -38,7 +38,7 @@
     import { computed, ref } from 'vue';
     import { onClickOutside } from '@vueuse/core';
     import { uiState, useScene } from '~/state';
-    import buildingsData from "~/assets/data/buildings.json";
+    import buildingsData from "shared/data/buildings.json";
         
     const showBuildBar = ref(false);
     const buildBar = ref(null);

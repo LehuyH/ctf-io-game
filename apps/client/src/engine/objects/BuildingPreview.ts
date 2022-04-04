@@ -10,12 +10,12 @@ export default class BuildingPreview extends Phaser.GameObjects.Sprite{
         //Request build on click
         scene.input.on('pointerdown', () => {
             if(!uiState.isBuilding) return;
-            scene.connection.inputs.buildings.build(uiState.isBuilding, this.x, this.y);
+            scene.connection.inputs.buildings.build(uiState.isBuilding, this.scene.input.activePointer.worldX,this.scene.input.activePointer.worldY);
         })
     }
 
     update(): void {
-    if(uiState.isBuilding){
+        if(uiState.isBuilding){
             this.alpha = 0.5;
             this.setTexture(uiState.isBuilding);
             //Go to mouse position
