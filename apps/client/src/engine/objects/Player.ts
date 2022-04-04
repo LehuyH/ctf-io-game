@@ -99,13 +99,14 @@ export default class Player extends Phaser.GameObjects.Rectangle{
 
         const player = this as any
         if(!this.body) return
-
-        this.moveTween = this.scene.tweens.add({
-            targets: this,
-            x: this.getData('x'),
-            y: this.getData('y'),
-            duration: 100,
-        })
+        try {
+            this.moveTween = this.scene.tweens.add({
+                targets: this,
+                x: this.getData('x'),
+                y: this.getData('y'),
+                duration: 100,
+            })
+        } catch (e) {}
 
         //Change where player faces based on mouse position
         player.flipX = this.scene.sys.game.scale.gameSize.width/2 > this.scene.input.activePointer.x
@@ -142,7 +143,9 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     updateItem(){
         const player = this as any
         //Update item appearance
-        const currentItem = player.data.get('items')[player.data.get('equippedItemIndex')]
+        const items = player.getData('items')
+        if(!items) return
+        const currentItem = items[player.getData('equippedItemIndex')]
 
         if(!currentItem){
             this.item.setAlpha(0)
