@@ -11,6 +11,7 @@ export default class BuildingPreview extends Phaser.GameObjects.Sprite{
         scene.input.on('pointerdown', () => {
             if(!uiState.isBuilding) return;
             scene.connection.inputs.buildings.build(uiState.isBuilding, this.scene.input.activePointer.worldX,this.scene.input.activePointer.worldY);
+            uiState.isBuilding = null;
         })
     }
 
@@ -19,8 +20,10 @@ export default class BuildingPreview extends Phaser.GameObjects.Sprite{
             this.alpha = 0.5;
             this.setTexture(uiState.isBuilding);
             //Go to mouse position
+            this.scene.input.activePointer.updateWorldPoint(this.scene.cameras.main);
             this.x = this.scene.input.activePointer.worldX;
             this.y = this.scene.input.activePointer.worldY;
+            console.log(this.scene.input.activePointer.worldX,this.scene.input.activePointer.worldY, " VS ", this.x, this.y)
         }else{
             this.alpha = 0;
         }
