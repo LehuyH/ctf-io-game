@@ -1,7 +1,7 @@
 import * as Colyseus from "colyseus.js";
 import { IState } from "shared";
 import { ref } from "vue";
-const client = new Colyseus.Client('ws://localhost:2567');
+const client = new Colyseus.Client(import.meta.env.VITE_SERVER_URL as string);
 
 export const connection = {
     async getRooms(mode="base_game"){

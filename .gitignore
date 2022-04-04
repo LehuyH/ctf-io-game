@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 
 apps/server/arena.env
+apps/server/lib
