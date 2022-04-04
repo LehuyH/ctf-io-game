@@ -25,6 +25,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
     this.room.broadcast(`${client.sessionId}-anim`,PlayerAnimState.BASIC_ATTACK)
 
+    //Handle harvestables
     collidedHarvestables.forEach(id=>{
         const harvestableState = this.state.harvestables.get(id.split("-")[1])
         if(!harvestableState) return
@@ -37,10 +38,20 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
             //Give resource to player
             player.inventory.set(harvestableState.resource,player.inventory.get(harvestableState.resource) || 0)
             player.inventory.set(harvestableState.resource,player.inventory.get(harvestableState.resource) + harvestableState.value)
+
+            //Add it back after 60 seconds
+            this.room.physics.runner.addDelayedCallback((delta,state)=>{
+                const newState = {
+                  ...harvestableState,
+                  health: harvestableState.maxHealth,
+                }
+                this.room.physics.objects.addHarvestable(newState)
+            },60 * 1000)
             
         }
     })
 
+    //Handle buildings
     collidedBuildings.forEach(id=>{
         const buildingState = this.state.buildings.get(id.split("-")[1])
         if(!buildingState) return
