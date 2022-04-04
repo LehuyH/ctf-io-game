@@ -9,8 +9,8 @@ export default class Harvestable extends Phaser.GameObjects.Sprite{
         this.setName(config.id)
         this.scene.matter.add.gameObject(this, body)
         this.setData({
-            health: 50,
-            maxHealth: 50
+            health: config.maxHealth,
+            maxHealth: config.maxHealth
         })
         this.setDepth(1)
         scene.add.existing(this)
@@ -23,7 +23,6 @@ export default class Harvestable extends Phaser.GameObjects.Sprite{
 
     create(){
         this.on("changedata-health",(obj:any,currentHealth:number,lastHealth:number)=>{
-            if(currentHealth === this.getData('maxHealth')) return;
             if(currentHealth <= 0){
                this.cleanup()
             }else{
@@ -59,6 +58,21 @@ export default class Harvestable extends Phaser.GameObjects.Sprite{
                     onComplete: () => this.playingDamagedAnim = false
                 })
             }
+        })
+    }
+
+    addedToScene(){
+        this.scene.tweens.add({
+            targets: [this],
+            scale:{
+                from: 0,
+                to: 1
+            },
+            alpha:{
+                from: 0,
+                to: 1
+            },
+            duration: 200,
         })
     }
     
