@@ -10,7 +10,7 @@
         <hr />
         <ul class="mt-4">
             <li v-for="b in buildingsData" class="p-2 inline-block">
-                <button @click="setBuilding(b)" class="bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded">
+                <button @click="selectedBuilding = b" :class="`${(checkCanBuild(b)) ? '' : 'opacity-50'} bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded`">
                     <img class="m-auto w-12 h-12" :src="b.icon" />
                 </button>
                 <p class="text-sm m-auto text-center">{{b.name}}</p>
@@ -27,8 +27,18 @@
             {{selectedBuilding.description}}
         </p>
         <ul class="mt-4">
-            {{selectedBuilding.cost}}
+            <li class="text-lg font-bold">Resources Needed</li>
+            <li v-for="(c,type) in selectedBuilding.cost">
+                <b class="capitalize">{{type}}:</b> {{c}}
+            </li>
         </ul>
+        <p class="mt-12 text-red-500 font-bold" v-if="!canBuild">You do not have enough resources to build this!</p>
+        <button
+            class="bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed w-full text-white font-bold 
+            text-xl p-2 rounded transition-colors disabled:hover:bg-blue-400 hover:bg-blue-500"
+            :disabled="!canBuild" @click="setBuilding(selectedBuilding)">
+            Build
+        </button>
     </aside>
     </section>
 </template>
@@ -39,11 +49,14 @@
     import { onClickOutside } from '@vueuse/core';
     import { uiState, useScene } from '~/state';
     import buildingsData from "shared/data/buildings.json";
+    import { useLocalPlayer } from '~/state';
+import { canPay } from 'shared/helpers';
         
     const showBuildBar = ref(false);
     const buildBar = ref(null);
     const selectedBuilding = ref<any>(null);
     const scene = useScene();
+    const localPlayer = useLocalPlayer();
 
     const sideBarClasses = computed(() => {
         return {
@@ -52,6 +65,13 @@
         }
     });
 
+    const canBuild = computed(() => {
+        if(!selectedBuilding.value) return false;
+        const cost = selectedBuilding.value.cost;
+        const inventory = localPlayer.value.inventory;
+        
+        return canPay(cost, inventory);
+    });
     onClickOutside(buildBar, () => {
         showBuildBar.value = false;
         selectedBuilding.value = null;
@@ -66,5 +86,11 @@
     function stopBuilding(){
         uiState.isBuilding = null;
         selectedBuilding.value = null;
+    }
+    function checkCanBuild(building: any) {
+        if(!localPlayer.value) return false;
+        const cost = building.cost;
+        const inventory = localPlayer.value.inventory;
+        return canPay(cost, inventory);
     }
 </script>
