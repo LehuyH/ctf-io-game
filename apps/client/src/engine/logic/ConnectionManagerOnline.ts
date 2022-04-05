@@ -1,5 +1,4 @@
 import ClientRoom from "../types/ClientRoom";
-import ConnectionManager from "../types/ConnectionManager";
 import { EventType, IState } from "shared";
 import { useLocalPlayerID, uiState, } from "~/state";
 import { connection } from "~/connection";
@@ -34,6 +33,7 @@ export default class ConnectionManagerOnline{
 
         //Register input handlers
         this.scene.input.on('pointerdown',()=>{
+            if(uiState.isBuilding) return;
             this.inputs.useTool();
         })
         
