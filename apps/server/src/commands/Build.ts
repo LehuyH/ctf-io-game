@@ -4,18 +4,19 @@ import buildingsData from 'shared/data/buildings.json'
 import buildingBodies from 'shared/bodies'
 import { canPay, processPay } from "shared/helpers";
 import uniqid from 'uniqid'
+import { Client } from "colyseus";
 
 interface IConfig{
     type:string;
-    playerID: string;
+    client: Client;
     x: number;
     y: number;
 }
 
 export class Build extends Command<BaseRoom, IConfig> {
-    validate({ type,playerID,x,y }:IConfig) {
+    validate({ type,client,x,y }:IConfig) {
         const building = buildingsData.find(b=>b.type===type)
-        const player = this.room.state.players.get(playerID)
+        const player = this.room.state.players.get(client.sessionId)
         if(!building || !player) return false
 
         //Check if they have enough resources
@@ -46,9 +47,9 @@ export class Build extends Command<BaseRoom, IConfig> {
         return true
 
     }
-    execute({ type,playerID,x,y }:IConfig){
+    execute({ type,client,x,y }:IConfig){
         const building = buildingsData.find(b=>b.type===type)
-        const player = this.room.state.players.get(playerID)
+        const player = this.room.state.players.get(client.sessionId)
         const cost = building.cost
 
         processPay(cost,player.inventory as any)
@@ -58,7 +59,7 @@ export class Build extends Command<BaseRoom, IConfig> {
             type,
             x,
             y,
-            ownerID: playerID,
+            ownerID: client.sessionId,
             health: building.maxHealth,
             maxHealth: building.maxHealth,
         })
