@@ -21,7 +21,6 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         this.scene.matter.add.gameObject(this,{
             inertia: Infinity,
             mass:100,
-            isStatic: true,
             isSensor: true,
             label: `player-${config.id}-collider`
         })
