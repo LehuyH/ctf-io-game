@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:server": "yarn --cwd apps/server start",
+    "dev:client": "yarn --cwd apps/client dev"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
