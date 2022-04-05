@@ -165,6 +165,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         
         this.item.destroy()
         this.hpBar.destroy()
+        this.nameTag.destroy()
         this.destroy()
     }
 
