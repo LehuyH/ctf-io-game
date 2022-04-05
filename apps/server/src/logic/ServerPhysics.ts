@@ -156,19 +156,29 @@ export default class ServerPhysics{
     checks = {
         collidesWithAny: (body:{x:number,y:number,width:number,height:number})=>{
             const bodies = this.world.bodies
+            //Center origins bounds
             const bounds = {
-                min: {x: body.x, y: body.y},
-                max: {x: body.x + body.width, y: body.y + body.height}
+                min:{
+                    x:body.x-(body.width/2),
+                    y:body.y-(body.height/2)
+                },
+                max:{
+                    x:body.x+(body.width/2),
+                    y:body.y+(body.height/2)
+                }
             }
             const output:Matter.Body[] = [] 
             const result = Query.region(bodies, bounds)
 
             result.forEach((body) => {
                 if(!output.includes(body)){
+                    //Do not add if it is the player interact body
+                    if(body.label.startsWith("player-") && !body.label.includes("collider")){
+                        return;
+                    }
                     output.push(body)
                 }
             })
-
             return output.length > 0
          },
          touchesWater: (body:{x:number,y:number,width:number,height:number})=>{

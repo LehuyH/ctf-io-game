@@ -58,7 +58,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
         buildingState.health -= heldItem.damage
         if(buildingState.health <= 0){
             //Remove building from state
-            this.state.buildings.delete(id.split("-")[1])
+            this.room.physics.objects.removeBuilding(id.split("-")[1])
         }
     })
   }
