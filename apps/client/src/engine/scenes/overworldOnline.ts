@@ -29,11 +29,9 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
         const buildingPreview = new BuildingPreview(this)
         this.objects.addObject(buildingPreview)
         this.runner = new Runner(this.matter.world,this.state.state)
-
     }
 
     update(time: number, delta: number): void {
-        //this.runner.tick(delta)
         this.connection.update(time, delta)
         this.objects.update(time, delta)
     }

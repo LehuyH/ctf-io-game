@@ -18,7 +18,11 @@ export const state = reactive<IState>({
 
 export const uiState = reactive({
     isBuilding: null as null | string,
-    loaded: false
+    loaded: false,
+    interactHint:{
+        text: null as null | string,
+        gameObject: null as null | Phaser.GameObjects.GameObject
+    }
 })
 
 export const resetState = () => {

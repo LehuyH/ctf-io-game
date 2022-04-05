@@ -10,6 +10,8 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     moveTween: Phaser.Tweens.Tween|null = null
     nameTag: Phaser.GameObjects.Text
     isStopped: boolean = false
+    local: boolean = false
+    interactBody: MatterJS.BodyType
 
     constructor(scene: ClientRoom, config:IPlayer){
         super(scene,config.x, config.y, 20, 20, 0xffffff)
@@ -19,18 +21,15 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         this.scene.matter.add.gameObject(this,{
             inertia: Infinity,
             mass:100,
+            isStatic: true,
+            isSensor: true,
             label: `player-${config.id}-collider`
         })
         //Interact body
-        const interactBody = this.scene.matter.add.circle(config.x,config.y,30,{
+        this.interactBody = this.scene.matter.add.circle(config.x,config.y,30,{
             isSensor: true,
             label: `player-${config.id}`
         })
-        //Connect to collider
-        this.scene.matter.world.add(this.scene.matter.constraint.create({
-            bodyA: interactBody,
-            bodyB: this.body as any,    
-        }))
 
         this.setData({
             velocityX: 0,
@@ -41,6 +40,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         //Set camera if local player
         if(config.id === useLocalPlayerID()){
             scene.cameras.main.startFollow(this)
+            this.local = true
         }
 
         //Create item
@@ -99,14 +99,21 @@ export default class Player extends Phaser.GameObjects.Rectangle{
 
         const player = this as any
         if(!this.body) return
+
         try {
             this.moveTween = this.scene.tweens.add({
-                targets: this,
+                targets: [this],
                 x: this.getData('x'),
                 y: this.getData('y'),
                 duration: 100,
+                onUpdate:()=>{
+                    //Move interact body with player
+                    this.interactBody.position.x = player.x
+                    this.interactBody.position.y = player.y 
+                }
             })
         } catch (e) {}
+
 
         //Change where player faces based on mouse position
         player.flipX = this.scene.sys.game.scale.gameSize.width/2 > this.scene.input.activePointer.x
@@ -166,6 +173,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         this.item.destroy()
         this.hpBar.destroy()
         this.nameTag.destroy()
+        this.scene.matter.world.remove(this.interactBody)
         this.destroy()
     }
 

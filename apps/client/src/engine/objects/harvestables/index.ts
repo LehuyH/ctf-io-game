@@ -9,7 +9,7 @@ export default class Harvestable extends Phaser.GameObjects.Sprite{
         this.setName(config.id)
         this.scene.matter.add.gameObject(this, body)
         this.setData({
-            health: config.maxHealth,
+            health: config.health,
             maxHealth: config.maxHealth
         })
         this.setDepth(1)

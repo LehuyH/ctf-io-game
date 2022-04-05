@@ -28,7 +28,6 @@ export default class Runner{
     tick(delta:number){
         this.accumulator += delta;
         this.timeElapsed += delta;
-
         // update repeated callbacks
         this.repeatedCallbacks.forEach(callback => {
             callback.timeElasped += delta;

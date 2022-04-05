@@ -16,8 +16,8 @@ export const game = new Phaser.Game({
             gravity: {
                 y: 0
             },
-            autoUpdate: false,
-            enableSleeping: true
+            autoUpdate: true,
+            enableSleeping: false
         }
     },
     scale:{

@@ -1,24 +1,28 @@
 import { IBuilding } from 'shared'
 import Building from './index';
 import CraftbenchBody from 'shared/bodies/buildings/CraftbenchBody';
+import ClientRoom from '~/engine/types/ClientRoom';
+import { uiState } from '~/state';
 
-interface Config {
-    id: string;
-    x: number;
-    y: number;
-}
 
 export default class Craftbench extends Building {
-    constructor(scene: Phaser.Scene, config: Config) {
-        const buildingConfig: IBuilding = {
-            x: config.x,
-            y: config.y,
-            type: "tree",
-            id:config.id,
-            health: 100
-        }
+    constructor(scene: ClientRoom, buildingConfig: IBuilding) {
         //@ts-ignore
         const collisionBox = scene.matter.bodies.rectangle(...CraftbenchBody(buildingConfig))
         super(scene, buildingConfig,collisionBox,"craftbench");
+    }
+    create(): void {
+        super.create()
+        this.on("nearLocalPlayer",()=>{
+            uiState.interactHint.text = "craft tools and weapons here"
+            uiState.interactHint.gameObject = this
+        })
+        this.on("notNearLocalPlayer",()=>{
+            uiState.interactHint.text = null
+            uiState.interactHint.gameObject = null
+        })
+    }
+    cleanup(): void {
+        super.cleanup()
     }
 }

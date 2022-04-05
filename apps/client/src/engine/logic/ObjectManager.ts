@@ -67,7 +67,7 @@ export default class ObjectManager{
     }
 
     update(time: number, delta: number): void {
-        const updateQueue = ["players","harvestables"] as any[]
+        const updateQueue = ["players","harvestables","buildings"] as any[]
 
         updateQueue.forEach(type=>{
             const manager = this as any

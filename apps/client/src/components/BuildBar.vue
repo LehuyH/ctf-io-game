@@ -10,7 +10,7 @@
         <hr />
         <ul class="mt-4">
             <li v-for="b in buildingsData" class="p-2 inline-block">
-                <button @click="selectedBuilding = b" :class="`${(checkCanBuild(b)) ? '' : 'opacity-50'} bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded`">
+                <button @click="setBuilding(b)" :class="`${(checkCanBuild(b)) ? '' : 'opacity-50'} bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded`">
                     <img class="m-auto w-12 h-12" :src="b.icon" />
                 </button>
                 <p class="text-sm m-auto text-center">{{b.name}}</p>
@@ -32,13 +32,8 @@
                 <b class="capitalize">{{type}}:</b> {{c}}
             </li>
         </ul>
-        <p class="mt-12 text-red-500 font-bold" v-if="!canBuild">You do not have enough resources to build this!</p>
-        <button
-            class="bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed w-full text-white font-bold 
-            text-xl p-2 rounded transition-colors disabled:hover:bg-blue-400 hover:bg-blue-500"
-            :disabled="!canBuild" @click="setBuilding(selectedBuilding)">
-            Build
-        </button>
+        <p class="mt-12 text-red-500 font-bold text-xl" v-if="!canBuild">You do not have enough resources to build this!</p>
+        <p v-else class="text-xl font-bold mt-12">Click on the location where you want to build this.</p>
     </aside>
     </section>
 </template>
