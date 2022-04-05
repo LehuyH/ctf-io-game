@@ -23,7 +23,6 @@ export default class BuildingPreview extends Phaser.GameObjects.Sprite{
             this.scene.input.activePointer.updateWorldPoint(this.scene.cameras.main);
             this.x = this.scene.input.activePointer.worldX;
             this.y = this.scene.input.activePointer.worldY;
-            console.log(this.scene.input.activePointer.worldX,this.scene.input.activePointer.worldY, " VS ", this.x, this.y)
         }else{
             this.alpha = 0;
         }
