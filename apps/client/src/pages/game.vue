@@ -14,10 +14,14 @@ import { onMounted } from 'vue';
 import { game } from '~/engine/instance';
 import { connection } from '~/connection';
 import { setLocalPlayerID } from '~/state';
+import { useRouter } from 'vue-router';
 
 onMounted(()=>{
     const room = connection.room.value
-    if(!room) return;
+    if(!room){
+        useRouter().push('/')
+        return;
+    }
     setLocalPlayerID(room.sessionId);
     game.scene.start("Overworld")
 })
