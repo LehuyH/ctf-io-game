@@ -45,7 +45,7 @@
     import { uiState, useScene } from '~/state';
     import buildingsData from "shared/data/buildings.json";
     import { useLocalPlayer } from '~/state';
-import { canPay } from 'shared/helpers';
+    import { canPay } from 'shared/helpers';
         
     const showBuildBar = ref(false);
     const buildBar = ref(null);

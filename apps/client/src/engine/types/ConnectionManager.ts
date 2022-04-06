@@ -14,6 +14,8 @@ export default interface ConnectionManager {
         buildings:{
             build: (type:string,x:number,y:number)=>void;
         }
+        useTool: ()=>void;
+        craftItem: (itemName:string,buildingName:string)=>void;
     }
     create(): void;
     update(time: number, delta: number): void;

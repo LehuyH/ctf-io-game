@@ -1,0 +1,27 @@
+[{
+        "name": "Wooden Sword",
+        "type": "sword",
+        "damage": 10,
+        "texture": "wooden_sword",
+        "cost": {
+            "wood": 5
+        }
+    }, {
+        "name": "Wooden Axe",
+        "type": "axe",
+        "damage": 10,
+        "texture": "wooden_axe",
+        "cost": {
+            "wood": 5
+        }
+    }, {
+        "name": "Wooden Pickaxe",
+        "type": "pickaxe",
+        "damage": 10,
+        "texture": "wooden_pickaxe",
+        "cost": {
+            "wood": 5
+        }
+    }
+
+]

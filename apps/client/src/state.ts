@@ -22,6 +22,11 @@ export const uiState = reactive({
     interactHint:{
         text: null as null | string,
         gameObject: null as null | Phaser.GameObjects.GameObject
+    },
+    /** Opens the craftmenu, stores the allowed items it can craft*/
+    craftmenu: {
+        allowed: null as null | string[],
+        buildingName: null as null | string
     }
 })
 

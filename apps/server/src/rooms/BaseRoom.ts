@@ -10,6 +10,7 @@ import { PlayerStartMove } from "../commands/PlayerStartMove";
 import { PlayerStopMove } from "../commands/PlayerStopMove";
 import { UseActiveTool } from "../commands/UseActiveTool";
 import { Build } from "../commands/Build";
+import { CraftItem } from "../commands/CraftItem";
 
 import { EventType } from "shared";
 
@@ -54,9 +55,17 @@ export class BaseRoom extends Room<ServerState> {
     this.onMessage(EventType.Build, (client, message) => {
       this.dispatcher.dispatch(new Build(), {
         type: message.type,
-        playerID: client.sessionId,
+        client,
         x: message.x,
         y: message.y
+      })
+    });
+
+    this.onMessage(EventType.CraftItem, (client, message) => {
+      this.dispatcher.dispatch(new CraftItem(), {
+        client,
+        itemName: message.itemName,
+        buildingName: message.buildingName
       })
     });
   }

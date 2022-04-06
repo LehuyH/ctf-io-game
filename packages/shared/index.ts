@@ -41,14 +41,15 @@ export interface IBuilding{
     ownerID: string;
 }
 
+export type Cost = Record<string, number>;
+
 export interface Item{
     name: string;
     type:ItemType;
     texture:string;
     damage:number;
+    cost?:Cost
 }
-
-export type Cost = Record<string, number>;
 
 export enum PlayerAnimState{
     IDLE = 'idle',
@@ -60,7 +61,8 @@ export enum EventType{
     PlayerStartMove = 'PlayerStartMove',
     PlayerStopMove = 'PlayerStopMove',
     UseActiveTool = 'UseActiveTool',
-    Build = 'Build'
+    Build = 'Build',
+    CraftItem = 'CraftItem'
 }
 
 export enum ItemType{

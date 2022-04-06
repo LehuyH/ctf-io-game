@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fadeInUp {
+    animation: fadeInUp .3s;
+}
+.fadeOutDown {
+    animation: fadeInUp .3s reverse;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) translateX(-50%) translateY(-50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%) translateY(-50%);
+    }
+}

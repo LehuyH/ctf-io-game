@@ -29,11 +29,13 @@ export default class Building extends Phaser.GameObjects.Sprite{
         body.onCollideCallback = (event:any) => {
             if(event.bodyA.label === `player-${useLocalPlayerID()}`){
                 this.emit("nearLocalPlayer")
+                this.isNearLocalPlayer = true
             }
         }
         body.onCollideEndCallback = (event:any) => {
             if(event.bodyA.label === `player-${useLocalPlayerID()}`){
                 this.emit("notNearLocalPlayer")
+                this.isNearLocalPlayer = false
             }
         }
     }

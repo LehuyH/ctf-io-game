@@ -29,11 +29,12 @@ export default class ConnectionManagerOnline{
 
     create(): void {
         this.patchState(this.room.state);
-        this.keys = this.scene.input.keyboard.addKeys("W,A,S,D") as Record<string,Phaser.Input.Keyboard.Key>;
+        this.keys = this.scene.input.keyboard.addKeys("W,A,S,D,E") as Record<string,Phaser.Input.Keyboard.Key>;
 
         //Register input handlers
         this.scene.input.on('pointerdown',()=>{
             if(uiState.isBuilding) return;
+            if(uiState.craftmenu.buildingName) return;
             this.inputs.useTool();
         })
         
@@ -114,6 +115,9 @@ export default class ConnectionManagerOnline{
         },
         useTool: ()=>{
             this.room.send(EventType.UseActiveTool)
+        },
+        craftItem: (itemName:string,buildingName:string)=>{
+            this.room.send(EventType.CraftItem,{itemName,buildingName})
         }
     }
 

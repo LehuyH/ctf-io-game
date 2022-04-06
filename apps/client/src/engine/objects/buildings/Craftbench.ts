@@ -20,6 +20,18 @@ export default class Craftbench extends Building {
         this.on("notNearLocalPlayer",()=>{
             uiState.interactHint.text = null
             uiState.interactHint.gameObject = null
+
+            uiState.craftmenu.buildingName = null
+            uiState.craftmenu.allowed = null
+        })
+        this.scene.input.keyboard.on("keydown-E",()=>{
+            if(this.isNearLocalPlayer){
+                uiState.craftmenu.allowed = ["Wooden Sword", "Wooden Axe", "Wooden Pickaxe"]
+                uiState.craftmenu.buildingName = "craftbench"
+
+                uiState.interactHint.text = null
+                uiState.interactHint.gameObject = null
+            }
         })
     }
     cleanup(): void {
