@@ -1,11 +1,21 @@
 [
     {
+        "name": "Headquarters",
+        "type": "headquarters",
+        "description": "The heart of any empire",
+        "icon": "/maps/overworld/buildings/headquarters.png",
+        "maxHealth": 100,
+        "cost": {
+            "wood": 100
+        }
+    },
+    {
         "name": "Crafting Bench",
         "type": "craftbench",
         "description": "Allows you to upgrade your tools and weapons",
         "icon": "/maps/overworld/buildings/craftbench.png",
         "maxHealth": 20,
-        "cost":{
+        "cost": {
             "wood": 20
         }
     }

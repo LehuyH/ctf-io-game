@@ -12,6 +12,7 @@ export default class BootScene extends Phaser.Scene{
       this.load.image('wooden_pickaxe','/items/wooden_pickaxe.png')
       this.load.tilemapTiledJSON('overworldMap', mapData)
       this.load.image('craftbench',"/maps/overworld/buildings/craftbench.png")
+      this.load.image('headquarters',"/maps/overworld/buildings/headquarters.png")
       this.load.once('complete',()=>{
         uiState.loaded = true
       })

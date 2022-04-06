@@ -35,7 +35,6 @@ export default class Player extends Phaser.GameObjects.Rectangle{
             velocityY: 0,
         })
         this.setName(config.id)
-
         //Set camera if local player
         if(config.id === useLocalPlayerID()){
             scene.cameras.main.startFollow(this)
@@ -43,7 +42,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         }
 
         //Create item
-        this.item = scene.add.sprite(config.x,config.y,'items',21)
+        this.item = scene.add.sprite(config.x,config.y,"wooden_axe")
 
         //Create HP Bar
         this.hpBar = scene.add.graphics()
