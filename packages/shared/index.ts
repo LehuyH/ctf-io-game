@@ -62,7 +62,8 @@ export enum EventType{
     PlayerStopMove = 'PlayerStopMove',
     UseActiveTool = 'UseActiveTool',
     Build = 'Build',
-    CraftItem = 'CraftItem'
+    CraftItem = 'CraftItem',
+    SetActiveItem = 'SetActiveItem'
 }
 
 export enum ItemType{

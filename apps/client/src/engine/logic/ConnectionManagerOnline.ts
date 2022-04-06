@@ -99,13 +99,17 @@ export default class ConnectionManagerOnline{
         },
         items:{
             set: (index:number)=>{
-                this.scene.serverEmulator?.actions.setItem(useLocalPlayerID(),index)
+                this.room.send(EventType.SetActiveItem,{index});
             },
             next: ()=>{
-                this.scene.serverEmulator?.actions.nextItem(useLocalPlayerID())
+                const localplayer = this.scene.state.getState("players",useLocalPlayerID());
+                const index = localplayer.equippedItemIndex + 1;
+                this.inputs.items.set(index);
             },
             prev: ()=>{
-                this.scene.serverEmulator?.actions.prevItem(useLocalPlayerID())
+                const localplayer = this.scene.state.getState("players",useLocalPlayerID());
+                const index = localplayer.equippedItemIndex - 1;
+                this.inputs.items.set(index);
             }
         },
         buildings: {

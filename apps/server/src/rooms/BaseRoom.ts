@@ -11,6 +11,7 @@ import { PlayerStopMove } from "../commands/PlayerStopMove";
 import { UseActiveTool } from "../commands/UseActiveTool";
 import { Build } from "../commands/Build";
 import { CraftItem } from "../commands/CraftItem";
+import { SetActiveItem } from "../commands/SetActiveItem";
 
 import { EventType } from "shared";
 
@@ -68,6 +69,13 @@ export class BaseRoom extends Room<ServerState> {
         buildingName: message.buildingName
       })
     });
+
+    this.onMessage(EventType.SetActiveItem, (client, message) => {
+      this.dispatcher.dispatch(new SetActiveItem(), {
+        client,
+        index: message.index
+      })
+    })
   }
 
   onJoin (client: Client, options: any) {
