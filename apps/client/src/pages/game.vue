@@ -5,6 +5,7 @@
         <BuildBar class="fixed top-0 left-0"/>
         <InteractHint/>
         <CraftMenu/>
+        <RegisterNation/>
     </main>
 </template>
 
@@ -14,6 +15,7 @@ import ItemsBar from '~/components/ItemsBar.vue';
 import BuildBar from '~/components/BuildBar.vue';
 import InteractHint from '~/components/InteractHint.vue';
 import CraftMenu from '~/components/CraftMenu.vue';
+import RegisterNation from '~/components/RegisterNationForm.vue';
 
 import { onMounted } from 'vue';
 import { game } from '~/engine/instance';

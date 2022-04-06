@@ -1,0 +1,59 @@
+import { Command } from "@colyseus/command";
+import { BaseRoom } from "../rooms/BaseRoom";
+import { Client } from "colyseus";
+import { Nation } from "../schema/state";
+import uniqid from "uniqid";
+
+interface IConfig{
+    name:string;
+    client: Client
+}
+
+export class RegisterNation extends Command<BaseRoom, IConfig> {
+    validate({name,client}:IConfig){
+        const player = this.state.players.get(client.sessionId)
+        if(!player) return false
+
+        //Already in a nation
+        if(player.nationID) return false
+
+        //Between 3-12 characters alphanumeric
+        if(name.length < 3 || name.length > 20) return false
+        if(!name.match(/^[a-zA-Z0-9]+$/)) return false
+
+        //Check if name is taken
+        const taken = Array.from(this.state.nations.values()).some(n=>n.name.toLowerCase() === name.toLowerCase())
+        if(taken) return false
+
+        //Check if by player owned headquarters
+        const collidedHQ = this.room.physics.getCollisions(`player-${client.sessionId}`).find(c=>c.endsWith("headquarters"))
+
+        if(!collidedHQ) return false
+        const hqState = this.state.buildings.get(collidedHQ.split("-")[1])
+  
+        if(hqState.ownerNationID) return false
+        if(hqState.ownerPlayerID !== client.sessionId) return false
+
+        return true
+    }
+    execute({name,client}:IConfig){
+        const player = this.state.players.get(client.sessionId)
+        const collidedHQ = this.room.physics.getCollisions(`player-${client.id}`).find(c=>c.endsWith("headquarters"))
+        const hqState = this.state.buildings.get(collidedHQ.split("-")[1])
+        
+        //Add nation to state
+        const nationID = uniqid()
+        const nation = new Nation({
+            name,
+            id: nationID
+        })
+        nation.playerIDs.push(client.sessionId)
+        this.state.nations.set(nationID,nation)
+
+        //Add nation to player
+        player.nationID = nationID
+        
+        //Add nation to headquarters
+        hqState.ownerNationID = nationID
+    }
+}

@@ -12,6 +12,7 @@ import { UseActiveTool } from "../commands/UseActiveTool";
 import { Build } from "../commands/Build";
 import { CraftItem } from "../commands/CraftItem";
 import { SetActiveItem } from "../commands/SetActiveItem";
+import { RegisterNation } from "../commands/RegisterNation";
 
 import { EventType } from "shared";
 
@@ -74,6 +75,13 @@ export class BaseRoom extends Room<ServerState> {
       this.dispatcher.dispatch(new SetActiveItem(), {
         client,
         index: message.index
+      })
+    })
+
+    this.onMessage(EventType.RegisterNation, (client, message) => {
+      this.dispatcher.dispatch(new RegisterNation(), {
+        client,
+        name: message.name
       })
     })
   }

@@ -26,6 +26,7 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
       texture: "wooden_axe",
       damage:10
    }))
+   newPlayer.inventory.set("wood",100)
     //Add player to physics
     this.room.physics.objects.addPlayerBody(this.state.players.get(client.sessionId) as Player);
   }

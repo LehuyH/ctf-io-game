@@ -2,11 +2,11 @@
     {
         "name": "Headquarters",
         "type": "headquarters",
-        "description": "The heart of any empire",
+        "description": "The heart of any empire. Build this to establish a nation!",
         "icon": "/maps/overworld/buildings/headquarters.png",
         "maxHealth": 100,
         "cost": {
-            "wood": 100
+            "wood": 0
         }
     },
     {

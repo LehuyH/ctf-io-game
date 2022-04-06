@@ -27,9 +27,14 @@ export default class ConnectionManagerOnline{
         Object.assign(this.scene.state.state,parsedState)
     }
 
+    get inputAllowed(){
+        if(uiState.showNationRegister) return false;
+        return true
+    }
+
     create(): void {
         this.patchState(this.room.state);
-        this.keys = this.scene.input.keyboard.addKeys("W,A,S,D,E") as Record<string,Phaser.Input.Keyboard.Key>;
+        this.keys = this.scene.input.keyboard.addKeys("W,A,S,D,E",false) as Record<string,Phaser.Input.Keyboard.Key>;
 
         //Register input handlers
         this.scene.input.on('pointerdown',()=>{
@@ -40,24 +45,28 @@ export default class ConnectionManagerOnline{
         
 
         this.keys.W.on('down',()=>{
+           if(!this.inputAllowed) return;
            this.inputs.start.up();
         })
         this.keys.W.on('up',()=>{
             this.inputs.stop.up();
         })
         this.keys.A.on('down',()=>{
+            if(!this.inputAllowed) return;
             this.inputs.start.left();
         })
         this.keys.A.on('up',()=>{
             this.inputs.stop.left();
         })
         this.keys.S.on('down',()=>{
+            if(!this.inputAllowed) return;
             this.inputs.start.down();
         })
         this.keys.S.on('up',()=>{
             this.inputs.stop.down();
         })
         this.keys.D.on('down',()=>{
+            if(!this.inputAllowed) return;
             this.inputs.start.right();
         })
         this.keys.D.on('up',()=>{
@@ -122,6 +131,9 @@ export default class ConnectionManagerOnline{
         },
         craftItem: (itemName:string,buildingName:string)=>{
             this.room.send(EventType.CraftItem,{itemName,buildingName})
+        },
+        registerNation: (name:string)=>{
+            this.room.send(EventType.RegisterNation,{name})
         }
     }
 

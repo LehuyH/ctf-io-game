@@ -5,36 +5,42 @@
          <Icon icon="ion:construct" v-if="!showBuildBar" />
          <Icon icon="zondicons:cheveron-left" v-else />
      </button>
-    <aside v-if="!selectedBuilding">
-        <h1 class="font-bold text-2xl">Buildings</h1>
-        <hr />
-        <ul class="mt-4">
-            <li v-for="b in buildingsData" class="p-2 inline-block">
-                <button @click="setBuilding(b)" :class="`${(checkCanBuild(b)) ? '' : 'opacity-50'} bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded`">
-                    <img class="m-auto w-12 h-12" :src="b.icon" />
-                </button>
-                <p class="text-sm m-auto text-center">{{b.name}}</p>
-            </li>
-        </ul>
-    </aside>
-    <aside v-else>
-        <h1 class="font-bold text-2xl">
-            <button @click="stopBuilding" class="bg-slate-100 p-2 rounded transition-colors hover:bg-slate-200 mb-2"><Icon icon="zondicons:cheveron-left"/></button>
-            {{selectedBuilding.name}}
-        </h1>
-        <hr />
-        <p>
-            {{selectedBuilding.description}}
-        </p>
-        <ul class="mt-4">
-            <li class="text-lg font-bold">Resources Needed</li>
-            <li v-for="(c,type) in selectedBuilding.cost">
-                <b class="capitalize">{{type}}:</b> {{c}}
-            </li>
-        </ul>
-        <p class="mt-12 text-red-500 font-bold text-xl" v-if="!canBuild">You do not have enough resources to build this!</p>
-        <p v-else class="text-xl font-bold mt-12">Click on the location where you want to build this.</p>
-    </aside>
+     <section>
+         <aside v-if="!selectedBuilding">
+             <h1 class="font-bold text-2xl">Buildings</h1>
+             <hr />
+             <ul class="mt-4">
+                 <li v-for="b in buildings" class="p-2 inline-block">
+                     <button @click="setBuilding(b)"
+                         :class="`${(checkCanBuild(b)) ? '' : 'opacity-50'} bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded`">
+                         <img class="m-auto w-12 h-12" :src="b.icon" />
+                     </button>
+                     <p class="text-sm m-auto text-center">{{b.name}}</p>
+                 </li>
+             </ul>
+         </aside>
+         <aside v-else>
+             <h1 class="font-bold text-2xl">
+                 <button @click="stopBuilding"
+                     class="bg-slate-100 p-2 rounded transition-colors hover:bg-slate-200 mb-2">
+                     <Icon icon="zondicons:cheveron-left" /></button>
+                 {{selectedBuilding.name}}
+             </h1>
+             <hr />
+             <p>
+                 {{selectedBuilding.description}}
+             </p>
+             <ul class="mt-4">
+                 <li class="text-lg font-bold">Resources Needed</li>
+                 <li v-for="(c,type) in selectedBuilding.cost">
+                     <b class="capitalize">{{type}}:</b> {{c}}
+                 </li>
+             </ul>
+             <p class="mt-12 text-red-500 font-bold text-xl" v-if="!canBuild">You do not have enough resources to build
+                 this!</p>
+             <p v-else class="text-xl font-bold mt-12">Click on the location where you want to build this.</p>
+         </aside>
+     </section>
     </section>
 </template>
 
@@ -52,6 +58,16 @@
     const selectedBuilding = ref<any>(null);
     const scene = useScene();
     const localPlayer = useLocalPlayer();
+
+    const isInNation = computed(() => {
+        return localPlayer.value?.nationID
+    });
+
+    const buildings = computed(() => {
+        //Must build HQ first
+        if(!isInNation.value) return buildingsData.filter(b => b.type === 'headquarters');
+        return buildingsData.filter(b => b.type !== 'headquarters');
+    });
 
     const sideBarClasses = computed(() => {
         return {

@@ -13,7 +13,8 @@ const localPlayer = computed(() => {
 export const state = reactive<IState>({
     players: {},
     harvestables: {},
-    buildings: {}
+    buildings: {},
+    nations: {},
 })
 
 export const uiState = reactive({
@@ -21,13 +22,15 @@ export const uiState = reactive({
     loaded: false,
     interactHint:{
         text: null as null | string,
-        gameObject: null as null | Phaser.GameObjects.GameObject
+        gameObject: null as null | Phaser.GameObjects.GameObject,
     },
+    tooltip: null as null | string,
     /** Opens the craftmenu, stores the allowed items it can craft*/
     craftmenu: {
         allowed: null as null | string[],
         buildingName: null as null | string
-    }
+    },
+    showNationRegister: false,
 })
 
 export const resetState = () => {

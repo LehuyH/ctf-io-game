@@ -30,7 +30,7 @@ export default Arena({
          * It is recommended to protect this route with a password.
          * Read more: https://docs.colyseus.io/tools/monitor/
          */
-        //app.use("/colyseus", monitor());
+        app.use("/colyseus", monitor());
     },
 
 
