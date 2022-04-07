@@ -25,10 +25,16 @@
              </h1>
              <hr />
              <br>
-             <button v-if="!localNation"
+             <button v-if="!localNation && !requestedToJoin"
                  @click="requestJoin"
                  class="rounded text-white font-semibold px-4 py-2 bg-slate-500 transition-colors hover:bg-slate-400">
                  Request To Join
+                 <Icon icon="ion:enter" class="inline-block" />
+             </button>
+             <button v-else-if="!localNation" 
+                 disabled
+                 class="rounded text-white font-semibold px-4 py-2 bg-slate-500 transition-colors opacity-30">
+                 Your Request Was Sent
                  <Icon icon="ion:enter" class="inline-block" />
              </button>
              <button v-if="isInSelectedNation"
@@ -117,6 +123,11 @@
         if(!selectedNation.value) return;
        scene.value?.connection.inputs.requestJoin(selectedNation.value.id);
     }
+
+    const requestedToJoin = computed(()=>{
+        if(!selectedNation.value) return false;
+        return selectedNation.value.joinRequests.some((r:any) => r.publicID === localPlayer.value?.publicID);
+    })
 
     function acceptJoin(playerID:string){
         if(!selectedNation.value) return;
