@@ -6,7 +6,7 @@
         "icon": "/maps/overworld/buildings/headquarters.png",
         "maxHealth": 100,
         "cost": {
-            "wood": 0
+            "wood": 100
         }
     },
     {
