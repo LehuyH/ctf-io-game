@@ -95,7 +95,7 @@
     });
 
     onUnmounted(()=>{
-        selectedNation.value = null;
+        selectedNationID.value = null;
     });
 
     const nations = computed<INation[]>(() => {
