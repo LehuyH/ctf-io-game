@@ -19,7 +19,6 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
 
         //Between 3-12 characters alphanumeric
         if(name.length < 3 || name.length > 20) return false
-        if(!name.match(/^[a-zA-Z0-9]+$/)) return false
 
         //Check if name is taken
         const taken = Array.from(this.state.nations.values()).some(n=>n.name.toLowerCase() === name.toLowerCase())
