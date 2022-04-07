@@ -4,7 +4,7 @@
         <ul>
             <li v-for="players,teamName in leaderboard">
                 <details>
-                    <summary class="font-semibold text-md px-2" :style="`background-color:${nationColors[teamName]};`">
+                    <summary class="font-semibold text-md px-2 text-outline" :style="`background-color:${nationColors[teamName]};`">
                         {{teamName}} ({{players.length}})
                     </summary>
                     <ul class="px-4">
