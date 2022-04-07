@@ -11,6 +11,9 @@
                     <Icon icon="bi:flag-fill" class="inline-block text-white" />
                     <span class="ml-2 text-outline text-white font-bold">{{nation.name}}</span>
                 </button>
+                <p v-if="nations.length === 0" class="font-bold">
+                    No nations have been established on this server. Will you be the first?
+                </p>
              </div>
          </aside>
          <aside v-else>

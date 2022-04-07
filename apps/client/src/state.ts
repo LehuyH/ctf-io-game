@@ -1,4 +1,4 @@
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, watchEffect } from "vue";
 import { IState } from "shared";
 import ClientRoom from "./engine/types/ClientRoom";
 
@@ -56,3 +56,11 @@ export const setScene = (newScene: ClientRoom) => {
 export const useScene = () => {
     return scene;
 }
+
+//Save authID to localStorage
+watchEffect(()=>{
+    const connection = scene.value?.connection;
+    if(localPlayer.value && connection?.room){
+        localStorage.setItem(`${connection.room.id}-authID`,localPlayer.value.authID)
+    }
+})

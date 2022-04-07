@@ -1,4 +1,5 @@
-import { Schema, MapSchema, type, ArraySchema } from "@colyseus/schema";
+import { Schema, MapSchema, type, ArraySchema, filter } from "@colyseus/schema";
+import { Client } from "colyseus";
 import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, INation, IPlayerSummary } from "shared";
 import { Item as ItemInterface } from "shared";
 import { ServerBody } from "../logic/ServerBody";
@@ -49,7 +50,7 @@ export class Item extends Schema implements ItemInterface{
 
 export class Player extends Schema implements IPlayer{
     @type("string") name:string;
-    @type("string") nationID:string|null = null;
+    @type("string") nationID:string|null;
     @type("string") sessionID: string;
     @type("string") publicID: string;
     @type("string") anim: PlayerAnimState;
@@ -64,6 +65,12 @@ export class Player extends Schema implements IPlayer{
     @type("number") equippedItemIndex: number;
     @type([ Item ]) items: Item[] = new ArraySchema<Item>();
 
+    //Private values
+    @filter(function(this: Player,client:Client,value:Player['authID'],root:Schema){
+        return client.sessionId === this.sessionID;
+    })
+    @type("string") authID: string;
+
     //Server only
     body: ServerBody;
     move = {
@@ -72,7 +79,6 @@ export class Player extends Schema implements IPlayer{
         up:false,
         down:false
     }
-    authID: string;
 }
 
 

@@ -11,7 +11,7 @@ interface IConfig{
 export class AcceptJoinRequest extends Command<BaseRoom, IConfig> {
     validate({playerID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID)
+        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID) || this.room.db.players.getPlayerByPublicID(playerID)
 
         if(!player || !joiningPlayer) return false
         const nation = this.state.nations.get(player.nationID)
@@ -27,8 +27,11 @@ export class AcceptJoinRequest extends Command<BaseRoom, IConfig> {
     }
     execute({playerID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID)
+        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID) || this.room.db.players.getPlayerByPublicID(playerID)
         const nation = this.state.nations.get(player.nationID)
+
+        //Save to storage
+        this.room.db.players.savePlayer(joiningPlayer)
 
         //Remove request to all nations
         this.state.nations.forEach(n=>{
@@ -40,6 +43,7 @@ export class AcceptJoinRequest extends Command<BaseRoom, IConfig> {
             name: joiningPlayer.name,
             publicID: joiningPlayer.publicID
         }))
+
         joiningPlayer.nationID = nation.id
     }
 }

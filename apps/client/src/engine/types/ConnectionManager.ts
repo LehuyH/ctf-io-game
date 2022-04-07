@@ -1,4 +1,7 @@
+import { Room } from "colyseus.js";
+
 export default interface ConnectionManager {
+    room?: Room;
     inputs:{
         start: {
             up: () => void;

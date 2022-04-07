@@ -11,6 +11,9 @@ export class PlayerLeave extends Command<BaseRoom, IConfig> {
     //Remove player from Physics
     const player = this.state.players.get(client.sessionId);
     this.room.physics.objects.removePlayerBody(player);
+    
+    //Save player state in storage
+    this.room.db.players.savePlayer(player);
 
     //Remove player from state
     this.state.players.delete(client.sessionId);
