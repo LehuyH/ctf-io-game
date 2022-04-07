@@ -4,10 +4,11 @@
          class="bg-slate-200 p-8 fixed z-10 top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] rounded shadow-md max-w-xl w-full mx-4">
          <h1 class="font-bold text-2xl">Register Your New Nation</h1>
          <form @submit.prevent="registerNation" class="my-4">
-             <label>Nation Name</label>
+             <label class="block">Nation Name</label>
              <input required minlength="3" maxlength="20" type="text" v-model="nationName" class="w-full p-2 rounded" />
-             <label>Nation Color</label>
-             <br>
+             <label class="block">Nation Tag</label>
+             <input required minlength="2" maxlength="5" type="text" v-model="nationTag" class="p-2 rounded" />
+             <label class="block">Nation Color</label>
              <input required type="color" v-model="nationColor"/>
              <br><br>
              <button
@@ -27,6 +28,7 @@ import { uiState, useScene } from "~/state";
 import { onClickOutside } from "@vueuse/core";
 
 const nationName = ref<string|null>(null);
+const nationTag = ref<string|null>(null);
 const nationColor = ref<string|null>("#0984e3");
 const registerNationContainer = ref(null);
 const scene = useScene()
@@ -44,10 +46,10 @@ watchEffect(()=>{
 })
 
 function registerNation(){
-    if(!nationName.value || !nationColor.value){
+    if(!nationName.value || !nationColor.value || !nationTag.value){
         return;
     }
-    scene.value?.connection.inputs.registerNation(nationName.value,nationColor.value)
+    scene.value?.connection.inputs.registerNation(nationName.value,nationTag.value,nationColor.value)
     uiState.showNationRegister = false;
 }
 </script>

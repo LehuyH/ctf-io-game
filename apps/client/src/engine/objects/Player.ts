@@ -98,6 +98,8 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         const player = this as any
         if(!this.body) return
 
+        const nation = (this.scene as ClientRoom).state.getState("nations",player.getData('nationID') || '')
+
         try {
             this.moveTween = this.scene.tweens.add({
                 targets: [this],
@@ -143,6 +145,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         //Update nametag location
         this.nameTag.x = this.x
         this.nameTag.y = this.y - 30
+        this.nameTag.setText(`${(nation) ? `[${nation.tag}]` : ''} ${player.getData('name')}`)
     }
 
     updateItem(){

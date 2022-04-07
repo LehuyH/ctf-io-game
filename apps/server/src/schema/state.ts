@@ -22,6 +22,7 @@ export class PlayerSummary extends Schema implements IPlayerSummary {
 export class Nation extends Schema implements INation{
     @type("string") id: string;
     @type("string") name: string;
+    @type("string") tag: string;
     @type("string") color: string;
     @type("boolean") isProtected: boolean = false;
     @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();

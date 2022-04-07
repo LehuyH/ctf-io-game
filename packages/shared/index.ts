@@ -29,6 +29,7 @@ export interface IPlayerSummary {
 
 export interface INation{
     name: string;
+    tag: string;
     id: string;
     color: string;
     isProtected: boolean;

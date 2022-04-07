@@ -132,8 +132,8 @@ export default class ConnectionManagerOnline{
         craftItem: (itemName:string,buildingName:string)=>{
             this.room.send(EventType.CraftItem,{itemName,buildingName})
         },
-        registerNation: (name:string,color:string)=>{
-            this.room.send(EventType.RegisterNation,{name,color})
+        registerNation: (name:string,tag:string,color:string)=>{
+            this.room.send(EventType.RegisterNation,{name,tag,color})
         },
         requestJoin: (nationID:string)=>{
             this.room.send(EventType.RequestJoinNation,{nationID})
