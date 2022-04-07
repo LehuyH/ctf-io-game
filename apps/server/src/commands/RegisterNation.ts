@@ -29,8 +29,8 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
         if(name.length < 3 || name.length > 20) return false
 
         //Check if name or is taken
-        const nameTaken = Array.from(this.state.nations.values()).some(n=>n.name.toLowerCase() === name.toLowerCase())
-        const tagTaken = Array.from(this.state.nations.values()).some(n=>n.tag.toLowerCase() === tag.toLowerCase())
+        const nameTaken = Array.from(this.state.nations.values()).some(n=>n.name.toLowerCase().trim() === name.toLowerCase().trim())
+        const tagTaken = Array.from(this.state.nations.values()).some(n=>n.tag.toLowerCase().trim() === tag.toLowerCase().trim())
         if(nameTaken || tagTaken) return false
 
         //Check if by player owned headquarters
