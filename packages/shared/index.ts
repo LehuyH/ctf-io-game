@@ -2,12 +2,16 @@ export interface IState {
     players: Record<string, IPlayer>|any
     harvestables: Record<string, IHarvestable>|any
     buildings: Record<string, IBuilding>|any
+    nations: Record<string, INation>|any
 }
 
 export interface IPlayer {
     name:string;
-    id: string;
+    sessionID: string;
+    authID: string;
+    publicID: string;
     anim: PlayerAnimState;
+    nationID:string|null;
     x: number;
     y: number;
     speed: number;
@@ -18,6 +22,21 @@ export interface IPlayer {
     inventory: Record<string, number>|any;
     equippedItemIndex: number;
     items: Item[];
+}
+
+export interface IPlayerSummary {
+    name: string;
+    publicID: string;
+}
+
+export interface INation{
+    name: string;
+    tag: string;
+    id: string;
+    color: string;
+    isProtected: boolean;
+    members: IPlayerSummary[]|any;
+    joinRequests: IPlayerSummary[]|any;
 }
 
 export interface IHarvestable {
@@ -38,7 +57,8 @@ export interface IBuilding{
     health: number;
     maxHealth: number;
     type: string;
-    ownerID: string;
+    ownerPlayerID: string;
+    ownerNationID: string;
 }
 
 export type Cost = Record<string, number>;
@@ -63,7 +83,12 @@ export enum EventType{
     UseActiveTool = 'UseActiveTool',
     Build = 'Build',
     CraftItem = 'CraftItem',
-    SetActiveItem = 'SetActiveItem'
+    SetActiveItem = 'SetActiveItem',
+    RegisterNation = 'RegisterNation',
+    RequestJoinNation = 'RequestJoinNation',
+    AcceptJoinRequest = 'AcceptJoinRequest',
+    RejectJoinRequest = 'RejectJoinRequest',
+    LeaveNation = 'LeaveNation'
 }
 
 export enum ItemType{

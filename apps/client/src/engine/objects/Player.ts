@@ -22,28 +22,27 @@ export default class Player extends Phaser.GameObjects.Rectangle{
             inertia: Infinity,
             mass:100,
             isSensor: true,
-            label: `player-${config.id}-collider`
+            label: `player-${config.sessionID}-collider`
         })
         //Interact body
         this.interactBody = this.scene.matter.add.circle(config.x,config.y,30,{
             isSensor: true,
-            label: `player-${config.id}`
+            label: `player-${config.sessionID}`
         })
 
         this.setData({
             velocityX: 0,
             velocityY: 0,
         })
-        this.setName(config.id)
-
+        this.setName(config.sessionID)
         //Set camera if local player
-        if(config.id === useLocalPlayerID()){
+        if(config.sessionID === useLocalPlayerID()){
             scene.cameras.main.startFollow(this)
             this.local = true
         }
 
         //Create item
-        this.item = scene.add.sprite(config.x,config.y,'items',21)
+        this.item = scene.add.sprite(config.x,config.y,"wooden_axe")
 
         //Create HP Bar
         this.hpBar = scene.add.graphics()
@@ -99,6 +98,8 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         const player = this as any
         if(!this.body) return
 
+        const nation = (this.scene as ClientRoom).state.getState("nations",player.getData('nationID') || '')
+
         try {
             this.moveTween = this.scene.tweens.add({
                 targets: [this],
@@ -144,6 +145,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
         //Update nametag location
         this.nameTag.x = this.x
         this.nameTag.y = this.y - 30
+        this.nameTag.setText(`${(nation) ? `[${nation.tag}]` : ''} ${player.getData('name')}`)
     }
 
     updateItem(){

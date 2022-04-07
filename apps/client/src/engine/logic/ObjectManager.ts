@@ -56,6 +56,13 @@ export default class ObjectManager{
             return acc
         },{} as Record<string,any>)
 
+        //If value does not exist in targetState, explicitly set it to null
+        for(const key in currentState){
+            if(targetState[key] === undefined){
+                diff[key] = null
+            }
+        }
+
         if(Object.keys(diff).length === 0) return
         if(targetState){
             target.setData(diff)

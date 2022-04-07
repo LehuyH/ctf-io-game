@@ -110,7 +110,7 @@ export default class StateSyncerOffline {
         
         //Create object locally if it does not exist
         Object.values(state).forEach((ref:any)=>{
-            if(!objects[ref.id]){
+            if(!objects[ref.id] && !objects[ref.sessionID]){
                 (this.scene.objects as any)[creatorFunctions[type]](ref)
             }
         })

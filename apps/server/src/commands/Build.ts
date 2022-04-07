@@ -19,6 +19,16 @@ export class Build extends Command<BaseRoom, IConfig> {
         const player = this.room.state.players.get(client.sessionId)
         if(!building || !player) return false
 
+        if(type !== 'headquarters' && !player.nationID) return false
+
+        //Only one headquarters per nation
+        if(type === 'headquarters'){
+            if(player.nationID){
+                const nationHQ = [...this.state.buildings.values()].find(b=>b.type === "headquarters" && b.ownerNationID === player.nationID)
+                if(nationHQ) return false
+            }
+        }
+
         //Check if they have enough resources
         const cost = building.cost
         if(!canPay(cost,player.inventory as any)) return false
@@ -59,7 +69,8 @@ export class Build extends Command<BaseRoom, IConfig> {
             type,
             x,
             y,
-            ownerID: client.sessionId,
+            ownerPlayerID: player.publicID,
+            ownerNationID: player.nationID,
             health: building.maxHealth,
             maxHealth: building.maxHealth,
         })

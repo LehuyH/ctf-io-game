@@ -1,4 +1,5 @@
 import CraftbenchBody from './buildings/CraftbenchBody';
 export default{
-    "craftbench":CraftbenchBody
+    "craftbench":CraftbenchBody,
+    "headquarters":CraftbenchBody
 } as Record<string,any>

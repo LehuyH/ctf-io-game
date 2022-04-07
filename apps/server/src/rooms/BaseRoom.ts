@@ -12,12 +12,19 @@ import { UseActiveTool } from "../commands/UseActiveTool";
 import { Build } from "../commands/Build";
 import { CraftItem } from "../commands/CraftItem";
 import { SetActiveItem } from "../commands/SetActiveItem";
+import { RegisterNation } from "../commands/RegisterNation";
+import { RequestJoinNation } from "../commands/RequestJoinNation";
+import { AcceptJoinRequest } from "../commands/AcceptJoinRequest";
+import { RejectJoinRequest } from "../commands/RejectJoinRequest";
+import { LeaveNation } from "../commands/LeaveNation";
 
 import { EventType } from "shared";
+import Database from "../logic/Database";
 
 export class BaseRoom extends Room<ServerState> {
   physics: ServerPhysics;
   dispatcher = new Dispatcher(this);
+  db = new Database();
   autoDispose = false;
 
   onCreate(options: any) {
@@ -76,12 +83,49 @@ export class BaseRoom extends Room<ServerState> {
         index: message.index
       })
     })
+
+    this.onMessage(EventType.RegisterNation, (client, message) => {
+      this.dispatcher.dispatch(new RegisterNation(), {
+        client,
+        name: message.name,
+        color: message.color,
+        tag: message.tag
+      })
+    })
+
+    this.onMessage(EventType.RequestJoinNation, (client, message) => {
+      this.dispatcher.dispatch(new RequestJoinNation(), {
+        client,
+        nationID: message.nationID
+      })
+    })
+
+    this.onMessage(EventType.AcceptJoinRequest, (client, message) => {
+      this.dispatcher.dispatch(new AcceptJoinRequest(), {
+        client,
+        playerID: message.playerID
+      })
+    })
+
+    this.onMessage(EventType.RejectJoinRequest, (client, message) => {
+      this.dispatcher.dispatch(new RejectJoinRequest(), {
+        client,
+        playerID: message.playerID
+      })
+    })
+
+    this.onMessage(EventType.LeaveNation, (client) => {
+      this.dispatcher.dispatch(new LeaveNation(), {
+        client
+      })
+    })
   }
 
   onJoin (client: Client, options: any) {
     console.log(client.sessionId, "joined!");
     this.dispatcher.dispatch(new PlayerJoin(),{
       name: options.name,
+      authID: options.authID,
       client
     });
   }
