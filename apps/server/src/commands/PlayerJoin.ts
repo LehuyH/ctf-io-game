@@ -2,7 +2,7 @@ import { Command } from "@colyseus/command";
 import { BaseRoom } from "../rooms/BaseRoom";
 import { Item, Player } from "../schema/state";
 import { Client } from "colyseus";
-import { ItemType } from 'shared'
+import { IPlayer, ItemType } from 'shared'
 import uniqid from 'uniqid'
 
 interface IConfig{
@@ -12,14 +12,25 @@ interface IConfig{
 }
 
 export class PlayerJoin extends Command<BaseRoom, IConfig> {
-  validate({authID}: IConfig){
-    if(!authID) return true
-    const playerSave = this.state.players.get(authID)
-    if(!playerSave) return true
+  validate({authID, name}: IConfig){
+      //Prevent duplicate names
+      const nameTaken = (
+        Array.from(this.state.players.values()).find(p => p.name.toLowerCase().trim() === name.toLowerCase().trim()) || 
+        this.room.db.players.getAll().find((p:IPlayer) => p.name.toLowerCase().trim() === name.toLowerCase().trim())
+      )
+    
+      if (nameTaken){
+        throw new Error("That nickname is taken!")
+      }
 
-    //Preventing joining twice
-    if(Array.from(this.state.players.values()).find(p=>p.publicID === playerSave.publicID)) return false
-    return true
+      if (!authID) return true
+      const playerSave = this.state.players.get(authID)
+      if (!playerSave) return true
+
+      //Preventing joining twice
+      if (Array.from(this.state.players.values()).find(p => p.publicID === playerSave.publicID)) return false
+
+      return true
   }
 
   execute({ name, client, authID }: IConfig) {
@@ -60,7 +71,6 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
     playerState.items.forEach(item=>{
       newPlayer.items.push(new Item(item))
     })
-    
     //Restore inventory
     for(const key in playerState.inventory){
       //@ts-ignore

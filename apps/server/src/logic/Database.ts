@@ -20,6 +20,9 @@ export default class Database{
             },
             getPlayerByPublicID: (publicID:string) => {
                 return Object.values(this.playersStorage).find(player => player.publicID === publicID)
+            },
+            getAll:()=>{
+                return Object.values(this.playersStorage)
             }
        }
 }

@@ -63,9 +63,17 @@ watchEffect(()=>{
 })
 
 async function joinRoom() {
-    if(!selectedRoom.value) return;
-    await connection.joinRoom(selectedRoom.value.roomId, {name:nickname.value, authID:authID.value});
-    selectedRoom.value = null;
-    router.push("/game")
+    if (!selectedRoom.value) return;
+    try {
+        await connection.joinRoom(selectedRoom.value.roomId, {
+            name: nickname.value,
+            authID: authID.value
+        });
+        selectedRoom.value = null;
+        router.push("/game")
+    } catch (err) {
+        console.error(err);
+        alert(err);
+    }
 }
 </script>
