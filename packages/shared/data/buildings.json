@@ -2,7 +2,7 @@
     {
         "name": "Headquarters",
         "type": "headquarters",
-        "description": "The heart of any empire. Build this to establish a nation!",
+        "description": "The heart of any empire. Build this to establish a nation! Each nation can only have one HQ.",
         "icon": "/maps/overworld/buildings/headquarters.png",
         "maxHealth": 100,
         "cost": {

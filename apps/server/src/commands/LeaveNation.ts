@@ -31,10 +31,10 @@ export class LeaveNation extends Command<BaseRoom, IConfig> {
         //Remove nation if no one is in it
         if(nation.members.length === 0){
             const nationHQ = [...this.state.buildings.values()].find(b=>b.type === "headquarters" && b.ownerNationID === nation.id)
+            this.state.nations.delete(nation.id)
+            if(!nationHQ) return;
             nationHQ.ownerNationID = null
             nationHQ.ownerPlayerID = player.publicID
-
-            this.state.nations.delete(nation.id)
         }
     }
 }
