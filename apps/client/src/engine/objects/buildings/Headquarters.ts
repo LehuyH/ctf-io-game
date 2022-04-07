@@ -18,13 +18,14 @@ export default class Headquarters extends Building {
             const nationID = this.getData("ownerNationID")
             const localPlayerID = useLocalPlayerID()
             const ownerPlayerID = this.getData("ownerPlayerID")
-
             //Unregistered nation, prompt to register
             if(ownerPlayerID === localPlayerID && !nationID){
                 uiState.interactHint.text = "register your nation!"
                 uiState.interactHint.gameObject = this
                 return
             }
+
+            if(!nationID) return
 
             const nation = (this.scene as ClientRoom).state.getState("nations",nationID)
             uiState.tooltip = `${nation.name}'s headquarters`
@@ -38,7 +39,10 @@ export default class Headquarters extends Building {
             uiState.showNationRegister = false
         })
         this.scene.input.keyboard.on("keydown-E",()=>{
-            if(this.isNearLocalPlayer){
+            const localPlayerID = useLocalPlayerID()
+            const ownerPlayerID = this.getData("ownerPlayerID")
+            const nationID = this.getData("ownerNationID")
+            if(this.isNearLocalPlayer && localPlayerID === ownerPlayerID && !nationID){
                 uiState.showNationRegister = true
                 uiState.interactHint.text = null
             }

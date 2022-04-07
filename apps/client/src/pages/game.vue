@@ -2,10 +2,11 @@
     <main>
         <ResourceBar class="fixed bottom-0 right-0 rounded-tl"/>
         <ItemsBar class="fixed w-screen bottom-[5%] right-0"/>
-        <BuildBar class="fixed top-0 left-0"/>
+        <SideBar class="fixed top-0 left-0"/>
         <InteractHint/>
         <CraftMenu/>
         <RegisterNation/>
+        <Leaderboard/>
     </main>
 </template>
 
@@ -16,6 +17,8 @@ import BuildBar from '~/components/BuildBar.vue';
 import InteractHint from '~/components/InteractHint.vue';
 import CraftMenu from '~/components/CraftMenu.vue';
 import RegisterNation from '~/components/RegisterNationForm.vue';
+import Leaderboard from '~/components/Leaderboard.vue';
+import SideBar from '~/components/SideBar.vue';
 
 import { onMounted } from 'vue';
 import { game } from '~/engine/instance';

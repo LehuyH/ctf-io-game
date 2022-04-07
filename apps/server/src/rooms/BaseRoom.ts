@@ -81,7 +81,8 @@ export class BaseRoom extends Room<ServerState> {
     this.onMessage(EventType.RegisterNation, (client, message) => {
       this.dispatcher.dispatch(new RegisterNation(), {
         client,
-        name: message.name
+        name: message.name,
+        color: message.color
       })
     })
   }

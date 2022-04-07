@@ -6,13 +6,17 @@ import uniqid from "uniqid";
 
 interface IConfig{
     name:string;
+    color:string;
     client: Client
 }
 
 export class RegisterNation extends Command<BaseRoom, IConfig> {
-    validate({name,client}:IConfig){
+    validate({name,client,color}:IConfig){
         const player = this.state.players.get(client.sessionId)
         if(!player) return false
+
+        //Color must be valid hex
+        if(!/^#[0-9A-F]{6}$/i.test(color)) return false
 
         //Already in a nation
         if(player.nationID) return false
@@ -35,7 +39,7 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
 
         return true
     }
-    execute({name,client}:IConfig){
+    execute({name,client,color}:IConfig){
         const player = this.state.players.get(client.sessionId)
         const collidedHQ = this.room.physics.getCollisions(`player-${client.id}`).find(c=>c.endsWith("headquarters"))
         const hqState = this.state.buildings.get(collidedHQ.split("-")[1])
@@ -47,6 +51,7 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
             id: nationID
         })
         nation.playerIDs.push(client.sessionId)
+        nation.color = color
         this.state.nations.set(nationID,nation)
 
         //Add nation to player

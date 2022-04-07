@@ -6,6 +6,9 @@
          <form @submit.prevent="registerNation" class="my-4">
              <label>Nation Name</label>
              <input required minlength="3" maxlength="20" type="text" v-model="nationName" class="w-full p-2 rounded" />
+             <label>Nation Color</label>
+             <br>
+             <input required type="color" v-model="nationColor"/>
              <br><br>
              <button
                  class="rounded px-4 py-2 bg-blue-500 hover:bg-blue-400 transition-colors text-white font-bold m-auto block text-center">
@@ -24,6 +27,7 @@ import { uiState, useScene } from "~/state";
 import { onClickOutside } from "@vueuse/core";
 
 const nationName = ref<string|null>(null);
+const nationColor = ref<string|null>("#0984e3");
 const registerNationContainer = ref(null);
 const scene = useScene()
 
@@ -40,10 +44,10 @@ watchEffect(()=>{
 })
 
 function registerNation(){
-    if(!nationName.value){
+    if(!nationName.value || !nationColor.value){
         return;
     }
-    scene.value?.connection.inputs.registerNation(nationName.value)
+    scene.value?.connection.inputs.registerNation(nationName.value,nationColor.value)
     uiState.showNationRegister = false;
 }
 </script>

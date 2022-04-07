@@ -16,7 +16,7 @@ export default interface ConnectionManager {
         }
         useTool: ()=>void;
         craftItem: (itemName:string,buildingName:string)=>void;
-        registerNation: (name:string)=>void;
+        registerNation: (name:string,color:string)=>void;
     }
     create(): void;
     update(time: number, delta: number): void;
