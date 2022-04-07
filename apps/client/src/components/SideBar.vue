@@ -10,6 +10,7 @@
             <Icon icon="akar-icons:circle-x-fill" />
          </button>
         <BuildBar v-if="sideBarPage==='build'"/>
+        <NationBar v-else-if="sideBarPage==='nations'"/>
         <aside v-else>
             <button @click="sideBarPage='build'" class="p-12 my-2 text-2xl font-bold w-full bg-slate-100 transition-colors hover:bg-slate-50 rounded">
                 Build <Icon icon="ion:construct" class="inline-block"/>
@@ -28,13 +29,14 @@
     import { onClickOutside } from '@vueuse/core';
     import { useScene } from '~/state';
     import BuildBar from './BuildBar.vue';
+    import NationBar from './NationBar.vue';
         
     const showSideBar = ref(false);
     const buildBar = ref(null);
     const scene = useScene();
 
     type SideBarPage = null|'build'|'nations';
-    const sideBarPage = ref<SideBarPage>('build');
+    const sideBarPage = ref<SideBarPage>(null);
 
     const sideBarClasses = computed(() => {
         return {
