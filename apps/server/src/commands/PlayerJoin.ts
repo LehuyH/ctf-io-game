@@ -28,7 +28,9 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
       if (!playerSave) return true
 
       //Preventing joining twice
-      if (Array.from(this.state.players.values()).find(p => p.publicID === playerSave.publicID)) return false
+      if (Array.from(this.state.players.values()).find(p => p.publicID === playerSave.publicID)){
+        throw new Error("You are already in the game!")
+      }
 
       return true
   }
