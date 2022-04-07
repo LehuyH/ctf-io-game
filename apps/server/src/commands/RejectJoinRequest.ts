@@ -1,7 +1,6 @@
 import { Command } from "@colyseus/command";
 import { BaseRoom } from "../rooms/BaseRoom";
 import { Client } from "colyseus";
-import { PlayerSummary } from "../schema/state";
 
 interface IConfig{
     playerID:string;
@@ -16,11 +15,10 @@ export class RejectJoinRequest extends Command<BaseRoom, IConfig> {
         if(!nation) return false
 
         //Confirm that player is part of the nation
-        if(nation.members.findIndex(p=>p.id === player.id) === -1) return false
+        if(nation.members.findIndex(p=>p.publicID === player.publicID) === -1) return false
 
         //Confirm that request exists
-        const requestExists = nation.joinRequests.some(p=>p.id === playerID)
-        console.log("SEESH")
+        const requestExists = nation.joinRequests.some(p=>p.publicID === playerID)
         return requestExists
     }
     execute({playerID,client}:IConfig){
@@ -28,6 +26,6 @@ export class RejectJoinRequest extends Command<BaseRoom, IConfig> {
         const nation = this.state.nations.get(player.nationID)
 
         //Remove request to this nations
-        nation.joinRequests = nation.joinRequests.filter(p=>p.id !== playerID)
+        nation.joinRequests = nation.joinRequests.filter(p=>p.publicID !== playerID)
     }
 }

@@ -2,7 +2,7 @@ import { IBuilding } from 'shared'
 import Building from './index';
 import HeadquartersBody from 'shared/bodies/buildings/HeadquartersBody';
 import ClientRoom from '~/engine/types/ClientRoom';
-import { uiState, useLocalPlayerID } from '~/state';
+import { uiState, useLocalPlayer, useLocalPlayerID } from '~/state';
 
 
 export default class Headquarters extends Building {
@@ -16,10 +16,11 @@ export default class Headquarters extends Building {
         super.create()
         this.on("nearLocalPlayer",()=>{
             const nationID = this.getData("ownerNationID")
-            const localPlayerID = useLocalPlayerID()
+            const localPlayer = useLocalPlayer()
             const ownerPlayerID = this.getData("ownerPlayerID")
+            
             //Unregistered nation, prompt to register
-            if(ownerPlayerID === localPlayerID && !nationID){
+            if(ownerPlayerID === localPlayer.value?.publicID && !nationID){
                 uiState.interactHint.text = "register your nation!"
                 uiState.interactHint.gameObject = this
                 return
@@ -39,10 +40,10 @@ export default class Headquarters extends Building {
             uiState.showNationRegister = false
         })
         this.scene.input.keyboard.on("keydown-E",()=>{
-            const localPlayerID = useLocalPlayerID()
+            const localPlayer = useLocalPlayer()
             const ownerPlayerID = this.getData("ownerPlayerID")
             const nationID = this.getData("ownerNationID")
-            if(this.isNearLocalPlayer && localPlayerID === ownerPlayerID && !nationID){
+            if(this.isNearLocalPlayer && localPlayer.value?.publicID === ownerPlayerID && !nationID){
                 uiState.showNationRegister = true
                 uiState.interactHint.text = null
             }

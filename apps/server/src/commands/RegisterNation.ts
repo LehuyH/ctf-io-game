@@ -40,7 +40,7 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
         const hqState = this.state.buildings.get(collidedHQ.split("-")[1])
   
         if(hqState.ownerNationID) return false
-        if(hqState.ownerPlayerID !== client.sessionId) return false
+        if(hqState.ownerPlayerID !== player.publicID) return false
 
         return true
     }
@@ -59,7 +59,7 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
         nation.members.push(
             new PlayerSummary({
                 name: player.name,
-                id: player.id
+                publicID: player.publicID
             })
         )
         nation.color = color

@@ -22,21 +22,21 @@ export default class Player extends Phaser.GameObjects.Rectangle{
             inertia: Infinity,
             mass:100,
             isSensor: true,
-            label: `player-${config.id}-collider`
+            label: `player-${config.sessionID}-collider`
         })
         //Interact body
         this.interactBody = this.scene.matter.add.circle(config.x,config.y,30,{
             isSensor: true,
-            label: `player-${config.id}`
+            label: `player-${config.sessionID}`
         })
 
         this.setData({
             velocityX: 0,
             velocityY: 0,
         })
-        this.setName(config.id)
+        this.setName(config.sessionID)
         //Set camera if local player
-        if(config.id === useLocalPlayerID()){
+        if(config.sessionID === useLocalPlayerID()){
             scene.cameras.main.startFollow(this)
             this.local = true
         }

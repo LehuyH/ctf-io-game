@@ -10,14 +10,14 @@ export default class PlayerBody extends ServerBody {
         const body = Bodies.rectangle(config.x,config.y,20,20,{
             inertia: Infinity,
             mass:100,
-            label: `player-${config.id}-collider`
+            label: `player-${config.sessionID}-collider`
         });
-        const id = config.id;
+        const id = config.sessionID;
         super(id,body,world);
 
         this.interactBody = Bodies.circle(config.x,config.y,30,{
             isSensor: true,
-            label: `player-${config.id}`
+            label: `player-${config.sessionID}`
         });
     }
 

@@ -16,7 +16,7 @@ export class Building extends Schema implements IBuilding{
 
 export class PlayerSummary extends Schema implements IPlayerSummary {
     @type("string") name: string;
-    @type("string") id: string;
+    @type("string") publicID: string;
 }
 
 export class Nation extends Schema implements INation{
@@ -50,7 +50,8 @@ export class Item extends Schema implements ItemInterface{
 export class Player extends Schema implements IPlayer{
     @type("string") name:string;
     @type("string") nationID:string|null = null;
-    @type("string") id: string;
+    @type("string") sessionID: string;
+    @type("string") publicID: string;
     @type("string") anim: PlayerAnimState;
     @type("number") x: number;
     @type("number") y: number;
@@ -71,6 +72,7 @@ export class Player extends Schema implements IPlayer{
         up:false,
         down:false
     }
+    authID: string;
 }
 
 

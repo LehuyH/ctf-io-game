@@ -19,10 +19,12 @@ import { RejectJoinRequest } from "../commands/RejectJoinRequest";
 import { LeaveNation } from "../commands/LeaveNation";
 
 import { EventType } from "shared";
+import Database from "../logic/Database";
 
 export class BaseRoom extends Room<ServerState> {
   physics: ServerPhysics;
   dispatcher = new Dispatcher(this);
+  db = new Database();
   autoDispose = false;
 
   onCreate(options: any) {
@@ -123,6 +125,7 @@ export class BaseRoom extends Room<ServerState> {
     console.log(client.sessionId, "joined!");
     this.dispatcher.dispatch(new PlayerJoin(),{
       name: options.name,
+      authID: options.authID,
       client
     });
   }

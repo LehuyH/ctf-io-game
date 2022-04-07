@@ -19,7 +19,7 @@ export class RequestJoinNation extends Command<BaseRoom, IConfig> {
         if(player.nationID) return false
 
         //Request already exists
-        const requestExists = nation.joinRequests.some(p=>p.id === player.id)
+        const requestExists = nation.joinRequests.some(p=>p.publicID === player.publicID)
         if(requestExists) return false
         
         return true
@@ -30,7 +30,7 @@ export class RequestJoinNation extends Command<BaseRoom, IConfig> {
 
         nation.joinRequests.push(new PlayerSummary({
             name: player.name,
-            id: player.id
+            publicID: player.publicID
         }))
     }
 }

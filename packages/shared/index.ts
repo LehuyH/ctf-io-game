@@ -7,7 +7,9 @@ export interface IState {
 
 export interface IPlayer {
     name:string;
-    id: string;
+    sessionID: string;
+    authID: string;
+    publicID: string;
     anim: PlayerAnimState;
     nationID:string|null;
     x: number;
@@ -24,7 +26,7 @@ export interface IPlayer {
 
 export interface IPlayerSummary {
     name: string;
-    id: string;
+    publicID: string;
 }
 
 export interface INation{

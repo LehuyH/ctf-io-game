@@ -69,7 +69,7 @@ export class Build extends Command<BaseRoom, IConfig> {
             type,
             x,
             y,
-            ownerPlayerID: client.sessionId,
+            ownerPlayerID: player.publicID,
             ownerNationID: player.nationID,
             health: building.maxHealth,
             maxHealth: building.maxHealth,

@@ -50,10 +50,10 @@
                      <ul class="pr-24">
                          <li v-for="request in selectedNation.joinRequests">
                              <span>{{request.name}}</span> 
-                             <button @click="acceptJoin(request.id)" class="bg-green-600 text-white text-sm font-semibold p-2 rounded transition-colors hover:bg-green-500">
+                             <button @click="acceptJoin(request.publicID)" class="bg-green-600 text-white text-sm font-semibold p-2 rounded transition-colors hover:bg-green-500">
                                  Accept
                              </button>
-                             <button @click="rejectJoin(request.id)" class="bg-rose-600 text-white text-sm font-semibold p-2 rounded transition-colors hover:bg-rose-500">
+                             <button @click="rejectJoin(request.publicID)" class="bg-rose-600 text-white text-sm font-semibold p-2 rounded transition-colors hover:bg-rose-500">
                                  Reject
                              </button>
                          </li>
