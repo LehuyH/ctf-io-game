@@ -22,12 +22,18 @@ export interface IPlayer {
     items: Item[];
 }
 
+export interface IPlayerSummary {
+    name: string;
+    id: string;
+}
+
 export interface INation{
     name: string;
     id: string;
     color: string;
     isProtected: boolean;
-    playerIDs: string[];
+    members: IPlayerSummary[]|any;
+    joinRequests: IPlayerSummary[]|any;
 }
 
 export interface IHarvestable {
@@ -75,7 +81,11 @@ export enum EventType{
     Build = 'Build',
     CraftItem = 'CraftItem',
     SetActiveItem = 'SetActiveItem',
-    RegisterNation = 'RegisterNation'
+    RegisterNation = 'RegisterNation',
+    RequestJoinNation = 'RequestJoinNation',
+    AcceptJoinRequest = 'AcceptJoinRequest',
+    RejectJoinRequest = 'RejectJoinRequest',
+    LeaveNation = 'LeaveNation'
 }
 
 export enum ItemType{

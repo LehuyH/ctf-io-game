@@ -1,5 +1,5 @@
 import { Schema, MapSchema, type, ArraySchema } from "@colyseus/schema";
-import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, INation } from "shared";
+import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, INation, IPlayerSummary } from "shared";
 import { Item as ItemInterface } from "shared";
 import { ServerBody } from "../logic/ServerBody";
 
@@ -14,12 +14,18 @@ export class Building extends Schema implements IBuilding{
     @type("string") ownerNationID: string;
 }
 
+export class PlayerSummary extends Schema implements IPlayerSummary {
+    @type("string") name: string;
+    @type("string") id: string;
+}
+
 export class Nation extends Schema implements INation{
     @type("string") id: string;
     @type("string") name: string;
     @type("string") color: string;
     @type("boolean") isProtected: boolean = false;
-    @type(["string"]) playerIDs= new ArraySchema<string>();
+    @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();
+    @type([ PlayerSummary ]) joinRequests = new ArraySchema<PlayerSummary>();
 }
 
 export class Harvestable extends Schema implements IHarvestable {
@@ -50,8 +56,8 @@ export class Player extends Schema implements IPlayer{
     @type("number") speed: number = 3;
     @type("number") health: number = 100;
     @type("number") maxHealth: number = 100;
-    @type("number") velocityX: number = 0;
-    @type("number") velocityY: number = 0;
+    velocityX: number = 0;
+    velocityY: number = 0;
     @type({map:"number"}) inventory = new MapSchema<number>(); 
     @type("number") equippedItemIndex: number;
     @type([ Item ]) items: Item[] = new ArraySchema<Item>();

@@ -134,6 +134,18 @@ export default class ConnectionManagerOnline{
         },
         registerNation: (name:string,color:string)=>{
             this.room.send(EventType.RegisterNation,{name,color})
+        },
+        requestJoin: (nationID:string)=>{
+            this.room.send(EventType.RequestJoinNation,{nationID})
+        },
+        acceptJoinRequest: (playerID:string)=>{
+            this.room.send(EventType.AcceptJoinRequest,{playerID})
+        },
+        rejectJoinRequest: (playerID:string)=>{
+            this.room.send(EventType.RejectJoinRequest,{playerID})
+        },
+        leaveNation: ()=>{
+            this.room.send(EventType.LeaveNation)
         }
     }
 

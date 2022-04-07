@@ -13,6 +13,10 @@ import { Build } from "../commands/Build";
 import { CraftItem } from "../commands/CraftItem";
 import { SetActiveItem } from "../commands/SetActiveItem";
 import { RegisterNation } from "../commands/RegisterNation";
+import { RequestJoinNation } from "../commands/RequestJoinNation";
+import { AcceptJoinRequest } from "../commands/AcceptJoinRequest";
+import { RejectJoinRequest } from "../commands/RejectJoinRequest";
+import { LeaveNation } from "../commands/LeaveNation";
 
 import { EventType } from "shared";
 
@@ -83,6 +87,33 @@ export class BaseRoom extends Room<ServerState> {
         client,
         name: message.name,
         color: message.color
+      })
+    })
+
+    this.onMessage(EventType.RequestJoinNation, (client, message) => {
+      this.dispatcher.dispatch(new RequestJoinNation(), {
+        client,
+        nationID: message.nationID
+      })
+    })
+
+    this.onMessage(EventType.AcceptJoinRequest, (client, message) => {
+      this.dispatcher.dispatch(new AcceptJoinRequest(), {
+        client,
+        playerID: message.playerID
+      })
+    })
+
+    this.onMessage(EventType.RejectJoinRequest, (client, message) => {
+      this.dispatcher.dispatch(new RejectJoinRequest(), {
+        client,
+        playerID: message.playerID
+      })
+    })
+
+    this.onMessage(EventType.LeaveNation, (client) => {
+      this.dispatcher.dispatch(new LeaveNation(), {
+        client
       })
     })
   }

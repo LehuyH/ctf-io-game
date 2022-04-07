@@ -1,7 +1,7 @@
 import { Command } from "@colyseus/command";
 import { BaseRoom } from "../rooms/BaseRoom";
 import { Client } from "colyseus";
-import { Nation } from "../schema/state";
+import { Nation, PlayerSummary } from "../schema/state";
 import uniqid from "uniqid";
 
 interface IConfig{
@@ -50,7 +50,12 @@ export class RegisterNation extends Command<BaseRoom, IConfig> {
             name,
             id: nationID
         })
-        nation.playerIDs.push(client.sessionId)
+        nation.members.push(
+            new PlayerSummary({
+                name: player.name,
+                id: player.id
+            })
+        )
         nation.color = color
         this.state.nations.set(nationID,nation)
 

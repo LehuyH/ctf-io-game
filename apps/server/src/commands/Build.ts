@@ -21,6 +21,14 @@ export class Build extends Command<BaseRoom, IConfig> {
 
         if(type !== 'headquarters' && !player.nationID) return false
 
+        //Only one headquarters per nation
+        if(type === 'headquarters'){
+            if(player.nationID){
+                const nationHQ = [...this.state.buildings.values()].find(b=>b.type === "headquarters" && b.ownerNationID === player.nationID)
+                if(nationHQ) return false
+            }
+        }
+
         //Check if they have enough resources
         const cost = building.cost
         if(!canPay(cost,player.inventory as any)) return false
