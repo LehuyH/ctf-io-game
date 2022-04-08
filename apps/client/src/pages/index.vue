@@ -6,7 +6,7 @@
         </section>
         <form v-else-if="selectedRoom" @submit.prevent="joinRoom" class="bg-slate-100 p-8">
             <header class="flex items-center gap-2">
-            <button @click="selectedRoom=null"
+            <button type="button" @click="selectedRoom=null"
                 class="bg-slate-300 p-2 rounded transition-colors hover:bg-slate-200 mb-2">
                 <Icon icon="zondicons:cheveron-left" class="inline-block" />
             </button>

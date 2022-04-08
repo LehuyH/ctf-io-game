@@ -3,10 +3,9 @@ import ClientRoom from "../types/ClientRoom"
 import { PlayerAnimState } from "shared"
 import { useLocalPlayerID } from "~/state"
 
-export default class Player extends Phaser.GameObjects.Rectangle{
+export default class Player extends Phaser.GameObjects.Sprite{
     hpBar: Phaser.GameObjects.Graphics
     item: Phaser.GameObjects.Sprite
-    anims: Record<string, Phaser.Animations.Animation|Phaser.Tweens.Timeline> = {}
     moveTween: Phaser.Tweens.Tween|null = null
     nameTag: Phaser.GameObjects.Text
     isStopped: boolean = false
@@ -14,7 +13,7 @@ export default class Player extends Phaser.GameObjects.Rectangle{
     interactBody: MatterJS.BodyType
 
     constructor(scene: ClientRoom, config:IPlayer){
-        super(scene,config.x, config.y, 20, 20, 0xffffff)
+        super(scene,config.x, config.y, "male_player_1")
         scene.add.existing(this)
 
         //Physics body
@@ -90,6 +89,22 @@ export default class Player extends Phaser.GameObjects.Rectangle{
                 duration: 100,
             })
         })
+
+        this.on(`changedata-x`,(object:any,currX:number,prevX:number)=>{
+            this.flipX = Math.sign(currX - prevX) === 1
+            this.play(`${this.texture.key}_walkX`,true)
+        })
+        this.on(`changedata-y`,(object:any,currY:number,prevY:number)=>{
+            const currentAnimName = (this as any).anims?.getName() || ""
+            const animIsPlaying = (this as any).anims?.isPlaying || false
+
+            if(animIsPlaying && currentAnimName && (currentAnimName.endsWith("_walkX"))){
+                return;
+            }
+
+            const animName = (Math.sign(currY - prevY) === 1) ? `${this.texture.key}_walkDown` : `${this.texture.key}_walkUp`
+            this.play(animName,true)
+        })
     }
 
     update(time: number, delta: number): void {
@@ -109,15 +124,13 @@ export default class Player extends Phaser.GameObjects.Rectangle{
                 onUpdate:()=>{
                     //Move interact body with player
                     this.interactBody.position.x = player.x
-                    this.interactBody.position.y = player.y 
+                    this.interactBody.position.y = player.y
                 }
             })
         } catch (e) {}
 
 
-        //Change where player faces based on mouse position
-        player.flipX = this.scene.sys.game.scale.gameSize.width/2 > this.scene.input.activePointer.x
-        this.item.flipX = !player.flipX
+        this.item.flipX = player.flipX
         
         this.updateItem()
 

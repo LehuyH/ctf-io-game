@@ -70,5 +70,25 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
             repeat: -1,
             frameRate: 10
         })
+        this.anims.create({
+            key: "male_player_1_walkX",
+            frames: this.anims.generateFrameNumbers("male_player_1",{start:4,end:6}),
+            frameRate:10
+        })
+        this.anims.create({
+            key: "male_player_1_walkDown",
+            frames: this.anims.generateFrameNumbers("male_player_1",{start:12,end:14}),
+            frameRate:10
+        })
+        this.anims.create({
+            key: "male_player_1_walkUp",
+            frames: this.anims.generateFrameNumbers("male_player_1",{start:18,end:22}),
+            frameRate:10
+        })
+        this.anims.create({
+            key: "male_player_1_idle",
+            frames: this.anims.generateFrameNumbers("male_player_1",{start:1,end:3}),
+            frameRate:10
+        })
     }
 }

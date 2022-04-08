@@ -7,6 +7,7 @@ export default class BootScene extends Phaser.Scene{
       this.load.spritesheet('bush',"/maps/overworld/objects/bush1A.png",{frameWidth:32,frameHeight:32,endFrame:10})
       this.load.spritesheet('Tree_bright',"/maps/overworld/objects/tree1A.png",{frameWidth:64,frameHeight:128})
       this.load.spritesheet('Tree_desert',"/maps/overworld/objects/tree2a.png",{frameWidth:64,frameHeight:96})
+      this.load.spritesheet('male_player_1','/sprites/male_player_1.png',{frameWidth:32,frameHeight:48})
       this.load.image('wooden_axe','/items/wooden_axe.png')
       this.load.image('wooden_sword','/items/wooden_sword.png')
       this.load.image('wooden_pickaxe','/items/wooden_pickaxe.png')
