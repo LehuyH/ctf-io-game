@@ -194,7 +194,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         const player = this as any
         this.scene.tweens.add({
             targets: weapon,
-            angle: player.flipX ? -360 : 360,
+            angle: player.flipX ? 360 : -360,
             duration: 200,
             ease: "Phaser.Math.Easing.Expo.InOut"
         })
