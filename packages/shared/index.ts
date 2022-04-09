@@ -57,8 +57,10 @@ export interface IBuilding{
     health: number;
     maxHealth: number;
     type: string;
+    cost:Cost;
     ownerPlayerID: string;
     ownerNationID: string;
+    previewImage?: string;
 }
 
 export type Cost = Record<string, number>;

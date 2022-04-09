@@ -3,7 +3,7 @@ import { BaseRoom } from "../rooms/BaseRoom";
 import { Item, Player } from "../schema/state";
 import { Client } from "colyseus";
 import { ItemType, PlayerAnimState } from 'shared'
-import { calcHarvestDamage, calcPlayerDamage } from 'shared/helpers'
+import { calcHarvestDamage, calcPlayerDamage, processPay } from 'shared/helpers'
 import Matter from "matter-js";
 
 interface IConfig{
@@ -35,6 +35,15 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
         if(harvestableState.health <= 0){
            //Remove harvestable
+           const {body} = this.room.physics.objects.harvestables[id.split("-")[1]]
+
+           const bodyFrame = {
+              x: body.position.x,
+              y: body.position.y,
+              width: body.bounds.max.x - body.bounds.min.x,
+              height: body.bounds.max.y - body.bounds.min.y
+           }
+
            this.room.physics.objects.removeHarvestable(id.split("-")[1])
            
             //Give resource to player
@@ -42,12 +51,18 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
             player.inventory.set(harvestableState.resource,player.inventory.get(harvestableState.resource) + harvestableState.value)
 
             //Add it back after 60 seconds
-            this.room.physics.runner.addDelayedCallback((delta,state)=>{
+            this.room.physics.runner.addRepeatedCallback((delta,state,remover)=>{
                 const newState = {
                   ...harvestableState,
                   health: harvestableState.maxHealth,
                 }
-                this.room.physics.objects.addHarvestable(newState)
+
+                //Check to see if something is blocking the harvestable
+                const collided = this.room.physics.checks.collidesWithAny(bodyFrame)
+                if(!collided){
+                  this.room.physics.objects.addHarvestable(newState)
+                  remover()
+                }
             },60 * 1000)
             
         }
@@ -55,12 +70,34 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
     //Handle buildings
     collidedBuildings.forEach(id=>{
+        const attackingPlayerState = this.state.players.get(client.sessionId)
         const buildingState = this.state.buildings.get(id.split("-")[1])
-        if(!buildingState) return
+        if(!buildingState || !attackingPlayerState) return
+
+        const playerNationOwnsBuilding = attackingPlayerState.nationID === buildingState.ownerNationID
+        
+        //If in Free Agency mode, don't do damage
+        if(!attackingPlayerState.nationID) return
+
+        //Cannot attack own nation HQ
+        if(playerNationOwnsBuilding && buildingState.type ==="headquarters") return
+
         buildingState.health -= heldItem.damage
         if(buildingState.health <= 0){
             //Remove building from state
             this.room.physics.objects.removeBuilding(id.split("-")[1])
+            
+            //Refund 100% of the building's value if the player's nation owns it
+            if(playerNationOwnsBuilding){
+                const negatedCost = {}
+                const cost = buildingState.cost
+                Object.keys(cost).forEach(key=>{
+                    //@ts-ignore
+                    negatedCost[key] = -cost[key]
+                })
+
+                processPay(negatedCost,attackingPlayerState.inventory as any)
+            }
         }
     })
 

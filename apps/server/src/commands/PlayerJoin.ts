@@ -41,6 +41,8 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
       sessionID: client.sessionId,
       x: 2752,
       y: 2752,
+      health:100,
+      maxHealth:100,
       equippedItemIndex: 0,
       nationID: null as string|null,
       publicID: uniqid(),
@@ -51,7 +53,7 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
         texture: "wooden_axe",
         damage:10
       }],
-      inventory: {}
+      inventory:{}
     }
 
     //Returning player
