@@ -30,3 +30,9 @@ export function calcHarvestDamage(harvestable:IHarvestable,tool:Item){
 
     return baseDmg * multiplier
 }
+
+export function calcPlayerDamage(tool:Item){
+    const baseDmg = tool.damage
+    const multiplier = (tool.type === 'sword') ? 1.5 : 1
+    return baseDmg * multiplier
+}
