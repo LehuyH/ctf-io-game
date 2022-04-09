@@ -55,8 +55,16 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
     //Handle buildings
     collidedBuildings.forEach(id=>{
+        const attackingPlayerState = this.state.players.get(client.sessionId)
         const buildingState = this.state.buildings.get(id.split("-")[1])
-        if(!buildingState) return
+        if(!buildingState || attackingPlayerState) return
+
+        //If in Free Agency mode, don't do damage
+        if(!attackingPlayerState.nationID) return
+        
+        //If attacking player is not in the same nation as the building, don't do damage
+        if(attackingPlayerState.nationID === buildingState.ownerNationID) return
+
         buildingState.health -= heldItem.damage
         if(buildingState.health <= 0){
             //Remove building from state
