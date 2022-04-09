@@ -57,8 +57,8 @@ export class Player extends Schema implements IPlayer{
     @type("number") x: number;
     @type("number") y: number;
     @type("number") speed: number = 3;
-    @type("number") health: number = 100;
-    @type("number") maxHealth: number = 100;
+    @type("number") health: number;
+    @type("number") maxHealth: number;
     velocityX: number = 0;
     velocityY: number = 0;
     @type({map:"number"}) inventory = new MapSchema<number>(); 
