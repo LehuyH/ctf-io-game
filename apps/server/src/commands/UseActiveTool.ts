@@ -35,6 +35,15 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
         if(harvestableState.health <= 0){
            //Remove harvestable
+           const {body} = this.room.physics.objects.harvestables[id.split("-")[1]]
+
+           const bodyFrame = {
+              x: body.position.x,
+              y: body.position.y,
+              width: body.bounds.max.x - body.bounds.min.x,
+              height: body.bounds.max.y - body.bounds.min.y
+           }
+
            this.room.physics.objects.removeHarvestable(id.split("-")[1])
            
             //Give resource to player
@@ -42,12 +51,18 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
             player.inventory.set(harvestableState.resource,player.inventory.get(harvestableState.resource) + harvestableState.value)
 
             //Add it back after 60 seconds
-            this.room.physics.runner.addDelayedCallback((delta,state)=>{
+            this.room.physics.runner.addRepeatedCallback((delta,state,remover)=>{
                 const newState = {
                   ...harvestableState,
                   health: harvestableState.maxHealth,
                 }
-                this.room.physics.objects.addHarvestable(newState)
+
+                //Check to see if something is blocking the harvestable
+                const collided = this.room.physics.checks.collidesWithAny(bodyFrame)
+                if(!collided){
+                  this.room.physics.objects.addHarvestable(newState)
+                  remover()
+                }
             },60 * 1000)
             
         }
