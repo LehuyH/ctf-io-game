@@ -73,6 +73,7 @@ export class Build extends Command<BaseRoom, IConfig> {
             ownerNationID: player.nationID,
             health: building.maxHealth,
             maxHealth: building.maxHealth,
+            cost: building.cost
         })
     }
 }

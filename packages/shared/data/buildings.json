@@ -18,5 +18,16 @@
         "cost": {
             "wood": 20
         }
+    },
+    {
+        "name": "Campfire",
+        "type": "campfire",
+        "description": "A warm and cozy place to rest and relax",
+        "icon": "/maps/overworld/buildings/campfire.png",
+        "previewImage": "/maps/overworld/buildings_preview/campfire.png",
+        "maxHealth": 20,
+        "cost": {
+            "wood": 10
+        }
     }
 ]
