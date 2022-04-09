@@ -53,9 +53,7 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
         texture: "wooden_axe",
         damage:10
       }],
-      inventory: {
-        wood:1000
-      }
+      inventory:{}
     }
 
     //Returning player
