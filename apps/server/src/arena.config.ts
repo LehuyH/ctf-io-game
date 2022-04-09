@@ -43,7 +43,7 @@ export default Arena({
         matchMaker.createRoom("base_game", {
             key: process.env.CREATION_KEY,
             meta:{
-                "name": "Public Room 1",
+                "name": "Sandbox",
             }
         });
     }
