@@ -29,10 +29,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
             label: `player-${config.sessionID}`
         })
 
-        this.setData({
-            velocityX: 0,
-            velocityY: 0,
-        })
+        this.setData(config)
         this.setName(config.sessionID)
         //Set camera if local player
         if(config.sessionID === useLocalPlayerID()){
