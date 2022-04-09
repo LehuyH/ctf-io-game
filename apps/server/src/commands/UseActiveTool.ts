@@ -3,7 +3,7 @@ import { BaseRoom } from "../rooms/BaseRoom";
 import { Item, Player } from "../schema/state";
 import { Client } from "colyseus";
 import { ItemType, PlayerAnimState } from 'shared'
-import { calcHarvestDamage, calcPlayerDamage } from 'shared/helpers'
+import { calcHarvestDamage, calcPlayerDamage, processPay } from 'shared/helpers'
 import Matter from "matter-js";
 
 interface IConfig{
@@ -57,18 +57,32 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
     collidedBuildings.forEach(id=>{
         const attackingPlayerState = this.state.players.get(client.sessionId)
         const buildingState = this.state.buildings.get(id.split("-")[1])
-        if(!buildingState || attackingPlayerState) return
+        if(!buildingState || !attackingPlayerState) return
 
+        const playerNationOwnsBuilding = attackingPlayerState.nationID === buildingState.ownerNationID
+        
         //If in Free Agency mode, don't do damage
         if(!attackingPlayerState.nationID) return
-        
-        //If attacking player is not in the same nation as the building, don't do damage
-        if(attackingPlayerState.nationID === buildingState.ownerNationID) return
+
+        //Cannot attack own nation HQ
+        if(playerNationOwnsBuilding && buildingState.type ==="headquarters") return
 
         buildingState.health -= heldItem.damage
         if(buildingState.health <= 0){
             //Remove building from state
             this.room.physics.objects.removeBuilding(id.split("-")[1])
+            
+            //Refund 100% of the building's value if the player's nation owns it
+            if(playerNationOwnsBuilding){
+                const negatedCost = {}
+                const cost = buildingState.cost
+                Object.keys(cost).forEach(key=>{
+                    //@ts-ignore
+                    negatedCost[key] = -cost[key]
+                })
+
+                processPay(negatedCost,attackingPlayerState.inventory as any)
+            }
         }
     })
 
