@@ -59,8 +59,14 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
             frameRate: 10
         })
         this.anims.create({
-            key: "tree-bright-idle",
-            frames: this.anims.generateFrameNumbers("Tree_bright",{start:0,end:9}),
+            key: "tree-bright-idle-0",
+            frames: this.anims.generateFrameNumbers("Tree_bright_0",{start:0,end:9}),
+            repeat: -1,
+            frameRate: 10
+        })
+        this.anims.create({
+            key: "tree-bright-idle-1",
+            frames: this.anims.generateFrameNumbers("Tree_bright_1",{start:0,end:9}),
             repeat: -1,
             frameRate: 10
         })
