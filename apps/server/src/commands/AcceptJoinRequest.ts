@@ -11,39 +11,49 @@ interface IConfig{
 export class AcceptJoinRequest extends Command<BaseRoom, IConfig> {
     validate({playerID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID) || this.room.db.players.getPlayerByPublicID(playerID)
+        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID)
 
-        if(!player || !joiningPlayer) return false
-        const nation = this.state.nations.get(player.nationID)
-        if(!nation) return false
+        if(!joiningPlayer){
+            //Remove the request to all parties
+            this.state.parties.forEach(n=>{
+                n.joinRequests = n.joinRequests.filter(p=>p.publicID !== playerID)
+            })
+        }
+        
+        if(!player || !joiningPlayer){
+            return false
+        }
+        const party = this.state.parties.get(player.partyID)
+        if(!party) return false
 
-        //Confirm that player is part of the nation
-        if(nation.members.findIndex(p=>p.publicID === player.publicID) === -1) return false
+        //Player is party leader
+        if(party.partyLeaderPublicID !== player.publicID) return false
+
+        //Confirm that player is part of the party
+        if(party.members.findIndex(p=>p.publicID === player.publicID) === -1) return false
 
         //Confirm that request exists
-        const requestExists = nation.joinRequests.some(p=>p.publicID === playerID)
+        const requestExists = party.joinRequests.some(p=>p.publicID === playerID)
         
         return requestExists
     }
     execute({playerID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID) || this.room.db.players.getPlayerByPublicID(playerID)
-        const nation = this.state.nations.get(player.nationID)
+        const joiningPlayer = Array.from(this.state.players.values()).find(p=>p.publicID === playerID)
+        const party = this.state.parties.get(player.partyID)
 
-        //Save to storage
-        this.room.db.players.savePlayer(joiningPlayer)
 
-        //Remove request to all nations
-        this.state.nations.forEach(n=>{
+        //Remove request to all parties
+        this.state.parties.forEach(n=>{
             n.joinRequests = n.joinRequests.filter(p=>p.publicID !== playerID)
         })
 
-        //Add player to nation
-        nation.members.push(new PlayerSummary({
+        //Add player to party
+        party.members.push(new PlayerSummary({
             name: joiningPlayer.name,
             publicID: joiningPlayer.publicID
         }))
 
-        joiningPlayer.nationID = nation.id
+        joiningPlayer.partyID = party.id
     }
 }

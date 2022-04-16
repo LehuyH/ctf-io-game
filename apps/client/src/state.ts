@@ -14,7 +14,7 @@ export const state = reactive<IState>({
     players: {},
     harvestables: {},
     buildings: {},
-    nations: {},
+    parties: {},
 })
 
 export const uiState = reactive({
@@ -29,8 +29,7 @@ export const uiState = reactive({
     craftmenu: {
         allowed: null as null | string[],
         buildingName: null as null | string
-    },
-    showNationRegister: false,
+    }
 })
 
 export const resetState = () => {

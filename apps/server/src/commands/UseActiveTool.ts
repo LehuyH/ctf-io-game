@@ -101,7 +101,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
             Matter.Body.setPosition(targetBody, nationHQBody.body.position)
           } else {
             //HQ does not exist, remove player from nation and spawn at default spawn
-            const targetNation = this.state.nations.get(targetPlayerState.nationID)
+            const targetNation = this.state.parties.get(targetPlayerState.nationID)
             targetNation.members = targetNation.members.filter(m => m.publicID !== targetPlayerState.publicID)
             targetPlayerState.nationID = null
             Matter.Body.setPosition(targetBody, {
@@ -111,7 +111,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
             if(targetNation.members.length === 0){
               //Nation is dead, remove nation
-              this.state.nations.delete(targetNation.id)
+              this.state.parties.delete(targetNation.id)
             }
           }
 

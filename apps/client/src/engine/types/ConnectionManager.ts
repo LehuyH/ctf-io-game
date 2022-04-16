@@ -19,11 +19,11 @@ export default interface ConnectionManager {
         }
         useTool: ()=>void;
         craftItem: (itemName:string,buildingName:string)=>void;
-        registerNation: (name:string,tag:string,color:string)=>void;
+        createParty: (name:string)=>void;
         requestJoin: (nationID:string)=>void;
         acceptJoinRequest: (playerID:string)=>void;
         rejectJoinRequest: (playerID:string)=>void;
-        leaveNation: ()=>void;
+        leaveParty: ()=>void;
     }
     create(): void;
     update(time: number, delta: number): void;

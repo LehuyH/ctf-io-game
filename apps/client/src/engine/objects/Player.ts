@@ -110,7 +110,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         const player = this as any
         if(!this.body) return
 
-        const nation = (this.scene as ClientRoom).state.getState("nations",player.getData('nationID') || '')
+        const nation = (this.scene as ClientRoom).state.getState("parties",player.getData('nationID') || '')
 
         try {
             this.moveTween = this.scene.tweens.add({

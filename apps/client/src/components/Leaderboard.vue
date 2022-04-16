@@ -33,7 +33,7 @@ const leaderboard = computed(()=>{
         if(!player.nationID){
             leaderboardData["Free Agency"].push(player.name)
         }else{
-            const nation = state.nations[player.nationID]
+            const nation = state.parties[player.nationID]
             if(!leaderboardData[nation.name]){
                 leaderboardData[nation.name] = []
             }
@@ -48,7 +48,7 @@ const nationColors = computed(()=>{
         "Free Agency":"#95a5a6"
     } as Record<string,string>
     
-    Object.values(state.nations).forEach((n:any)=>{
+    Object.values(state.parties).forEach((n:any)=>{
         nationColors[n.name] = n.color
     })
     return nationColors

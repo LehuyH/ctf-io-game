@@ -27,7 +27,7 @@ export default class Headquarters extends Building {
             }
             if(!nationID) return
 
-            const nation = (this.scene as ClientRoom).state.getState("nations",nationID)
+            const nation = (this.scene as ClientRoom).state.getState("parties   ",nationID)
             if(!nation) return
             uiState.tooltip = `${nation.name}'s headquarters`
             uiState.interactHint.gameObject = this

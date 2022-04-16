@@ -2,12 +2,13 @@ export interface IState {
     players: Record<string, IPlayer>|any
     harvestables: Record<string, IHarvestable>|any
     buildings: Record<string, IBuilding>|any
-    nations: Record<string, INation>|any
+    parties: Record<string, IParty>|any
 }
 
 export interface IPlayer {
     name:string;
     sessionID: string;
+    partyID: string|null;
     authID: string;
     publicID: string;
     anim: PlayerAnimState;
@@ -29,12 +30,10 @@ export interface IPlayerSummary {
     publicID: string;
 }
 
-export interface INation{
+export interface IParty{
     name: string;
-    tag: string;
     id: string;
-    color: string;
-    isProtected: boolean;
+    partyLeaderPublicID: string;
     members: IPlayerSummary[]|any;
     joinRequests: IPlayerSummary[]|any;
 }
@@ -84,11 +83,11 @@ export enum EventType{
     Build = 'Build',
     CraftItem = 'CraftItem',
     SetActiveItem = 'SetActiveItem',
-    RegisterNation = 'RegisterNation',
-    RequestJoinNation = 'RequestJoinNation',
-    AcceptJoinRequest = 'AcceptJoinRequest',
-    RejectJoinRequest = 'RejectJoinRequest',
-    LeaveNation = 'LeaveNation'
+    CreateParty = 'CreateParty',
+    RequestJoinParty = 'RequestJoinParty',
+    AcceptJoinParty = 'AcceptJoinParty',
+    RejectJoinParty = 'RejectJoinParty',
+    LeaveParty = 'LeaveParty'
 }
 
 export enum ItemType{
