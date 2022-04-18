@@ -8,7 +8,7 @@ interface Timed{
     interval: number
     timeElasped: number
     id?: string
-    callback: (delta: number,state:IState) => void
+    callback: (delta: number,state:IState,remover:any) => void
 }
 
 export default class Runner{
@@ -32,7 +32,8 @@ export default class Runner{
         this.repeatedCallbacks.forEach(callback => {
             callback.timeElasped += delta;
             if(callback.timeElasped >= callback.interval){
-                callback.callback(delta,this.state);
+                const remover =  ()=> this.repeatedCallbacks = this.repeatedCallbacks.filter(cb=>cb.id!==callback.id)
+                callback.callback(delta,this.state,remover);
                 callback.timeElasped = 0;
             }
         })
@@ -42,7 +43,7 @@ export default class Runner{
         this.delayedCallbacks.forEach(callback => {
             callback.timeElasped += delta;
             if(callback.timeElasped >= callback.interval){
-                callback.callback(delta,this.state);
+                callback.callback(delta,this.state,null);
             }else{
                 newQueue.push(callback);
             }
@@ -65,7 +66,7 @@ export default class Runner{
         })
     }
 
-    addRepeatedCallback(callback: (delta: number,state: IState) => void, interval: number){
+    addRepeatedCallback(callback: (delta: number,state: IState,remover:any) => void, interval: number){
         const id = uniqid()
         this.repeatedCallbacks.push({
             interval,

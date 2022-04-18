@@ -57,6 +57,7 @@ export interface IBuilding{
     health: number;
     maxHealth: number;
     type: string;
+    cost:Cost;
     ownerPlayerID: string;
     ownerCivID: string;
 }
@@ -73,6 +74,7 @@ export interface ICiv{
     color: string;
     influence: number;
     members: IPlayerSummary[]|any;
+    previewImage?: string;
 }
 
 export type Cost = Record<string, number>;

@@ -63,6 +63,7 @@ export class Build extends Command<BaseRoom, IConfig> {
             ownerCivID: player.civID,
             health: building.maxHealth,
             maxHealth: building.maxHealth,
+            cost: building.cost
         })
     }
 }

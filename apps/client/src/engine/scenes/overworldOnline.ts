@@ -96,5 +96,11 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
             frames: this.anims.generateFrameNumbers("male_player_1",{start:1,end:3}),
             frameRate:10
         })
+        this.anims.create({
+            key:"campfire_idle",
+            frames: this.anims.generateFrameNumbers("campfire",{start:0,end:5}),
+            repeat: -1,
+            frameRate:10
+        })
     }
 }

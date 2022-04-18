@@ -1,6 +1,6 @@
 import { Schema, MapSchema, type, ArraySchema, filter } from "@colyseus/schema";
 import { Client } from "colyseus";
-import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary, ICiv, CiVNames } from "shared";
+import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary, ICiv, CiVNames, Cost } from "shared";
 import { Item as ItemInterface } from "shared";
 import { ServerBody } from "../logic/ServerBody";
 
@@ -13,6 +13,7 @@ export class Building extends Schema implements IBuilding{
     @type("string") type: string;
     @type("string") ownerPlayerID: string;
     @type("string") ownerCivID: string;
+    cost: Cost;
 }
 
 export class PlayerSummary extends Schema implements IPlayerSummary {
@@ -64,8 +65,8 @@ export class Player extends Schema implements IPlayer{
     @type("number") x: number;
     @type("number") y: number;
     @type("number") speed: number = 3;
-    @type("number") health: number = 100;
-    @type("number") maxHealth: number = 100;
+    @type("number") health: number;
+    @type("number") maxHealth: number;
     velocityX: number = 0;
     velocityY: number = 0;
     @type({map:"number"}) inventory = new MapSchema<number>(); 

@@ -7,7 +7,7 @@
                  <li v-for="b in buildings" class="p-2 inline-block">
                      <button @click="setBuilding(b)"
                          :class="`${(checkCanBuild(b)) ? '' : 'opacity-50'} bg-slate-100 transition-colors hover:bg-slate-200 p-8 inline-block rounded`">
-                         <img class="m-auto w-12 h-12" :src="b.icon" />
+                         <img class="m-auto w-12 h-12" :src="(b.previewImage) ? b.previewImage : b.icon" />
                      </button>
                      <p class="text-sm m-auto text-center">{{b.name}}</p>
                  </li>
