@@ -59,7 +59,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
         nameTag.setOrigin(0.5,0.5)
         this.nameTag = nameTag
         this.nameTag.setPipeline('BitmapFont')
-        
+
+        console.log(this)
 
 
         //Event Listeners ========
@@ -88,6 +89,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         })
 
         this.on(`changedata-x`,(object:any,currX:number,prevX:number)=>{
+            console.log(`${this.name} moved from ${prevX} to ${currX}`)
             this.flipX = Math.sign(currX - prevX) === 1
             this.play(`${this.texture.key}_walkX`,true)
         })

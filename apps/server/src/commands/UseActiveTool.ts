@@ -76,8 +76,8 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
         const playerNationOwnsBuilding = attackingPlayerState.civID === buildingState.ownerCivID
         
-        //Cannot attack own nation HQ
-        if(playerNationOwnsBuilding && buildingState.type ==="headquarters") return
+        //Cannot attack HQ
+        if(buildingState.type ==="headquarters") return
 
         buildingState.health -= heldItem.damage
         if(buildingState.health <= 0){
@@ -126,10 +126,10 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
         //Handle death
         if(targetPlayerState.health <= 0){
           //Respawn at civ HQ
-          /** @TODO - load capital location from map */
-          const civHQ = false
+          const civHQ = [...this.state.buildings.values()].find(b=>b.type === "headquarters" && b.ownerCivID === targetPlayerState.civID)
           if (civHQ) {
-            //Matter.Body.setPosition(targetBody, civHQ.body.position)
+            const civHQBody = this.room.physics.objects.buildings[civHQ.id]
+            Matter.Body.setPosition(targetBody, civHQBody.body.position)
           } else {
             Matter.Body.setPosition(targetBody, {
               x: 2752,

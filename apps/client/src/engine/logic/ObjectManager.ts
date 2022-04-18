@@ -42,10 +42,8 @@ export default class ObjectManager{
     }
 
     sync(target:Phaser.GameObjects.GameObject,type:string){
-
         const targetState = this.scene.state.getState(type,target.name)
         const currentState = target.data.getAll() 
-
         if(!targetState) return
 
         //Generate only differences

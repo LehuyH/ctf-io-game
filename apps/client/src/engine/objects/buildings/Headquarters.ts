@@ -15,21 +15,12 @@ export default class Headquarters extends Building {
     create(): void {
         super.create()
         this.on("nearLocalPlayer",()=>{
-            const nationID = this.getData("ownerNationID")
-            const localPlayer = useLocalPlayer()
-            const ownerPlayerID = this.getData("ownerPlayerID")
-            
-            //Unregistered nation, prompt to register
-            if(ownerPlayerID === localPlayer.value?.publicID && !nationID){
-                uiState.interactHint.text = "register your nation!"
-                uiState.interactHint.gameObject = this
-                return
-            }
-            if(!nationID) return
+            const civID = this.getData("ownerCivID")
+            if(!civID) return
 
-            const nation = (this.scene as ClientRoom).state.getState("parties   ",nationID)
-            if(!nation) return
-            uiState.tooltip = `${nation.name}'s headquarters`
+            const civ = (this.scene as ClientRoom).state.getState("civs",civID)
+            if(!civ) return
+            uiState.tooltip = `${civ.name}'s headquarters`
             uiState.interactHint.gameObject = this
 
         })
@@ -37,16 +28,6 @@ export default class Headquarters extends Building {
             uiState.interactHint.text = null
             uiState.interactHint.gameObject = null
             uiState.tooltip = null
-            uiState.showNationRegister = false
-        })
-        this.scene.input.keyboard.on("keydown-E",()=>{
-            const localPlayer = useLocalPlayer()
-            const ownerPlayerID = this.getData("ownerPlayerID")
-            const nationID = this.getData("ownerNationID")
-            if(this.isNearLocalPlayer && localPlayer.value?.publicID === ownerPlayerID && !nationID){
-                uiState.showNationRegister = true
-                uiState.interactHint.text = null
-            }
         })
     }
     cleanup(): void {

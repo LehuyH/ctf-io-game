@@ -1,10 +1,9 @@
 import { Command } from "@colyseus/command";
 import { BaseRoom } from "../rooms/BaseRoom";
-import { Item, Player } from "../schema/state";
+import { Item, Player, PlayerSummary } from "../schema/state";
 import { Client } from "colyseus";
 import { IPlayer, ItemType } from 'shared'
 import uniqid from 'uniqid'
-import { BuildCivs } from "./BuildCivs";
 
 interface IConfig{
     name:string;
@@ -68,9 +67,24 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
       }
 
     }
+    
+    //Add player to civ with least players
+    const civs = Array.from(this.state.civs.values()).sort((a,b) => a.members.length - b.members.length)
+    const smallestCiv = civs[0]
+
+    playerState.civID = smallestCiv.id
+    const civHQ = [...this.state.buildings.values()].find(b=>b.type === "headquarters" && b.ownerCivID === smallestCiv.id)
+    playerState.x = civHQ.x
+    playerState.y = civHQ.y
+
     //Add player to state
     this.state.players.set(client.sessionId, new Player(playerState));
     const newPlayer = this.state.players.get(client.sessionId);
+
+    smallestCiv.members.push(new PlayerSummary({
+      publicID: newPlayer.publicID,
+      name: newPlayer.name,
+    }))
 
     //Restore items 
     playerState.items.forEach(item=>{
@@ -84,7 +98,5 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
 
     //Add player to physics
     this.room.physics.objects.addPlayerBody(this.state.players.get(client.sessionId) as Player);
-
-    return new BuildCivs()
   }
 }

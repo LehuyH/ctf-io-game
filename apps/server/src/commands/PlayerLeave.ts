@@ -21,6 +21,11 @@ export class PlayerLeave extends Command<BaseRoom, IConfig> {
       }
     }
 
+    //Remove player from civ
+    const civ = this.state.civs.get(player.civID);
+    civ.members = civ.members.filter(p => p.publicID !== player.publicID);
+    player.civID = null;
+
     //Save player state in storage
     this.room.db.players.savePlayer(player);
 
