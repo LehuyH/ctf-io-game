@@ -1,15 +1,5 @@
 [
     {
-        "name": "Headquarters",
-        "type": "headquarters",
-        "description": "The heart of any empire. Build this to establish a nation! Each nation can only have one HQ.",
-        "icon": "/maps/overworld/buildings/headquarters.png",
-        "maxHealth": 100,
-        "cost": {
-            "wood": 100
-        }
-    },
-    {
         "name": "Crafting Bench",
         "type": "craftbench",
         "description": "Allows you to upgrade your tools and weapons",

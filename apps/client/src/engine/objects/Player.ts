@@ -110,7 +110,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         const player = this as any
         if(!this.body) return
 
-        const nation = (this.scene as ClientRoom).state.getState("parties",player.getData('nationID') || '')
+        const civ = (this.scene as ClientRoom).state.getState("parties",player.getData('civID') || '')
 
         try {
             this.moveTween = this.scene.tweens.add({
@@ -155,7 +155,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         //Update nametag location
         this.nameTag.x = this.x
         this.nameTag.y = this.y - 30
-        this.nameTag.setText(`${(nation) ? `[${nation.tag}]` : ''} ${player.getData('name')}`)
+        //this.nameTag.setText(`${(civ) ? `[${civ.tag}]` : ''} ${player.getData('name')}`)
     }
 
     updateItem(){

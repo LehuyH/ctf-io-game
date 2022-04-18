@@ -48,13 +48,13 @@
     const selectedBuilding = ref<any>(null);
     const localPlayer = useLocalPlayer();
 
-    const isInNation = computed(() => {
-        return localPlayer.value?.nationID
+    const isInCiv = computed(() => {
+        return localPlayer.value?.civID
     });
 
     const buildings = computed(() => {
         //Must build HQ first
-        if(!isInNation.value) return buildingsData.filter(b => b.type === 'headquarters');
+        if(!isInCiv.value) return buildingsData.filter(b => b.type === 'headquarters');
         return buildingsData
     });
 

@@ -3,6 +3,7 @@ export interface IState {
     harvestables: Record<string, IHarvestable>|any
     buildings: Record<string, IBuilding>|any
     parties: Record<string, IParty>|any
+    civs: Record<CiVNames, ICiv>|any
 }
 
 export interface IPlayer {
@@ -12,7 +13,7 @@ export interface IPlayer {
     authID: string;
     publicID: string;
     anim: PlayerAnimState;
-    nationID:string|null;
+    civID:string|null;
     x: number;
     y: number;
     speed: number;
@@ -57,7 +58,21 @@ export interface IBuilding{
     maxHealth: number;
     type: string;
     ownerPlayerID: string;
-    ownerNationID: string;
+    ownerCivID: string;
+}
+
+export enum CiVNames{
+    GRASSLAND = "Grassland",
+    DESERT = "Desert",
+    MESA = "Mesa",
+    WETLAND = "Wetland", 
+}
+
+export interface ICiv{
+    name: CiVNames;
+    color: string;
+    influence: number;
+    members: IPlayerSummary[]|any;
 }
 
 export type Cost = Record<string, number>;

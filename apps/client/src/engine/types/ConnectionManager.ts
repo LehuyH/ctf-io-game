@@ -20,7 +20,7 @@ export default interface ConnectionManager {
         useTool: ()=>void;
         craftItem: (itemName:string,buildingName:string)=>void;
         createParty: (name:string)=>void;
-        requestJoin: (nationID:string)=>void;
+        requestJoin: (partyID:string)=>void;
         acceptJoinRequest: (playerID:string)=>void;
         rejectJoinRequest: (playerID:string)=>void;
         leaveParty: ()=>void;

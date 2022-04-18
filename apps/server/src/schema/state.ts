@@ -1,6 +1,6 @@
 import { Schema, MapSchema, type, ArraySchema, filter } from "@colyseus/schema";
 import { Client } from "colyseus";
-import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary } from "shared";
+import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary, ICiv, CiVNames } from "shared";
 import { Item as ItemInterface } from "shared";
 import { ServerBody } from "../logic/ServerBody";
 
@@ -12,7 +12,7 @@ export class Building extends Schema implements IBuilding{
     @type("number") maxHealth: number;
     @type("string") type: string;
     @type("string") ownerPlayerID: string;
-    @type("string") ownerNationID: string;
+    @type("string") ownerCivID: string;
 }
 
 export class PlayerSummary extends Schema implements IPlayerSummary {
@@ -26,6 +26,14 @@ export class Party extends Schema implements IParty{
     @type("string") partyLeaderPublicID: string;
     @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();
     @type([ PlayerSummary ]) joinRequests = new ArraySchema<PlayerSummary>();
+}
+
+export class Civ extends Schema implements ICiv{
+    @type("string") id: string;
+    @type("string") name: CiVNames;
+    @type("number") influence: number = 0;
+    @type("string") color: string;
+    @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();
 }
 
 export class Harvestable extends Schema implements IHarvestable {
@@ -48,7 +56,7 @@ export class Item extends Schema implements ItemInterface{
 
 export class Player extends Schema implements IPlayer{
     @type("string") name:string;
-    @type("string") nationID:string|null;
+    @type("string") civID:string|null;
     @type("string") partyID:string|null;
     @type("string") sessionID: string;
     @type("string") publicID: string;
@@ -86,4 +94,5 @@ export class ServerState extends Schema implements IState{
     @type({map:Harvestable}) harvestables = new MapSchema<Harvestable>();
     @type({map:Building}) buildings = new MapSchema<Building>();
     @type({map:Party}) parties = new MapSchema<Party>();
+    @type({map:Civ}) civs = new MapSchema<Civ>();
 }

@@ -15,6 +15,7 @@ export const state = reactive<IState>({
     harvestables: {},
     buildings: {},
     parties: {},
+    civs:{}
 })
 
 export const uiState = reactive({

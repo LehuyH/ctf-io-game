@@ -134,8 +134,8 @@ export default class ConnectionManagerOnline{
         createParty: (name:string)=>{
             this.room.send(EventType.CreateParty,{name})
         },
-        requestJoin: (nationID:string)=>{
-            this.room.send(EventType.RequestJoinParty,{nationID})
+        requestJoin: (partyID:string)=>{
+            this.room.send(EventType.RequestJoinParty,{partyID})
         },
         acceptJoinRequest: (playerID:string)=>{
             this.room.send(EventType.AcceptJoinParty,{playerID})

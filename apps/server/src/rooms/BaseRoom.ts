@@ -94,7 +94,7 @@ export class BaseRoom extends Room<ServerState> {
     this.onMessage(EventType.RequestJoinParty, (client, message) => {
       this.dispatcher.dispatch(new RequestJoinParty(), {
         client,
-        partyID: message.nationID
+      partyID: message.partyID
       })
     })
 

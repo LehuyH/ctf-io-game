@@ -1,7 +1,7 @@
 
 # Civ Royale
 
-An open, hack and slash style game in which players compete and collaborate on a large map to build and manage a successful nation.
+An open, hack and slash style game in which players compete and collaborate on a large map to expand their civilization.
 
 
 
