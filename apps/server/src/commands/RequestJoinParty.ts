@@ -4,31 +4,31 @@ import { Client } from "colyseus";
 import { PlayerSummary } from "../schema/state";
 
 interface IConfig{
-    nationID:string;
+    partyID:string;
     client: Client
 }
 
-export class RequestJoinNation extends Command<BaseRoom, IConfig> {
-    validate({nationID,client}:IConfig){
+export class RequestJoinParty extends Command<BaseRoom, IConfig> {
+    validate({partyID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const nation = this.state.nations.get(nationID)
+        const party = this.state.parties.get(partyID)
 
-        if(!player || !nation) return false
+        if(!player || !party) return false
         
-        //Already in a nation
-        if(player.nationID) return false
+        //Already in a party
+        if(player.partyID) return false
 
         //Request already exists
-        const requestExists = nation.joinRequests.some(p=>p.publicID === player.publicID)
+        const requestExists = party.joinRequests.some(p=>p.publicID === player.publicID)
         if(requestExists) return false
         
         return true
     }
-    execute({nationID,client}:IConfig){
+    execute({partyID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const nation = this.state.nations.get(nationID)
+        const party = this.state.parties.get(partyID)
 
-        nation.joinRequests.push(new PlayerSummary({
+        party.joinRequests.push(new PlayerSummary({
             name: player.name,
             publicID: player.publicID
         }))

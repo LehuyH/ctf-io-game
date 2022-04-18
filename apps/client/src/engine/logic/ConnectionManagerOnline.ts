@@ -28,7 +28,6 @@ export default class ConnectionManagerOnline{
     }
 
     get inputAllowed(){
-        if(uiState.showNationRegister) return false;
         return true
     }
 
@@ -132,20 +131,20 @@ export default class ConnectionManagerOnline{
         craftItem: (itemName:string,buildingName:string)=>{
             this.room.send(EventType.CraftItem,{itemName,buildingName})
         },
-        registerNation: (name:string,tag:string,color:string)=>{
-            this.room.send(EventType.RegisterNation,{name,tag,color})
+        createParty: (name:string)=>{
+            this.room.send(EventType.CreateParty,{name})
         },
-        requestJoin: (nationID:string)=>{
-            this.room.send(EventType.RequestJoinNation,{nationID})
+        requestJoin: (partyID:string)=>{
+            this.room.send(EventType.RequestJoinParty,{partyID})
         },
         acceptJoinRequest: (playerID:string)=>{
-            this.room.send(EventType.AcceptJoinRequest,{playerID})
+            this.room.send(EventType.AcceptJoinParty,{playerID})
         },
         rejectJoinRequest: (playerID:string)=>{
-            this.room.send(EventType.RejectJoinRequest,{playerID})
+            this.room.send(EventType.RejectJoinParty,{playerID})
         },
-        leaveNation: ()=>{
-            this.room.send(EventType.LeaveNation)
+        leaveParty: ()=>{
+            this.room.send(EventType.LeaveParty)
         }
     }
 

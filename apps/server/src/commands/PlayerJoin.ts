@@ -4,6 +4,7 @@ import { Item, Player } from "../schema/state";
 import { Client } from "colyseus";
 import { IPlayer, ItemType } from 'shared'
 import uniqid from 'uniqid'
+import { BuildCivs } from "./BuildCivs";
 
 interface IConfig{
     name:string;
@@ -44,7 +45,7 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
       health:100,
       maxHealth:100,
       equippedItemIndex: 0,
-      nationID: null as string|null,
+      civID: null as string|null,
       publicID: uniqid(),
       authID: authID || this.room.db.players.genAuthID(),
       items: [{
@@ -83,5 +84,7 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
 
     //Add player to physics
     this.room.physics.objects.addPlayerBody(this.state.players.get(client.sessionId) as Player);
+
+    return new BuildCivs()
   }
 }

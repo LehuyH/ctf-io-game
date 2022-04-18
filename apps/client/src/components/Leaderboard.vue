@@ -4,7 +4,7 @@
         <ul>
             <li v-for="players,teamName in leaderboard">
                 <details>
-                    <summary class="font-semibold text-md px-2 text-outline" :style="`background-color:${nationColors[teamName]};`">
+                    <summary class="font-semibold text-md px-2 text-outline" :style="`background-color:${civColors[teamName]};`">
                         {{teamName}} ({{players.length}})
                     </summary>
                     <ul class="px-4">
@@ -24,33 +24,29 @@ import { IPlayer } from 'shared';
 import { state } from '~/state';
 
 const leaderboard = computed(()=>{
-    const leaderboardData = {
-        "Free Agency":[]
-    } as Record<string,string[]>
+    const leaderboardData = {} as Record<string,string[]>
     Object.values(state.players).forEach((p:any)=>{
         const player = p as IPlayer
 
-        if(!player.nationID){
+        if(!player.civID){
             leaderboardData["Free Agency"].push(player.name)
         }else{
-            const nation = state.nations[player.nationID]
-            if(!leaderboardData[nation.name]){
-                leaderboardData[nation.name] = []
+            const civ = state.civs[player.civID]
+            if(!leaderboardData[civ.name]){
+                leaderboardData[civ.name] = []
             }
-            leaderboardData[nation.name].push(player.name)
+            leaderboardData[civ.name].push(player.name)
         }
     })
     return leaderboardData
 })
 
-const nationColors = computed(()=>{
-    const nationColors = {
-        "Free Agency":"#95a5a6"
-    } as Record<string,string>
+const civColors = computed(()=>{
+    const civColors = {} as Record<string,string>
     
-    Object.values(state.nations).forEach((n:any)=>{
-        nationColors[n.name] = n.color
+    Object.values(state.civs).forEach((n:any)=>{
+        civColors[n.name] = n.color
     })
-    return nationColors
+    return civColors
 })
 </script>

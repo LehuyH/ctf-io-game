@@ -13,6 +13,9 @@ export default class Database{
                 if((player as any).toJSON){
                     player = (player as any).toJSON()
                 }
+                //Remove session details
+                delete player.partyID
+                
                 this.playersStorage[player.authID] = player
             },
             getPlayer: (authID:string) => {

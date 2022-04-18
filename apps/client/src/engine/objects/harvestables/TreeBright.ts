@@ -6,9 +6,11 @@ export default class TreeBright extends Harvestable {
     constructor(scene: Phaser.Scene, harvestableConfig: IHarvestable) {
         //@ts-ignore
         const collisionBox = scene.matter.bodies.rectangle(...TreeBody(harvestableConfig))
-        super(scene, harvestableConfig,collisionBox,"Tree_bright");
+        //Variance in the texture
+        const treeSubIndex = Math.round(Math.random())
+        super(scene, harvestableConfig,collisionBox,`Tree_bright_${treeSubIndex}`);
         this.originY = 0.8
 
-        this.play("tree-bright-idle")
+        this.play(`tree-bright-idle-${treeSubIndex}`)
     }
 }

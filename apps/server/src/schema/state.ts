@@ -1,7 +1,7 @@
 import { Schema, MapSchema, type, ArraySchema, filter } from "@colyseus/schema";
 import { Client } from "colyseus";
-import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, INation, IPlayerSummary } from "shared";
-import { Item as ItemInterface, Cost } from "shared";
+import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary, ICiv, CiVNames, Cost } from "shared";
+import { Item as ItemInterface } from "shared";
 import { ServerBody } from "../logic/ServerBody";
 
 export class Building extends Schema implements IBuilding{
@@ -12,7 +12,7 @@ export class Building extends Schema implements IBuilding{
     @type("number") maxHealth: number;
     @type("string") type: string;
     @type("string") ownerPlayerID: string;
-    @type("string") ownerNationID: string;
+    @type("string") ownerCivID: string;
     cost: Cost;
 }
 
@@ -21,14 +21,20 @@ export class PlayerSummary extends Schema implements IPlayerSummary {
     @type("string") publicID: string;
 }
 
-export class Nation extends Schema implements INation{
+export class Party extends Schema implements IParty{
     @type("string") id: string;
     @type("string") name: string;
-    @type("string") tag: string;
-    @type("string") color: string;
-    @type("boolean") isProtected: boolean = false;
+    @type("string") partyLeaderPublicID: string;
     @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();
     @type([ PlayerSummary ]) joinRequests = new ArraySchema<PlayerSummary>();
+}
+
+export class Civ extends Schema implements ICiv{
+    @type("string") id: string;
+    @type("string") name: CiVNames;
+    @type("number") influence: number = 0;
+    @type("string") color: string;
+    @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();
 }
 
 export class Harvestable extends Schema implements IHarvestable {
@@ -51,7 +57,8 @@ export class Item extends Schema implements ItemInterface{
 
 export class Player extends Schema implements IPlayer{
     @type("string") name:string;
-    @type("string") nationID:string|null;
+    @type("string") civID:string|null;
+    @type("string") partyID:string|null;
     @type("string") sessionID: string;
     @type("string") publicID: string;
     @type("string") anim: PlayerAnimState;
@@ -87,5 +94,6 @@ export class ServerState extends Schema implements IState{
     @type({map:Player}) players = new MapSchema<Player>();
     @type({map:Harvestable}) harvestables = new MapSchema<Harvestable>();
     @type({map:Building}) buildings = new MapSchema<Building>();
-    @type({map:Nation}) nations = new MapSchema<Nation>();
+    @type({map:Party}) parties = new MapSchema<Party>();
+    @type({map:Civ}) civs = new MapSchema<Civ>();
 }

@@ -10,13 +10,13 @@
             <Icon icon="akar-icons:circle-x-fill" />
          </button>
         <BuildBar v-if="sideBarPage==='build'"/>
-        <NationBar v-else-if="sideBarPage==='nations'"/>
+        <PartyBar v-else-if="sideBarPage==='parties'"/>
         <aside v-else>
             <button @click="sideBarPage='build'" class="p-12 my-2 text-2xl font-bold w-full bg-slate-100 transition-colors hover:bg-slate-50 rounded">
                 Build <Icon icon="ion:construct" class="inline-block"/>
             </button>
-            <button @click="sideBarPage='nations'" class="p-12 my-2 text-2xl font-bold w-full bg-slate-100 transition-colors hover:bg-slate-50 rounded">
-                Nations <Icon icon="bi:flag-fill" class="inline-block"/>
+            <button @click="sideBarPage='parties'" class="p-12 my-2 text-2xl font-bold w-full bg-slate-100 transition-colors hover:bg-slate-50 rounded">
+                Parties <Icon icon="bi:people-fill" class="inline-block"/>
             </button>
         </aside>
      </section>
@@ -29,13 +29,13 @@
     import { onClickOutside } from '@vueuse/core';
     import { useScene } from '~/state';
     import BuildBar from './BuildBar.vue';
-    import NationBar from './NationBar.vue';
+    import PartyBar from './PartyBar.vue';
         
     const showSideBar = ref(false);
     const buildBar = ref(null);
     const scene = useScene();
 
-    type SideBarPage = null|'build'|'nations';
+    type SideBarPage = null|'build'|'parties';
     const sideBarPage = ref<SideBarPage>(null);
 
     const sideBarClasses = computed(() => {

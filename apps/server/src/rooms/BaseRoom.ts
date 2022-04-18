@@ -12,11 +12,11 @@ import { UseActiveTool } from "../commands/UseActiveTool";
 import { Build } from "../commands/Build";
 import { CraftItem } from "../commands/CraftItem";
 import { SetActiveItem } from "../commands/SetActiveItem";
-import { RegisterNation } from "../commands/RegisterNation";
-import { RequestJoinNation } from "../commands/RequestJoinNation";
+import { CreateParty } from "../commands/CreateParty";
+import { RequestJoinParty } from "../commands/RequestJoinParty";
 import { AcceptJoinRequest } from "../commands/AcceptJoinRequest";
 import { RejectJoinRequest } from "../commands/RejectJoinRequest";
-import { LeaveNation } from "../commands/LeaveNation";
+import { LeaveParty } from "../commands/LeaveParty";
 
 import { EventType } from "shared";
 import Database from "../logic/Database";
@@ -84,38 +84,36 @@ export class BaseRoom extends Room<ServerState> {
       })
     })
 
-    this.onMessage(EventType.RegisterNation, (client, message) => {
-      this.dispatcher.dispatch(new RegisterNation(), {
+    this.onMessage(EventType.CreateParty, (client, message) => {
+      this.dispatcher.dispatch(new CreateParty(), {
         client,
-        name: message.name,
-        color: message.color,
-        tag: message.tag
+        name: message.name
       })
     })
 
-    this.onMessage(EventType.RequestJoinNation, (client, message) => {
-      this.dispatcher.dispatch(new RequestJoinNation(), {
+    this.onMessage(EventType.RequestJoinParty, (client, message) => {
+      this.dispatcher.dispatch(new RequestJoinParty(), {
         client,
-        nationID: message.nationID
+      partyID: message.partyID
       })
     })
 
-    this.onMessage(EventType.AcceptJoinRequest, (client, message) => {
+    this.onMessage(EventType.AcceptJoinParty, (client, message) => {
       this.dispatcher.dispatch(new AcceptJoinRequest(), {
         client,
         playerID: message.playerID
       })
     })
 
-    this.onMessage(EventType.RejectJoinRequest, (client, message) => {
+    this.onMessage(EventType.RejectJoinParty, (client, message) => {
       this.dispatcher.dispatch(new RejectJoinRequest(), {
         client,
         playerID: message.playerID
       })
     })
 
-    this.onMessage(EventType.LeaveNation, (client) => {
-      this.dispatcher.dispatch(new LeaveNation(), {
+    this.onMessage(EventType.LeaveParty, (client) => {
+      this.dispatcher.dispatch(new LeaveParty(), {
         client
       })
     })

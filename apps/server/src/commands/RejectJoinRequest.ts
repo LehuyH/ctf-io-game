@@ -11,21 +11,22 @@ export class RejectJoinRequest extends Command<BaseRoom, IConfig> {
     validate({playerID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
         if(!player) return false
-        const nation = this.state.nations.get(player.nationID)
-        if(!nation) return false
 
-        //Confirm that player is part of the nation
-        if(nation.members.findIndex(p=>p.publicID === player.publicID) === -1) return false
+        const party = this.state.parties.get(player.partyID)
+        if(!party) return false
+
+        //Confirm that player is party leader
+        if(player.publicID !== party.partyLeaderPublicID) return false
 
         //Confirm that request exists
-        const requestExists = nation.joinRequests.some(p=>p.publicID === playerID)
+        const requestExists = party.joinRequests.some(p=>p.publicID === playerID)
         return requestExists
     }
     execute({playerID,client}:IConfig){
         const player = this.state.players.get(client.sessionId)
-        const nation = this.state.nations.get(player.nationID)
+        const party = this.state.parties.get(player.partyID)
 
-        //Remove request to this nations
-        nation.joinRequests = nation.joinRequests.filter(p=>p.publicID !== playerID)
+        //Remove request to this party
+        party.joinRequests = party.joinRequests.filter(p=>p.publicID !== playerID)
     }
 }

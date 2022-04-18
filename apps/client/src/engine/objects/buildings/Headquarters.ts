@@ -4,7 +4,7 @@ import HeadquartersBody from 'shared/bodies/buildings/HeadquartersBody';
 import ClientRoom from '~/engine/types/ClientRoom';
 import { uiState, useLocalPlayer, useLocalPlayerID } from '~/state';
 
-
+/** @TODO Refactor for civ use  */
 export default class Headquarters extends Building {
     constructor(scene: ClientRoom, buildingConfig: IBuilding) {
         //@ts-ignore
@@ -27,7 +27,7 @@ export default class Headquarters extends Building {
             }
             if(!nationID) return
 
-            const nation = (this.scene as ClientRoom).state.getState("nations",nationID)
+            const nation = (this.scene as ClientRoom).state.getState("parties   ",nationID)
             if(!nation) return
             uiState.tooltip = `${nation.name}'s headquarters`
             uiState.interactHint.gameObject = this

@@ -74,11 +74,8 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
         const buildingState = this.state.buildings.get(id.split("-")[1])
         if(!buildingState || !attackingPlayerState) return
 
-        const playerNationOwnsBuilding = attackingPlayerState.nationID === buildingState.ownerNationID
+        const playerNationOwnsBuilding = attackingPlayerState.civID === buildingState.ownerCivID
         
-        //If in Free Agency mode, don't do damage
-        if(!attackingPlayerState.nationID) return
-
         //Cannot attack own nation HQ
         if(playerNationOwnsBuilding && buildingState.type ==="headquarters") return
 
@@ -109,9 +106,8 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
         if (!targetPlayerState || !attackingPlayerState) return
 
         //Same team
-        if (targetPlayerState.nationID === attackingPlayerState.nationID) return
-        //Either is in free agency
-        if (targetPlayerState.nationID === null || attackingPlayerState.nationID === null) return
+        if (targetPlayerState.civID === attackingPlayerState.civID) return
+
          
         const {body:targetBody} = targetPlayerState.body
         const {body:attackingBody} = attackingPlayerState.body
@@ -129,27 +125,16 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
         
         //Handle death
         if(targetPlayerState.health <= 0){
-          //Respawn at nation HQ
-          const nationHQ = [...this.state.buildings.values()].find(b=>b.type === "headquarters" && b.ownerNationID === targetPlayerState.nationID)
-
-          if (nationHQ) {
-            targetPlayerState.health = targetPlayerState.maxHealth
-            const nationHQBody = this.room.physics.objects.buildings[nationHQ.id]
-            Matter.Body.setPosition(targetBody, nationHQBody.body.position)
+          //Respawn at civ HQ
+          /** @TODO - load capital location from map */
+          const civHQ = false
+          if (civHQ) {
+            //Matter.Body.setPosition(targetBody, civHQ.body.position)
           } else {
-            //HQ does not exist, remove player from nation and spawn at default spawn
-            const targetNation = this.state.nations.get(targetPlayerState.nationID)
-            targetNation.members = targetNation.members.filter(m => m.publicID !== targetPlayerState.publicID)
-            targetPlayerState.nationID = null
             Matter.Body.setPosition(targetBody, {
               x: 2752,
               y: 2752
             })
-
-            if(targetNation.members.length === 0){
-              //Nation is dead, remove nation
-              this.state.nations.delete(targetNation.id)
-            }
           }
 
           //Remove collision records
