@@ -112,7 +112,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         const player = this as any
         if(!this.body) return
 
-        const civ = (this.scene as ClientRoom).state.getState("parties",player.getData('civID') || '')
+        const civ = (this.scene as ClientRoom).state.getState("civs",player.getData('civID') || '')
 
         try {
             this.moveTween = this.scene.tweens.add({
@@ -145,14 +145,16 @@ export default class Player extends Phaser.GameObjects.Sprite{
             this.item.y = this.y + 5
         }
 
+        //Convert color hex to hexadecimal
+        const color = `0x${civ.color.replace("#","")}`
         //Update HP bar
         this.hpBar.clear()
-        this.hpBar.fillStyle(0x00ff00, 1)
+        this.hpBar.fillStyle(color as any, 1)
         this.hpBar.lineStyle(1, 0x000000, 1)
         //Bar
-        this.hpBar.fillRect(this.x-18,this.y-20,(35*(this.data.get('health')/this.data.get('maxHealth'))),5)
+        this.hpBar.fillRect(this.x-18,this.y-22,(35*(this.data.get('health')/this.data.get('maxHealth'))),5)
         //Border
-        this.hpBar.strokeRect(this.x-18,this.y-20,35,6)
+        this.hpBar.strokeRect(this.x-18,this.y-22,35,6)
 
         //Update nametag location
         this.nameTag.x = this.x

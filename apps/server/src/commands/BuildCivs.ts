@@ -12,7 +12,7 @@ const defaultCivs = {
     },
     [CiVNames.DESERT]: {
         name: "Desert",
-        color: "#fdcb6e",
+        color: "#A8644D",
         influence: 0,
         members: [],
     },
