@@ -30,7 +30,11 @@ export default Arena({
          * It is recommended to protect this route with a password.
          * Read more: https://docs.colyseus.io/tools/monitor/
          */
-        app.use("/colyseus", monitor());
+        //Only enable in development
+        if (process.env.NODE_ENV === "development") {
+            app.use("/colyseus", monitor());
+            console.log("Monitor enabled");
+        }
     },
 
 
