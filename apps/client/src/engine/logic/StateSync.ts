@@ -29,7 +29,7 @@ export default class StateSyncerOffline {
     getState<T = any>(type:string,id:string){
         let parsedID = id
         if(id.includes('-')){
-            parsedID = id.split('-')[1]
+            parsedID = id.split("-").slice(1).join("-")
         }
 
         return (this as any).state[type][parsedID] as T
