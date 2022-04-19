@@ -104,7 +104,9 @@ export enum EventType{
     RequestJoinParty = 'RequestJoinParty',
     AcceptJoinParty = 'AcceptJoinParty',
     RejectJoinParty = 'RejectJoinParty',
-    LeaveParty = 'LeaveParty'
+    LeaveParty = 'LeaveParty',
+    StealPoints = 'StealPoints',
+    DepositPoints = 'DepositPoints',
 }
 
 export enum ItemType{

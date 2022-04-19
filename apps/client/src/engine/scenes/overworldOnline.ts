@@ -45,6 +45,7 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
         const ocean = map.createLayer("Ocean", woodlandSet, 0, 0)
         const middle = map.createLayer("IntGrid_WT", [woodlandSet,grasslandSet], 0, 0)
         const top = map.createLayer("Woodland",woodlandSet, 0, 0)
+        //@ts-ignore
         const collisions = map.createLayer("COLLISIONS")
         
         collisions.setCollisionByExclusion([-1])

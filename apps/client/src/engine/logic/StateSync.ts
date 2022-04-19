@@ -4,6 +4,7 @@ import ClientRoom from '../types/ClientRoom'
 import uniqid from 'uniqid'
 import { state, resetState, setLocalPlayerID } from '~/state'
 import { IState } from 'shared'
+import { parseID } from 'shared/helpers'
 
 export default class StateSyncerOffline {
     state: IState
@@ -27,20 +28,12 @@ export default class StateSyncerOffline {
     }
 
     getState<T = any>(type:string,id:string){
-        let parsedID = id
-        if(id.includes('-')){
-            parsedID = id.split('-')[1]
-        }
-
+        let parsedID = parseID(id)
         return (this as any).state[type][parsedID] as T
     }
 
     removeState<T = any>(type:string,id:string){
-        let parsedID = id
-        if(id.includes('-')){
-            parsedID = id.split('-')[1]
-        }
-
+        let parsedID = parseID(id)
         delete (this as any).state[type][parsedID]
     }
 

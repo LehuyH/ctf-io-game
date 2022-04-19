@@ -1,5 +1,11 @@
 [
     {
+        "name": "Headquarters",
+        "type": "headquarters",
+        "icon": "/maps/overworld/buildings/headquarters.png",
+        "maxHealth": 100
+    },
+    {
         "name": "Crafting Bench",
         "type": "craftbench",
         "description": "Allows you to upgrade your tools and weapons",

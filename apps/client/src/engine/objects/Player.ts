@@ -8,6 +8,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     item: Phaser.GameObjects.Sprite
     moveTween: Phaser.Tweens.Tween|null = null
     nameTag: Phaser.GameObjects.Text
+    heldInfluence: Phaser.GameObjects.Text
     isStopped: boolean = false
     local: boolean = false
     interactBody: MatterJS.BodyType
@@ -59,7 +60,26 @@ export default class Player extends Phaser.GameObjects.Sprite{
         nameTag.setOrigin(0.5,0.5)
         this.nameTag = nameTag
         this.nameTag.setPipeline('BitmapFont')
-        
+
+        //Create heldInfluence text
+        const heldInfluence = scene.add.text(config.x,config.y,"",{
+            fontFamily: 'Arial',
+            fontSize: '10px',
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 2,
+            align: 'center',
+            wordWrap: {
+                width: 100
+            }
+        })
+        heldInfluence.setDepth(10)
+        heldInfluence.setOrigin(0.5,0.5)
+        heldInfluence.setVisible(false)
+        this.heldInfluence = heldInfluence
+        this.heldInfluence.setPipeline('BitmapFont')
+
+
 
 
         //Event Listeners ========
@@ -110,7 +130,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         const player = this as any
         if(!this.body) return
 
-        const civ = (this.scene as ClientRoom).state.getState("parties",player.getData('civID') || '')
+        const civ = (this.scene as ClientRoom).state.getState("civs",player.getData('civID') || '')
 
         try {
             this.moveTween = this.scene.tweens.add({
@@ -143,19 +163,31 @@ export default class Player extends Phaser.GameObjects.Sprite{
             this.item.y = this.y + 5
         }
 
+        //Convert color hex to hexadecimal
+        const color = `0x${civ.color.replace("#","")}`
         //Update HP bar
         this.hpBar.clear()
-        this.hpBar.fillStyle(0x00ff00, 1)
+        this.hpBar.fillStyle(color as any, 1)
         this.hpBar.lineStyle(1, 0x000000, 1)
         //Bar
-        this.hpBar.fillRect(this.x-18,this.y-20,(35*(this.data.get('health')/this.data.get('maxHealth'))),5)
+        this.hpBar.fillRect(this.x-18,this.y-22,(35*(this.data.get('health')/this.data.get('maxHealth'))),5)
         //Border
-        this.hpBar.strokeRect(this.x-18,this.y-20,35,6)
+        this.hpBar.strokeRect(this.x-18,this.y-22,35,6)
 
         //Update nametag location
         this.nameTag.x = this.x
         this.nameTag.y = this.y - 30
-        //this.nameTag.setText(`${(civ) ? `[${civ.tag}]` : ''} ${player.getData('name')}`)
+
+        //Update heldInfluence text
+        if (this.getData('inventory').influencePoints > 0) {
+            this.heldInfluence.x = this.x
+            this.heldInfluence.y = this.y - 45
+            this.heldInfluence.setText(`Holding ${this.getData('inventory').influencePoints} influence!`)
+            this.heldInfluence.setVisible(true)
+        } else {
+            this.heldInfluence.setVisible(false)
+        }
+        
     }
 
     updateItem(){

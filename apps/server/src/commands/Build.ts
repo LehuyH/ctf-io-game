@@ -21,6 +21,7 @@ export class Build extends Command<BaseRoom, IConfig> {
 
         //Check if they have enough resources
         const cost = building.cost
+        if(!cost) return false
         if(!canPay(cost,player.inventory as any)) return false
         //Check if there is a collision
         const body = buildingBodies[type]({x,y})

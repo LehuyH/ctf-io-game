@@ -17,6 +17,9 @@ import { RequestJoinParty } from "../commands/RequestJoinParty";
 import { AcceptJoinRequest } from "../commands/AcceptJoinRequest";
 import { RejectJoinRequest } from "../commands/RejectJoinRequest";
 import { LeaveParty } from "../commands/LeaveParty";
+import { BuildCivs } from "../commands/BuildCivs";
+import { StealPoints } from "../commands/StealPoints";
+import { DepositPoints } from "../commands/DepositPoints";
 
 import { EventType } from "shared";
 import Database from "../logic/Database";
@@ -38,6 +41,8 @@ export class BaseRoom extends Room<ServerState> {
     this.physics.loadMapJSON(JSON.stringify(overworldMapJSON));
     this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / 30);
 
+    //Build civs
+    this.dispatcher.dispatch(new BuildCivs());
 
     //Listen to events
     this.onMessage(EventType.PlayerStartMove, (client, message) => {
@@ -114,6 +119,18 @@ export class BaseRoom extends Room<ServerState> {
 
     this.onMessage(EventType.LeaveParty, (client) => {
       this.dispatcher.dispatch(new LeaveParty(), {
+        client
+      })
+    })
+
+    this.onMessage(EventType.StealPoints, (client) => {
+      this.dispatcher.dispatch(new StealPoints(), {
+        client
+      })
+    })
+
+    this.onMessage(EventType.DepositPoints, (client) => {
+      this.dispatcher.dispatch(new DepositPoints(), {
         client
       })
     })

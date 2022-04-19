@@ -12,7 +12,7 @@ const defaultCivs = {
     },
     [CiVNames.DESERT]: {
         name: "Desert",
-        color: "#fdcb6e",
+        color: "#A8644D",
         influence: 0,
         members: [],
     },
@@ -81,7 +81,7 @@ export class BuildCivs extends Command<BaseRoom> {
         let civIndex = 0;
 
         //Assign players to civ until target is reached. Keep parties together
-        while(civIndex < civQueue.length){
+        while(civIndex < civQueue.length && partiesSorted.length > 0){
             while(civQueue[civIndex].members.length < targetPlayersPerCiv){
                 //If first party is empty, remove it
                 if(partiesSorted[0].length === 0) partiesSorted.shift()

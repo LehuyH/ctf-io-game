@@ -3,8 +3,9 @@ import { EventType, IState } from "shared";
 import { useLocalPlayerID, uiState, } from "~/state";
 import { connection } from "~/connection";
 import type * as Colyseus from "colyseus.js";
+import ConnectionManager from "../types/ConnectionManager";
 
-export default class ConnectionManagerOnline{
+export default class ConnectionManagerOnline implements ConnectionManager{
     scene: ClientRoom;
     keys: Record<string,Phaser.Input.Keyboard.Key> = {}
     room: Colyseus.Room<IState>;
@@ -145,8 +146,14 @@ export default class ConnectionManagerOnline{
         },
         leaveParty: ()=>{
             this.room.send(EventType.LeaveParty)
+        },
+        stealPoints: ()=>{
+            this.room.send(EventType.StealPoints)
+        },
+        depositPoints: ()=>{
+            this.room.send(EventType.DepositPoints)
         }
-    }
+}
 
     mockBroadcast(type: string, data: any): void {
         this.scene.events.emit(type, data);

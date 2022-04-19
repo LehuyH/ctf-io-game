@@ -1,7 +1,7 @@
 import Matter, { Engine, Bodies, Composite, Events, Query } from 'matter-js';
 import { IState } from 'shared';
 import Runner from 'shared/physics/runner';
-import { ServerBody } from './ServerBody';
+import buildingsData from 'shared/data/buildings.json'
 import TileStorage, { TileType } from 'shared/helpers/tiles';
 import uniqid from 'uniqid';
 import ServerObjects from './ServerObjects';
@@ -93,7 +93,7 @@ export default class ServerPhysics{
         this.tileStorage = new TileStorage(map.width,map.height,map.tileheight)
         this.tileStorage.importMapRaw(JSON.stringify(map))
         
-        const harvestableLayer = map.layers.find((layer:any) => layer.type === "objectgroup" && layer.name === "HARVESTABLES")
+        const objectLayer = map.layers.find((layer:any) => layer.type === "objectgroup" && layer.name === "OBJECTS")
         const collisionLayer = map.layers.find((layer:any) => layer.name === "COLLISIONS" && layer.type === "tilelayer")
         //Parsed 2d array of tiles
         const collisionMap = [] 
@@ -115,7 +115,8 @@ export default class ServerPhysics{
        }
 
        //Insert harvestable objects
-       harvestableLayer.objects.forEach((o:any) => {
+       const harvestableObjects = objectLayer.objects.filter((o:any)=> o.properties.find((p:any)=>p.name==="type").value === "harvestable")
+       harvestableObjects.forEach((o:any) => {
            const id = uniqid()
            const health = o.properties.find((p:any)=>p.name==='health').value as number
            const value = o.properties.find((p:any)=>p.name==='value').value as number
@@ -130,6 +131,29 @@ export default class ServerPhysics{
                 type: o.name,
                 value,
                 resource
+            })
+        })
+
+        //Add buildings
+        const buildingObjects = objectLayer.objects.filter((o:any)=> o.properties.find((p:any)=>p.name==="type").value === "building")
+        buildingObjects.forEach((o:any) => {
+            const id = uniqid()
+            const buildingType = o.properties.find((p:any)=>p.name==='buildingType').value as string
+            const building = buildingsData.find(b=>b.type===buildingType)
+            const ownerCivID = o.properties.find((p:any)=>p.name==='ownerCivID').value as string
+
+            if(!building) return;
+
+            this.objects.addBuilding({
+                id,
+                type:building.type,
+                x:o.x,
+                y:o.y,
+                ownerPlayerID: null,
+                ownerCivID,
+                health: building.maxHealth,
+                maxHealth: building.maxHealth,
+                cost: building.cost
             })
         })
     }

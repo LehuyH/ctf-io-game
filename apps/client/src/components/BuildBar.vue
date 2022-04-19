@@ -53,9 +53,7 @@
     });
 
     const buildings = computed(() => {
-        //Must build HQ first
-        if(!isInCiv.value) return buildingsData.filter(b => b.type === 'headquarters');
-        return buildingsData
+        return buildingsData.filter(b=>b.cost)
     });
 
 

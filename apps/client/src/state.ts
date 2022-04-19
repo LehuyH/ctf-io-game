@@ -18,6 +18,11 @@ export const state = reactive<IState>({
     civs:{}
 })
 
+interface Waiting{
+    duration:number;
+    text:string;
+}
+
 export const uiState = reactive({
     isBuilding: null as null | string,
     loaded: false,
@@ -30,7 +35,8 @@ export const uiState = reactive({
     craftmenu: {
         allowed: null as null | string[],
         buildingName: null as null | string
-    }
+    },
+    waitingStatus:null as null | Waiting,
 })
 
 export const resetState = () => {
