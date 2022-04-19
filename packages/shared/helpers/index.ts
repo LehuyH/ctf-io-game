@@ -36,3 +36,13 @@ export function calcPlayerDamage(tool:Item){
     const multiplier = (tool.type === 'sword') ? 1.5 : 1
     return baseDmg * multiplier
 }
+
+export function parseID(id:string){
+    if(id.includes('-')){
+        const identifier = id.split('-')[0]
+        if(["player","building","harvestable"].includes(identifier)){
+            return id.split("-").slice(1).join("-")
+        }
+    }
+    return id
+}
