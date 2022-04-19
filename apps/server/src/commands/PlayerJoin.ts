@@ -64,6 +64,13 @@ export class PlayerJoin extends Command<BaseRoom, IConfig> {
       playerState = {
         ...playerSave,
         sessionID: client.sessionId,
+        items: [{
+          name: "Wooden Axe",
+          type: ItemType.AXE,
+          texture: "wooden_axe",
+          damage:10
+        }],
+        equippedItemIndex: 0
       }
 
     }

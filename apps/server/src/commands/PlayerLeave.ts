@@ -26,8 +26,11 @@ export class PlayerLeave extends Command<BaseRoom, IConfig> {
     civ.members = civ.members.filter(p => p.publicID !== player.publicID);
     player.civID = null;
 
-    //Zero out player's held influence points
-    player.inventory.set("influencePoints", 0);
+    //Zero out players inventory
+    player.inventory.clear();
+
+    //Clear player items 
+    player.items = [];
 
     //Return held points to original civ
     Object.entries(player.heldPointsOrigin).forEach(([civID, value]) => {
