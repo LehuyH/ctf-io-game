@@ -8,6 +8,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     item: Phaser.GameObjects.Sprite
     moveTween: Phaser.Tweens.Tween|null = null
     nameTag: Phaser.GameObjects.Text
+    heldInfluence: Phaser.GameObjects.Text
     isStopped: boolean = false
     local: boolean = false
     interactBody: MatterJS.BodyType
@@ -60,7 +61,25 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.nameTag = nameTag
         this.nameTag.setPipeline('BitmapFont')
 
-        console.log(this)
+        //Create heldInfluence text
+        const heldInfluence = scene.add.text(config.x,config.y,"",{
+            fontFamily: 'Arial',
+            fontSize: '10px',
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 2,
+            align: 'center',
+            wordWrap: {
+                width: 100
+            }
+        })
+        heldInfluence.setDepth(10)
+        heldInfluence.setOrigin(0.5,0.5)
+        heldInfluence.setVisible(false)
+        this.heldInfluence = heldInfluence
+        this.heldInfluence.setPipeline('BitmapFont')
+
+
 
 
         //Event Listeners ========
@@ -89,7 +108,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
         })
 
         this.on(`changedata-x`,(object:any,currX:number,prevX:number)=>{
-            console.log(`${this.name} moved from ${prevX} to ${currX}`)
             this.flipX = Math.sign(currX - prevX) === 1
             this.play(`${this.texture.key}_walkX`,true)
         })
@@ -159,7 +177,17 @@ export default class Player extends Phaser.GameObjects.Sprite{
         //Update nametag location
         this.nameTag.x = this.x
         this.nameTag.y = this.y - 30
-        //this.nameTag.setText(`${(civ) ? `[${civ.tag}]` : ''} ${player.getData('name')}`)
+
+        //Update heldInfluence text
+        if (this.getData('inventory').influencePoints > 0) {
+            this.heldInfluence.x = this.x
+            this.heldInfluence.y = this.y - 45
+            this.heldInfluence.setText(`Holding ${this.getData('inventory').influencePoints} influence!`)
+            this.heldInfluence.setVisible(true)
+        } else {
+            this.heldInfluence.setVisible(false)
+        }
+        
     }
 
     updateItem(){

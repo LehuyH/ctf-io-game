@@ -32,7 +32,7 @@ export class Party extends Schema implements IParty{
 export class Civ extends Schema implements ICiv{
     @type("string") id: string;
     @type("string") name: CiVNames;
-    @type("number") influence: number = 0;
+    @type("number") influence: number = 5;
     @type("string") color: string;
     @type([ PlayerSummary ]) members = new ArraySchema<PlayerSummary>();
 }
@@ -81,6 +81,8 @@ export class Player extends Schema implements IPlayer{
 
     //Server only
     body: ServerBody;
+    isStealing = false;
+    heldPointsOrigin = {} as Record<string,number>;
     move = {
         left: false,
         right:false,

@@ -24,6 +24,8 @@ export default interface ConnectionManager {
         acceptJoinRequest: (playerID:string)=>void;
         rejectJoinRequest: (playerID:string)=>void;
         leaveParty: ()=>void;
+        stealPoints:()=>void;
+        depositPoints:()=>void;
     }
     create(): void;
     update(time: number, delta: number): void;

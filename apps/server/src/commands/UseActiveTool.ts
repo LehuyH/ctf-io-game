@@ -3,7 +3,7 @@ import { BaseRoom } from "../rooms/BaseRoom";
 import { Item, Player } from "../schema/state";
 import { Client } from "colyseus";
 import { ItemType, PlayerAnimState } from 'shared'
-import { calcHarvestDamage, calcPlayerDamage, processPay } from 'shared/helpers'
+import { calcHarvestDamage, calcPlayerDamage, processPay, parseID } from 'shared/helpers'
 import Matter from "matter-js";
 
 interface IConfig{
@@ -29,13 +29,13 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
     //Handle harvestables
     collidedHarvestables.forEach(id=>{
-        const harvestableState = this.state.harvestables.get(id.split("-")[1])
+        const harvestableState = this.state.harvestables.get(parseID(id))
         if(!harvestableState) return
         harvestableState.health -= calcHarvestDamage(harvestableState,heldItem)
 
         if(harvestableState.health <= 0){
            //Remove harvestable
-           const {body} = this.room.physics.objects.harvestables[id.split("-")[1]]
+           const {body} = this.room.physics.objects.harvestables[parseID(id)]
 
            const bodyFrame = {
               x: body.position.x,
@@ -44,7 +44,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
               height: body.bounds.max.y - body.bounds.min.y
            }
 
-           this.room.physics.objects.removeHarvestable(id.split("-")[1])
+           this.room.physics.objects.removeHarvestable(parseID(id))
            
             //Give resource to player
             player.inventory.set(harvestableState.resource,player.inventory.get(harvestableState.resource) || 0)
@@ -71,7 +71,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
     //Handle buildings
     collidedBuildings.forEach(id=>{
         const attackingPlayerState = this.state.players.get(client.sessionId)
-        const buildingState = this.state.buildings.get(id.split("-")[1])
+        const buildingState = this.state.buildings.get(parseID(id))
         if(!buildingState || !attackingPlayerState) return
 
         const playerNationOwnsBuilding = attackingPlayerState.civID === buildingState.ownerCivID
@@ -82,7 +82,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
         buildingState.health -= heldItem.damage
         if(buildingState.health <= 0){
             //Remove building from state
-            this.room.physics.objects.removeBuilding(id.split("-")[1])
+            this.room.physics.objects.removeBuilding(parseID(id))
             
             //Refund 100% of the building's value if the player's nation owns it
             if(playerNationOwnsBuilding){
@@ -100,7 +100,7 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
 
     //Handle players
     collidedPlayers.forEach(id=>{
-        const targetPlayerState = this.state.players.get(id.split("-")[1])
+        const targetPlayerState = this.state.players.get(parseID(id))
         const attackingPlayerState = this.state.players.get(client.sessionId)
 
         if (!targetPlayerState || !attackingPlayerState) return
@@ -153,6 +153,13 @@ export class UseActiveTool extends Command<BaseRoom, IConfig> {
             })
           ]
           targetPlayerState.equippedItemIndex = 0
+
+          //Transfer Influence Points to attacking player
+          if(targetPlayerState.inventory.get("influencePoints") > 0){
+            const attackerCurrentInfluencePoints = attackingPlayerState.inventory.get("influencePoints") || 0
+            attackingPlayerState.inventory.set("influencePoints",attackerCurrentInfluencePoints + targetPlayerState.inventory.get("influencePoints"))
+          }
+
           targetPlayerState.inventory.clear()
         }
     })
