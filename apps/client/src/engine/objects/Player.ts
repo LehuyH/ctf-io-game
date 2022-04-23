@@ -215,6 +215,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         
         this.item.destroy()
         this.hpBar.destroy()
+        this.heldInfluence.destroy()
         this.nameTag.destroy()
         this.scene.matter.world.remove(this.interactBody)
         this.destroy()
