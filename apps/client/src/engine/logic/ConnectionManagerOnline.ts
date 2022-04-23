@@ -34,10 +34,15 @@ export default class ConnectionManagerOnline implements ConnectionManager{
 
     create(): void {
         this.patchState(this.room.state);
-        this.keys = this.scene.input.keyboard.addKeys("W,A,S,D,E",false) as Record<string,Phaser.Input.Keyboard.Key>;
+        this.keys = this.scene.input.keyboard.addKeys("W,A,S,D,E,space",false) as Record<string,Phaser.Input.Keyboard.Key>;
 
         //Register input handlers
         this.scene.input.on('pointerdown',()=>{
+            if(uiState.isBuilding) return;
+            if(uiState.craftmenu.buildingName) return;
+            this.inputs.useTool();
+        })
+        this.keys.space.on('down',()=>{
             if(uiState.isBuilding) return;
             if(uiState.craftmenu.buildingName) return;
             this.inputs.useTool();
