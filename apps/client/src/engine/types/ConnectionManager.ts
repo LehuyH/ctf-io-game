@@ -2,6 +2,7 @@ import { Room } from "colyseus.js";
 
 export default interface ConnectionManager {
     room?: Room;
+    joyStick:any;
     inputs:{
         start: {
             up: () => void;

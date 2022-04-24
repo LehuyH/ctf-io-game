@@ -16,6 +16,7 @@ export default class BootScene extends Phaser.Scene{
       this.load.image('craftbench',"/maps/overworld/buildings/craftbench.png")
       this.load.image('headquarters',"/maps/overworld/buildings/headquarters.png")
       this.load.spritesheet('campfire',"/maps/overworld/buildings/campfire.png",{frameWidth:32,frameHeight:32})
+      this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true);
       this.load.once('complete',()=>{
         uiState.loaded = true
       })
