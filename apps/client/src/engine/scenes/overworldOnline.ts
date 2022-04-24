@@ -17,7 +17,7 @@ export default class OverworldSceneOnline extends Phaser.Scene implements Client
         this.objects = new ObjectManager(this)
         this.state = new StateSyncerOffline(this)
         this.connection = new ConnectionManagerOnline(this)
-        
+        this.input.addPointer(3)
 
         this.connection.create()
 
