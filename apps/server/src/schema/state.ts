@@ -1,6 +1,6 @@
 import { Schema, MapSchema, type, ArraySchema, filter } from "@colyseus/schema";
 import { Client } from "colyseus";
-import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary, ICiv, CiVNames, Cost } from "shared";
+import { IPlayer, IState, PlayerAnimState, ItemType, IHarvestable, IBuilding, IParty, IPlayerSummary, ICiv, CiVNames, Cost, IEventInfo } from "shared";
 import { Item as ItemInterface } from "shared";
 import { ServerBody } from "../logic/ServerBody";
 
@@ -91,6 +91,12 @@ export class Player extends Schema implements IPlayer{
     }
 }
 
+export class EventInfo<Schema> extends Schema implements IEventInfo<Schema>{
+    @type("string") name: string;
+    @type("number") duration: number;
+    @type("string") description: string;
+    @type(Schema) data:Schema;
+}
 
 export class ServerState extends Schema implements IState{
     @type({map:Player}) players = new MapSchema<Player>();
@@ -98,4 +104,5 @@ export class ServerState extends Schema implements IState{
     @type({map:Building}) buildings = new MapSchema<Building>();
     @type({map:Party}) parties = new MapSchema<Party>();
     @type({map:Civ}) civs = new MapSchema<Civ>();
+    @type(EventInfo) EventInfo = null as EventInfo<any>;
 }

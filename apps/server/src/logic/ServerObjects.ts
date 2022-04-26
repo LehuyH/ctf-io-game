@@ -6,6 +6,7 @@ import { Building, Harvestable, Player, ServerState } from "../schema/state";
 import { IState, IBuilding, IHarvestable, IPlayer } from "shared";
 import { Composite, Constraint } from "matter-js";
 import PlayerBody from "../objects/Player.server";
+import { ServerEventManager } from "../objects/events";
 
 export default class ServerObjects{
     buildings: Record<string,ServerBody> = {};
@@ -56,6 +57,10 @@ export default class ServerObjects{
         })
         Composite.add(this.world,body.interactBody);
         Composite.add(this.world,constraint);
+    }
+
+    startGameEvent(eventManager:ServerEventManager<any>){
+        
     }
 
     /** Removes a player's body */

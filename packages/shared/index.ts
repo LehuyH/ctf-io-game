@@ -92,7 +92,7 @@ export enum PlayerAnimState{
     MOVING = 'moving',
     BASIC_ATTACK = 'basic-attack',
 }
-
+/** Allowed websocket events */
 export enum EventType{
     PlayerStartMove = 'PlayerStartMove',
     PlayerStopMove = 'PlayerStopMove',
@@ -115,4 +115,12 @@ export enum ItemType{
     PICKAXE = 'pickaxe',
     BOW = 'bow',
     BOMB = 'bomb'
+}
+
+/** In-Game Events */
+export interface IEventInfo<T>{
+    name:string,
+    description:string,
+    duration:number,
+    data: T
 }
