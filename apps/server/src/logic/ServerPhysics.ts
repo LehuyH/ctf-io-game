@@ -24,7 +24,7 @@ export default class ServerPhysics{
             enableSleeping: false
         })
         this.world = this.engine.world
-        this.objects = new ServerObjects(state,this.world)
+        this.objects = new ServerObjects(state,this.world,this)
         // @NOTE this is a hack to make sure the physics can be stepped
 
         //@ts-ignore

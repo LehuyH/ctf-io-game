@@ -11,7 +11,7 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
     scene: ClientRoom;
     id:string;
     objects: {
-        zone?: Phaser.GameObjects.Arc
+        zone?: Phaser.GameObjects.GameObject
     }
 
     constructor(scene:ClientRoom,state:IEventInfo<IKingOfTheKillState>){
@@ -25,12 +25,11 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
     }
 
     setup(){
-        this.objects.zone = this.scene.add.circle(this.data.x, this.data.y, ZoneRadius, 0x888888,0.3)
-        this.scene.matter.add.gameObject(this.objects.zone,this.scene.matter.bodies.circle(this.data.x,this.data.y,ZoneRadius))
+        const cir = this.scene.add.circle(this.data.x, this.data.y, ZoneRadius, 0x888888,0.5)
+        this.objects.zone = this.scene.matter.add.gameObject(cir,this.scene.matter.bodies.circle(this.data.x,this.data.y,ZoneRadius))
     }
     cleanup(){
         this.objects.zone?.destroy()
-        delete this.objects.zone
     }
     update(){}
 }

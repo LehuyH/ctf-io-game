@@ -1,4 +1,3 @@
-
 /** Handles the creation, deletion and syncing of Matter bodies to state */
 import { buildings, harvestables } from "../resolvers/ServerObjectResolver";
 import { ServerBody } from "../logic/ServerBody";
@@ -7,16 +6,19 @@ import { IState, IBuilding, IHarvestable, IPlayer } from "shared";
 import { Composite, Constraint } from "matter-js";
 import PlayerBody from "../objects/Player.server";
 import { ServerEventManager } from "../objects/events";
+import ServerPhysics from "./ServerPhysics";
 
 export default class ServerObjects{
     buildings: Record<string,ServerBody> = {};
     harvestables: Record<string,ServerBody> = {};
     world: Matter.World;
-    state: IState
+    state: IState;
+    physics: ServerPhysics;
 
-    constructor(state: IState,world: Matter.World){
+    constructor(state: IState,world: Matter.World,physics:ServerPhysics){
         this.state = state;
         this.world = world;
+        this.physics = physics;
     }
 
     removeServerBody(body: ServerBody){
@@ -61,7 +63,7 @@ export default class ServerObjects{
 
     startGameEvent(eventManager:ServerEventManager<any>){
         this.state.currentEvent = eventManager
-        this.state.currentEvent.setup(this.state,this.world)
+        this.state.currentEvent.setup(this.state,this.world,this.physics)
     }
 
     /** Removes a player's body */
@@ -105,7 +107,7 @@ export default class ServerObjects{
             player.body.update(delta,this.state);
         })
 
-        this.state.currentEvent?.update(this.state,this.world)
+        this.state.currentEvent?.update(this.state,this.world,this.physics)
         
         //Runs down each type of object
         updateQueue.forEach(type=>{

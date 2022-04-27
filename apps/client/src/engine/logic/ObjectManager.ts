@@ -47,6 +47,7 @@ export default class ObjectManager{
 
     clearEvent(){
         this.currentEvent?.cleanup()
+        this.currentEvent = null
     }
 
     setEvent(id:string){

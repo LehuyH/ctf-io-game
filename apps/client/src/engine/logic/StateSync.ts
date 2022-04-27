@@ -124,8 +124,8 @@ export default class StateSyncerOffline {
     /** Handles the creation and deletion of events based on state */
     verifyEvent(){
         if(!this.state.currentEvent){
-            this.scene.objects.currentEvent?.cleanup()
-        }else{
+            this.scene.objects.clearEvent()
+        }else if(this.state.currentEvent.id != this.scene.objects.currentEvent?.id){
             this.scene.objects.setEvent(this.state.currentEvent.id)
         }
     }
