@@ -60,7 +60,8 @@ export default class ServerObjects{
     }
 
     startGameEvent(eventManager:ServerEventManager<any>){
-        
+        this.state.currentEvent = eventManager
+        this.state.currentEvent.setup(this.state,this.world)
     }
 
     /** Removes a player's body */
@@ -103,6 +104,8 @@ export default class ServerObjects{
             if(!player.body) return;
             player.body.update(delta,this.state);
         })
+
+        this.state.currentEvent?.update(this.state,this.world)
         
         //Runs down each type of object
         updateQueue.forEach(type=>{

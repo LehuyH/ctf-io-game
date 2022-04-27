@@ -9,7 +9,7 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
     duration: number;
     data: IKingOfTheKillState;
     scene: ClientRoom;
-
+    id:string;
     objects: {
         zone?: Phaser.GameObjects.Arc
     }
@@ -19,13 +19,14 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
         this.description = state.description
         this.duration = state.duration
         this.data = state.data
+        this.id = state.id
         this.scene = scene
         this.objects = {}
     }
 
     setup(){
-        this.objects.zone = this.scene.add.circle(this.data.x, this.data.y, ZoneRadius, 0x888888, 0.5)
-        this.scene.matter.add.gameObject(this.objects.zone)
+        this.objects.zone = this.scene.add.circle(this.data.x, this.data.y, ZoneRadius, 0x888888,0.3)
+        this.scene.matter.add.gameObject(this.objects.zone,this.scene.matter.bodies.circle(this.data.x,this.data.y,ZoneRadius))
     }
     cleanup(){
         this.objects.zone?.destroy()

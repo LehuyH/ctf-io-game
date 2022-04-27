@@ -4,6 +4,7 @@ export interface IState {
     buildings: Record<string, IBuilding>|any
     parties: Record<string, IParty>|any
     civs: Record<CiVNames, ICiv>|any
+    currentEvent: IEventInfo<any>|any
 }
 
 export interface IPlayer {
@@ -120,6 +121,7 @@ export enum ItemType{
 /** In-Game Events */
 export interface IEventInfo<T>{
     name:string,
+    id:string,
     description:string,
     duration:number,
     data: T

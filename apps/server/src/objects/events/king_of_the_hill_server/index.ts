@@ -1,8 +1,10 @@
 import { Schema, type } from "@colyseus/schema"
 import { Bodies } from "matter-js";
+import { IState } from "shared";
 import { IKingOfTheKillState, ZoneRadius } from "shared/events/kingOfTheHill"
 import { ServerEventManager } from "..";
 import { ServerBody } from "../../../logic/ServerBody";
+import { EventInfo } from "../../../schema/state";
 
 export class KingOfTheHillState extends Schema implements IKingOfTheKillState{
     @type("number") x:number;
@@ -19,17 +21,18 @@ export class Zone extends ServerBody{
     }
 }
 
-export class KingOfTheHillServer extends Schema implements ServerEventManager<KingOfTheHillState>{
-    @type("string") name = "King Of The Hill";
-    @type("string") description = "Contest the zone on the map to earn points for your civilization!";
-    @type("number") duration = 60 * 1000 * 2;
+export class KingOfTheHillServer extends EventInfo<KingOfTheHillState> implements ServerEventManager<KingOfTheHillState>{
+    name = "King Of The Hill";
+    id = "kingOfTheHill";
+    description = "Contest the zone on the map to earn points for your civilization!";
+    duration = 60 * 1000 * 2;
     zone:Zone
     @type(KingOfTheHillState) data = new KingOfTheHillState({
         x:2700,
         y:2500
     })
 
-    setup(){
+    setup(state:IState,world:MatterJS.World){
         
     }
     update(){

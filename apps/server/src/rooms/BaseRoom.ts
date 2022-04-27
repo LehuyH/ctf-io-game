@@ -20,6 +20,7 @@ import { LeaveParty } from "../commands/LeaveParty";
 import { BuildCivs } from "../commands/BuildCivs";
 import { StealPoints } from "../commands/StealPoints";
 import { DepositPoints } from "../commands/DepositPoints";
+import { QueueGameEvent } from "../commands/QueueGameEvent";
 
 import { EventType } from "shared";
 import Database from "../logic/Database";
@@ -43,6 +44,9 @@ export class BaseRoom extends Room<ServerState> {
 
     //Build civs
     this.dispatcher.dispatch(new BuildCivs());
+
+    //Queue First Event
+    this.dispatcher.dispatch(new QueueGameEvent())
 
     //Listen to events
     this.onMessage(EventType.PlayerStartMove, (client, message) => {

@@ -93,9 +93,10 @@ export class Player extends Schema implements IPlayer{
 
 export class EventInfo<Schema> extends Schema implements IEventInfo<Schema>{
     @type("string") name: string;
+    @type("string") id: string;
     @type("number") duration: number;
     @type("string") description: string;
-    @type(Schema) data:Schema;
+    data:any
 }
 
 export class ServerState extends Schema implements IState{
@@ -104,5 +105,5 @@ export class ServerState extends Schema implements IState{
     @type({map:Building}) buildings = new MapSchema<Building>();
     @type({map:Party}) parties = new MapSchema<Party>();
     @type({map:Civ}) civs = new MapSchema<Civ>();
-    @type(EventInfo) EventInfo = null as EventInfo<any>;
+    @type(EventInfo) currentEvent = null as EventInfo<any>;
 }

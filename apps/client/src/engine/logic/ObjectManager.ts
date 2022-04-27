@@ -4,12 +4,16 @@ import Player from "../objects/Player"
 import ClientRoom from "../types/ClientRoom"
 import HarvestableResolver from "../resolvers/HarvestableResolver.client"
 import BuildingResolver from "../resolvers/BuildingResolver.client"
+import EventResolver from "../resolvers/EventResolver.client"
+
 import { useLocalPlayer, useLocalPlayerID } from "~/state"
 import Building from "../objects/buildings"
+import { ClientEventManager } from "../objects/events"
 
 export default class ObjectManager{
     scene: ClientRoom
     players: Record<string,Player> = {}
+    currentEvent: ClientEventManager<any>|null = null;
     harvestables: Record<string,Harvestable> = {}
     buildings: Record<string,Building> = {}
     localPlayerID: string = ""
@@ -39,6 +43,17 @@ export default class ObjectManager{
         const b = new BuildingResolver[building.type](this.scene,building)
         b.create()
         this.buildings[b.name] = b
+    }
+
+    clearEvent(){
+        this.currentEvent?.cleanup()
+    }
+
+    setEvent(id:string){
+        const EventManagerClass = EventResolver[id]
+        if(!EventManagerClass) return;
+        this.currentEvent = new EventManagerClass(this.scene,this.scene.state.state.currentEvent) as ClientEventManager<any>
+        this.currentEvent.setup()
     }
 
     sync(target:Phaser.GameObjects.GameObject,type:string){
@@ -88,5 +103,7 @@ export default class ObjectManager{
         this.misc.forEach(object=>{
             object.update(time,delta)
         })
+
+        this.currentEvent?.update(time,delta)
     }
 }
