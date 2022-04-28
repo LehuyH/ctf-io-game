@@ -7,6 +7,7 @@
         <CraftMenu/>
         <Leaderboard/>
         <WaitingStatus/>
+        <EventInfo/>
     </main>
 </template>
 
@@ -18,6 +19,7 @@ import CraftMenu from '~/components/CraftMenu.vue';
 import Leaderboard from '~/components/Leaderboard.vue';
 import SideBar from '~/components/SideBar.vue';
 import WaitingStatus from '~/components/WaitingStatus.vue';
+import EventInfo from '~/components/EventInfo.vue';
 
 import { onMounted } from 'vue';
 import { game } from '~/engine/instance';

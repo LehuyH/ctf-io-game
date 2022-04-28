@@ -6,7 +6,7 @@ import { StopGameEvent } from "./StopGameEvent";
 
 export class QueueGameEvent extends Command<BaseRoom> {
     validate(){
-        return !this.state.currentEvent
+        return !this.state.currentEvent?.id
     }
     execute():any{
        const allEvents = Object.values(events)

@@ -27,7 +27,7 @@ export class KingOfTheHillServer extends EventInfo<KingOfTheHillState> implement
     name = "King Of The Hill";
     id = "kingOfTheHill";
     description = "Contest the zone on the map to earn points for your civilization!";
-    duration = 60 * 1000 * 2;
+    duration = 60 * 1000 * 1;
     zone:Zone
     world:Matter.World
     state:IState
@@ -56,6 +56,8 @@ export class KingOfTheHillServer extends EventInfo<KingOfTheHillState> implement
                 const civ = state.civs.get(player.civID)
                 civ.influence += 1
             })
+
+            this.duration -= 1000
 
         },1000)
     }

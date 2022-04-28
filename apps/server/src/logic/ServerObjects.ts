@@ -107,8 +107,10 @@ export default class ServerObjects{
             player.body.update(delta,this.state);
         })
 
-        this.state.currentEvent?.update(this.state,this.world,this.physics)
-        
+        const currentEvent = this.state.currentEvent
+        if(currentEvent && currentEvent.update){
+            currentEvent.update(this.state,this.world,this.physics)
+        }
         //Runs down each type of object
         updateQueue.forEach(type=>{
             const manager = this as any
