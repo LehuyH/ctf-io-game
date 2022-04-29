@@ -1,8 +1,8 @@
 <template>
     <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
     <section v-if="event"
-         class="bg-black p-4 text-white bg-opacity-50 pt-4 fixed z-10 left-4 top-4 rounded shadow-md max-w-sm mx-4 inline-block overflow-hidden">
-         <h1 class="font-bold text-lg inline-block">{{event.name}}</h1> <span class="font-thin bg-slate-600 px-2">{{timeLeft}} Seconds</span>
+         class="bg-black p-4 text-white bg-opacity-30 pt-4 fixed z-10 left-4 top-4 rounded shadow-md max-w-sm mx-4 inline-block overflow-hidden">
+         <h1 class="font-bold text-lg inline-block">{{event.name}}</h1> <span class="bg-slate-500 px-2">{{timeLeft}} Seconds</span>
          <br>
          <p class="marquee overflow-hidden inline-block whitespace-nowrap">{{event.description}}</p>
      </section>
