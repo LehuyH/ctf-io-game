@@ -33,15 +33,15 @@ export class KingOfTheHillServer extends EventInfo<KingOfTheHillState> implement
     state:IState
     stopCheckPlayerLoop: ()=>void
     @type(KingOfTheHillState) data = new KingOfTheHillState({
-        x:2700,
-        y:2500
+        x:Math.floor(Math.random() * (4230 - 2599 + 1) + 2599),
+        y:Math.floor(Math.random() * (3791 - 1992 + 1) + 1992)
     })
 
     setup(state:ServerState,world:Matter.World,physics:ServerPhysics){
         this.world = world
         this.state = state
         this.zone = new Zone(this.data,world)
-        this.stopCheckPlayerLoop = physics.runner.addRepeatedCallback((delta)=>{
+        this.stopCheckPlayerLoop = physics.runner.addRepeatedCallback(()=>{
             const collidedPlayers = Object.entries(physics.collisions).map(([playerID,collisions])=>{
                 return{
                     playerID,
