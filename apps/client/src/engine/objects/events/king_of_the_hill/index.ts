@@ -27,9 +27,29 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
     setup(){
         const cir = this.scene.add.circle(this.data.x, this.data.y, ZoneRadius, 0x888888,0.5)
         this.objects.zone = this.scene.matter.add.gameObject(cir,this.scene.matter.bodies.circle(this.data.x,this.data.y,ZoneRadius))
+        this.scene.tweens.add({
+            targets:this.objects.zone,
+            alpha:{
+                from:0,
+                to:1
+            },
+            duration:1000,
+            ease: "Cubic"
+        })
     }
     cleanup(){
-        this.objects.zone?.destroy()
+        this.scene.tweens.add({
+            targets:this.objects.zone,
+            alpha:{
+                from:1,
+                to:0
+            },
+            duration:1000,
+            ease: "Cubic",
+            onComplete: ()=>{
+                this.objects.zone?.destroy()
+            }
+        })
     }
-    update(){}
+    update(){}  
 }
