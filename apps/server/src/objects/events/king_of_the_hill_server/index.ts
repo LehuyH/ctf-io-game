@@ -53,6 +53,7 @@ export class KingOfTheHillServer extends EventInfo<KingOfTheHillState> implement
             //Give them points if in hill
             collidedPlayers.forEach(e=>{
                 const player = state.players.get(parseID(e.playerID))
+                if(!player) return
                 const civ = state.civs.get(player.civID)
                 civ.influence += 1
             })
