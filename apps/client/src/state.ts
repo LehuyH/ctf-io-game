@@ -15,7 +15,8 @@ export const state = reactive<IState>({
     harvestables: {},
     buildings: {},
     parties: {},
-    civs:{}
+    civs:{},
+    currentEvent:null
 })
 
 interface Waiting{
