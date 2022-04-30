@@ -27,7 +27,9 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
 
     setup(){
         const cir = this.scene.add.circle(this.data.x, this.data.y, ZoneRadius, 0x888888,0.5)
-        this.objects.zone = this.scene.matter.add.gameObject(cir,this.scene.matter.bodies.circle(this.data.x,this.data.y,ZoneRadius))
+        this.objects.zone = this.scene.matter.add.gameObject(cir,this.scene.matter.bodies.circle(this.data.x,this.data.y,ZoneRadius,{
+            isSensor:true
+        }))
         this.scene.tweens.add({
             targets:this.objects.zone,
             alpha:{

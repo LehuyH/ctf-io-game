@@ -1,7 +1,7 @@
 <template>
     <section  class="w-screen h-screen fixed top-0 bottom-0 pointer-events-none">
         <ul>
-            <li v-for="waypoint in transformedWaypoints" class="fixed bg-slate-800 p-4 rounded-full text-white duration-300 text-4xl transition-all ease-linear -translate-y-[50%] -translate-x-[50%]" :style="`
+            <li v-for="waypoint in transformedWaypoints" class="fixed text-sm bg-slate-800 p-4 rounded-full text-white duration-300 transition-all ease-linear -translate-y-[50%] -translate-x-[50%]" :style="`
                 top: ${waypoint.y}%;
                 left: ${waypoint.x}%;
                 transform: scale(${waypoint.scale}%);
@@ -46,8 +46,8 @@ const transformedWaypoints = computed(()=>{
         const scale = (Math.min(1,(100/distance.x)) * 50) + (Math.min(1,(100/distance.y)) * 50) + 50  
         return{
             ...waypoint,
-            x:Math.max(Math.min(x,95),5),
-            y:Math.max(Math.min(y,95),5),
+            x:Math.max(Math.min(x,90),5),
+            y:Math.max(Math.min(y,90),5),
             scale
         }
     })
