@@ -8,6 +8,7 @@
         <Leaderboard/>
         <WaitingStatus/>
         <EventInfo/>
+        <Waypoints/>
     </main>
 </template>
 
@@ -20,6 +21,7 @@ import Leaderboard from '~/components/Leaderboard.vue';
 import SideBar from '~/components/SideBar.vue';
 import WaitingStatus from '~/components/WaitingStatus.vue';
 import EventInfo from '~/components/EventInfo.vue';
+import Waypoints from '~/components/Waypoints.vue';
 
 import { onMounted } from 'vue';
 import { game } from '~/engine/instance';

@@ -11,13 +11,15 @@ export default class Headquarters extends Building {
         const collisionBox = scene.matter.bodies.rectangle(...HeadquartersBody(buildingConfig))
         super(scene, buildingConfig,collisionBox,"headquarters");
         this.setOrigin(0.5,0.7)
+        this.setData("ownerCivID",buildingConfig.ownerCivID)
     }
     create(): void {
         super.create()
+        const civID = this.getData("ownerCivID")
+        const civ = (this.scene as ClientRoom).state.getState("civs",civID)
         this.on("nearLocalPlayer",()=>{
-            const civID = this.getData("ownerCivID")
             const localPlayerState = useLocalPlayer()
-            if(!civID || !localPlayerState.value) return
+            if(!localPlayerState.value) return
 
             const civ = (this.scene as ClientRoom).state.getState("civs",civID)
             if(!civ) return
@@ -52,10 +54,9 @@ export default class Headquarters extends Building {
             if(!this.isNearLocalPlayer) return;
             if(uiState.waitingStatus) return;
             const localPlayerState = useLocalPlayer()
-            const civID = this.getData("ownerCivID")
-            const civ = (this.scene as ClientRoom).state.getState("civs",civID)
 
-            if(!civ || !localPlayerState.value) return
+
+            if(!localPlayerState.value) return
 
             uiState.interactHint.text = null
             uiState.interactHint.gameObject = null
@@ -74,6 +75,14 @@ export default class Headquarters extends Building {
                 text: `Robbing ${civ.name}'s headquarters`
             };
             (this.scene as ClientRoom).connection.inputs.stealPoints()
+        })
+
+        uiState.waypoints.push({
+            x: this.x,
+            y: this.y,
+            name: `${civ.name} headquarters`,
+            icon: "bi:flag-fill",
+            color: civ.color
         })
     }
     cleanup(): void {

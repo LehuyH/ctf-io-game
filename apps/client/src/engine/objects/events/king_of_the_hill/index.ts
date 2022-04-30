@@ -2,6 +2,7 @@ import { IKingOfTheKillState, ZoneRadius } from "shared/events/kingOfTheHill"
 import { ClientEventManager } from "../index"
 import { IEventInfo } from "shared"
 import ClientRoom from "~/engine/types/ClientRoom";
+import { uiState } from "~/state";
 
 export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillState>{
     name: string;
@@ -36,6 +37,13 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
             duration:1000,
             ease: "Cubic"
         })
+        uiState.waypoints.push({
+            x:this.data.x,
+            y:this.data.y,
+            icon:"clarity:target-solid",
+            name:"Zone",
+            color:"white"
+        })
     }
     cleanup(){
         this.scene.tweens.add({
@@ -50,6 +58,8 @@ export class KingOfTheHillClient implements ClientEventManager<IKingOfTheKillSta
                 this.objects.zone?.destroy()
             }
         })
+
+        uiState.waypoints = uiState.waypoints.filter(w=>w.name!="Zone")
     }
     update(){}  
 }
