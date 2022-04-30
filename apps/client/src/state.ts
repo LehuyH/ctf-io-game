@@ -6,6 +6,14 @@ import ClientRoom from "./engine/types/ClientRoom";
 export const localPlayerID = ref("");
 let scene = ref<ClientRoom>();
 
+interface IWaypoint{
+    x: number;
+    y: number;
+    icon: string;
+    name:string;
+    color: string;
+}
+
 const localPlayer = computed(() => {
     return state.players[localPlayerID.value];
 })
@@ -15,7 +23,8 @@ export const state = reactive<IState>({
     harvestables: {},
     buildings: {},
     parties: {},
-    civs:{}
+    civs:{},
+    currentEvent:null
 })
 
 interface Waiting{
@@ -37,6 +46,7 @@ export const uiState = reactive({
         buildingName: null as null | string
     },
     waitingStatus:null as null | Waiting,
+    waypoints:[] as IWaypoint[],
 })
 
 export const resetState = () => {

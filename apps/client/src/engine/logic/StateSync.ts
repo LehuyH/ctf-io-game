@@ -25,6 +25,10 @@ export default class StateSyncerOffline {
         watch(()=>this.state.buildings,()=>{
             this.verifyType("buildings",this.scene.objects.buildings)
         },{deep:true})
+
+        watch(()=>this.state.currentEvent,()=>{
+            this.verifyEvent()
+        })
     }
 
     getState<T = any>(type:string,id:string){
@@ -115,5 +119,14 @@ export default class StateSyncerOffline {
                 delete objects[id]
             }
         })
+    }
+
+    /** Handles the creation and deletion of events based on state */
+    verifyEvent(){
+        if(!this.state.currentEvent || !this.state.currentEvent.id){
+            this.scene.objects.clearEvent()
+        }else if(this.state.currentEvent.id != this.scene.objects.currentEvent?.id){
+            this.scene.objects.setEvent(this.state.currentEvent.id)
+        }
     }
 }

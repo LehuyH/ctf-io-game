@@ -51,7 +51,7 @@ onMounted(() => {
         .then(res => rooms.value = res)
         .catch(err => {
             console.error(err);
-            alert(err.message);
+            alert("Could not connect to server");
     });
 })
 

@@ -1,5 +1,5 @@
 <template>
-    <section class="fixed p-4 text-white bg-black bg-opacity-20 transition-all hover:bg-opacity-30 w-[12.5vw] min-w-[12rem] h-[30vh] overflow-y-scroll right-0">
+    <section class="fixed p-4 text-white rounded top-4 right-4 bg-black bg-opacity-20 transition-all hover:bg-opacity-30 w-[12.5vw] min-w-[12rem] h-[30vh] overflow-y-scroll">
         <h1 class="text-md font-bold">Civilization Leaderboard</h1>
         <ul>
             <li v-for="entry,civName in leaderboard">

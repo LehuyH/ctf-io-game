@@ -16,7 +16,6 @@ const statusProgress = ref<HTMLElement>();
 
 watchEffect(async ()=>{
     if(uiState.waitingStatus && statusProgress.value){
-        console.log('waiting for status');
         statusProgress.value.style.transform = "scaleX(0)"
         statusProgress.value.style.transitionDuration = `${uiState.waitingStatus.duration}ms`;
         setTimeout(()=>{
