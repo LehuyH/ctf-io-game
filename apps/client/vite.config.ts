@@ -10,10 +10,5 @@ export default defineConfig({
     alias: {
       '~': path.resolve('./src'),
     },
-  },
-  server:{
-    hmr:{
-      port:443
-    }
   }
 })
