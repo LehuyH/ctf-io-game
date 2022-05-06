@@ -1,7 +1,10 @@
 import mapData from 'shared/maps/overworld.json'
 import { uiState } from '~/state'
+import { useNProgress } from '@vueuse/integrations/useNProgress'
+
 export default class BootScene extends Phaser.Scene{
     preload(){
+      useNProgress().start()
       this.load.image('grasslandTiles', "/maps/overworld/Grassland_extruded.png")
       this.load.image('woodlandTiles', "/maps/overworld/Woodland_extruded.png")
       this.load.spritesheet('bush',"/maps/overworld/objects/bush1A.png",{frameWidth:32,frameHeight:32,endFrame:10})
@@ -19,6 +22,7 @@ export default class BootScene extends Phaser.Scene{
       this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true);
       this.load.once('complete',()=>{
         uiState.loaded = true
+        useNProgress().done()
       })
     }
     create(){

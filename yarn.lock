@@ -490,6 +490,15 @@
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.2.31.tgz"
   integrity sha512-ymN2pj6zEjiKJZbrf98UM2pfDd6F2H7ksKw7NDt/ZZ1fh5Ei39X5tABugtT03ZRlWd9imccoK0hE8hpjpU7irQ==
 
+"@vueuse/core@8.3.1":
+  version "8.3.1"
+  resolved "https://registry.npmjs.org/@vueuse/core/-/core-8.3.1.tgz"
+  integrity sha512-WiXUgVyPG9elGx3G8UV8g+zqbEJ2hYacrPICogAxDdW6hnxxcUFdF7FtvDroJ/DxWmo2pg8XNNz07ybfnZyJbw==
+  dependencies:
+    "@vueuse/metadata" "8.3.1"
+    "@vueuse/shared" "8.3.1"
+    vue-demi "*"
+
 "@vueuse/core@^8.1.2":
   version "8.1.2"
   resolved "https://registry.npmjs.org/@vueuse/core/-/core-8.1.2.tgz"
@@ -499,15 +508,36 @@
     "@vueuse/shared" "8.1.2"
     vue-demi "*"
 
+"@vueuse/integrations@^8.3.1":
+  version "8.3.1"
+  resolved "https://registry.npmjs.org/@vueuse/integrations/-/integrations-8.3.1.tgz"
+  integrity sha512-E9AK+DsUM2m5jxdzAAyakjbM3dZcmalVMTQKlRkP4wMIreJnp504ekaUS7+LFvs12qOSxcwXwsTQD9PYd5ZRVA==
+  dependencies:
+    "@vueuse/core" "8.3.1"
+    "@vueuse/shared" "8.3.1"
+    vue-demi "*"
+
 "@vueuse/metadata@8.1.2":
   version "8.1.2"
   resolved "https://registry.npmjs.org/@vueuse/metadata/-/metadata-8.1.2.tgz"
   integrity sha512-LrPtdiYMleygnGmz8mEmYI9h4Eyo+/igxZWNrwuPnqvL9pIO+8eUpBgPLH5GowKv3Nu0LPZSXSIuaWVJBSU1Cg==
 
+"@vueuse/metadata@8.3.1":
+  version "8.3.1"
+  resolved "https://registry.npmjs.org/@vueuse/metadata/-/metadata-8.3.1.tgz"
+  integrity sha512-1aZaFL44HzXXkfN6Q7KMDOXBFKTHDClHlOJBxtN8rTBXIIScoGOrJCpxWiQ4kuVg95MzG/pHrd3P4wd8poL9XQ==
+
 "@vueuse/shared@8.1.2":
   version "8.1.2"
   resolved "https://registry.npmjs.org/@vueuse/shared/-/shared-8.1.2.tgz"
   integrity sha512-4Hb9iPUhAz7ghO4hgvB2GV2FOy12qQGdhmQ+9HC6QN/J66DELhmxAvkZAtK5FBqZOSwzKszPqNqoyhRKQrrWGQ==
+  dependencies:
+    vue-demi "*"
+
+"@vueuse/shared@8.3.1":
+  version "8.3.1"
+  resolved "https://registry.npmjs.org/@vueuse/shared/-/shared-8.3.1.tgz"
+  integrity sha512-7HKLCcxp4dtONq6QSSoavblo9riYgqzw7jhqiC0/VUYMXKzqj1G/GznOzTmY8Wi8uKKT197JqjKQ1DKt2j/0+A==
   dependencies:
     vue-demi "*"
 
@@ -1223,7 +1253,7 @@ esbuild-linux-32@0.14.27:
 
 esbuild-linux-64@0.14.27:
   version "0.14.27"
-  resolved "https://registry.yarnpkg.com/esbuild-linux-64/-/esbuild-linux-64-0.14.27.tgz#dc8072097327ecfadba1735562824ce8c05dd0bd"
+  resolved "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.14.27.tgz"
   integrity sha512-ESjck9+EsHoTaKWlFKJpPZRN26uiav5gkI16RuI8WBxUdLrrAlYuYSndxxKgEn1csd968BX/8yQZATYf/9+/qg==
 
 esbuild-linux-arm64@0.14.27:
@@ -1278,7 +1308,7 @@ esbuild-windows-32@0.14.27:
 
 esbuild-windows-64@0.14.27:
   version "0.14.27"
-  resolved "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.14.27.tgz"
+  resolved "https://registry.yarnpkg.com/esbuild-windows-64/-/esbuild-windows-64-0.14.27.tgz#756631c1d301dfc0d1a887deed2459ce4079582f"
   integrity sha512-b3y3vTSl5aEhWHK66ngtiS/c6byLf6y/ZBvODH1YkBM+MGtVL6jN38FdHUsZasCz9gFwYs/lJMVY9u7GL6wfYg==
 
 esbuild-windows-arm64@0.14.27:
@@ -2104,6 +2134,11 @@ npm-run-path@^2.0.0:
   integrity sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8=
   dependencies:
     path-key "^2.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
 
 object-assign@^4, object-assign@^4.1.1:
   version "4.1.1"
